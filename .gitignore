@@ -25,6 +25,8 @@ PAUSE
 
 # ===== 夜间流水线（M1+）=====
 runtime/
+# 本地 LLM 验证产物（P0-P5 输出 + checkpoint/index/heartbeat），含本机绝对路径，不入库
+runtime_verify_llm/
 config/secrets.local.yaml
 # Qwen BPE 词表缓存，7MB，内网用 tools/fetch_tokenizer.py 重新拉取
 models/
