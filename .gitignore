@@ -29,3 +29,6 @@ config/secrets.local.yaml
 # Qwen BPE 词表缓存，7MB，内网用 tools/fetch_tokenizer.py 重新拉取
 models/
 .pytest_cache/
+
+# ===== 离线依赖缓存（pip download 产物，体积大，不入库）=====
+wheels/
