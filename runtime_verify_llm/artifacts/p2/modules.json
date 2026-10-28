@@ -1,0 +1,70 @@
+{
+  "modules": [
+    {
+      "name": "Goods",
+      "servlets": [
+        "GoodsServlet"
+      ],
+      "pages": [
+        "productAdd.jsp",
+        "productList.jsp",
+        "productUpdate.jsp",
+        "productView.jsp"
+      ],
+      "tables": [
+        "goods",
+        "goods_view",
+        "suppliers"
+      ]
+    },
+    {
+      "name": "Orders",
+      "servlets": [
+        "OrdersServlet"
+      ],
+      "pages": [
+        "billAdd.jsp",
+        "billList.jsp",
+        "billUpdate.jsp",
+        "billView.jsp"
+      ],
+      "tables": [
+        "goods",
+        "orders",
+        "orders_view"
+      ]
+    },
+    {
+      "name": "Suppliers",
+      "servlets": [
+        "SuppliersServlet"
+      ],
+      "pages": [
+        "providerAdd.jsp",
+        "providerList.jsp",
+        "providerUpdate.jsp",
+        "providerView.jsp"
+      ],
+      "tables": [
+        "suppliers",
+        "suppliers_view"
+      ]
+    },
+    {
+      "name": "Users",
+      "servlets": [
+        "UsersServlet"
+      ],
+      "pages": [
+        "userAdd.jsp",
+        "userList.jsp",
+        "userUpdate.jsp",
+        "userView.jsp"
+      ],
+      "tables": [
+        "users",
+        "users_view"
+      ]
+    }
+  ]
+}

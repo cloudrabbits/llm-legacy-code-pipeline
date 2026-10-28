@@ -1,0 +1,20 @@
+{
+  "module": "Users",
+  "risks": [
+    {
+      "level": "中",
+      "desc": "单Servlet多Action模式存在耦合风险，所有用户操作路由至同一控制器，功能扩展时易导致方法膨胀与职责边界模糊。",
+      "evidence": "com.hy.cxp.supermarket.servlet.UsersServlet"
+    },
+    {
+      "level": "中",
+      "desc": "引入视图实体UsersView对接users_view表，若涉及复杂关联或隐式更新逻辑，可能引发读写语义混淆与数据一致性隐患。",
+      "evidence": "com.hy.cxp.supermarket.entity.UsersView"
+    },
+    {
+      "level": "低",
+      "desc": "模块未分配P1核心链路标签，缺乏关键路径标识，不利于生产环境性能监控、压测基线建立与故障快速定界。",
+      "evidence": "无该模块的 P1 标签"
+    }
+  ]
+}

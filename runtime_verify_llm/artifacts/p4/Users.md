@@ -1,0 +1,3 @@
+# 模块 Users
+
+该模块为“Users”用户管理核心业务层，采用典型的Servlet+Biz+DAO三层架构设计。前端通过userAdd/List/Update/View.jsp提供增删改查及详情查看交互；控制层由UsersServlet统一接收请求并按action参数路由至具体功能；业务层UsersBizImpl封装事务与规则处理，数据访问层UsersDaoImpl对接底层users表及users_view视图完成持久化。实体类包含Users主表映射与UsersView视图映射，整体职责分离清晰，覆盖用户全生命周期管理（新增、删除、修改、分页查询、模糊搜索等）。因未标记P1标签，当前迭代优先级或稳定性基线可能相对常规。

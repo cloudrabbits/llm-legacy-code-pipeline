@@ -1,0 +1,95 @@
+{
+  "seq": 30,
+  "started_ts": "2026-10-28T22:51:04.460+08:00",
+  "ended_ts": "2026-10-28T22:51:04.506+08:00",
+  "session_seq": 4,
+  "tasks": {
+    "P0-baseline": {
+      "task_id": "P0-baseline",
+      "phase": "P0",
+      "status": "succeeded",
+      "attempts": 1,
+      "flags": [],
+      "artifact": "runtime_verify_llm\\artifacts\\p0\\inventory.json",
+      "error_class": null,
+      "updated_ts": "2026-10-28T22:25:53.463+08:00"
+    },
+    "P1-batch-001": {
+      "task_id": "P1-batch-001",
+      "phase": "P1",
+      "status": "succeeded",
+      "attempts": 1,
+      "flags": [],
+      "artifact": "runtime_verify_llm\\artifacts\\p1\\P1-batch-001.jsonl",
+      "error_class": null,
+      "updated_ts": "2026-10-28T22:30:59.938+08:00"
+    },
+    "P1-batch-002": {
+      "task_id": "P1-batch-002",
+      "phase": "P1",
+      "status": "succeeded",
+      "attempts": 1,
+      "flags": [],
+      "artifact": "runtime_verify_llm\\artifacts\\p1\\P1-batch-002.jsonl",
+      "error_class": null,
+      "updated_ts": "2026-10-28T22:36:44.996+08:00"
+    },
+    "P2-modules": {
+      "task_id": "P2-modules",
+      "phase": "P2",
+      "status": "succeeded",
+      "attempts": 1,
+      "flags": [],
+      "artifact": "runtime_verify_llm\\artifacts\\p2\\modules.json",
+      "error_class": null,
+      "updated_ts": "2026-10-28T22:38:30.976+08:00"
+    },
+    "P3-deps": {
+      "task_id": "P3-deps",
+      "phase": "P3",
+      "status": "succeeded",
+      "attempts": 1,
+      "flags": [],
+      "artifact": "runtime_verify_llm\\artifacts\\p3\\deps.jsonl",
+      "error_class": null,
+      "updated_ts": "2026-10-28T22:39:42.926+08:00"
+    },
+    "P4-arch": {
+      "task_id": "P4-arch",
+      "phase": "P4",
+      "status": "succeeded",
+      "attempts": 1,
+      "flags": [],
+      "artifact": "runtime_verify_llm\\artifacts\\p4\\risks.json",
+      "error_class": null,
+      "updated_ts": "2026-10-28T22:48:30.575+08:00"
+    },
+    "P5-report": {
+      "task_id": "P5-report",
+      "phase": "P5",
+      "status": "succeeded",
+      "attempts": 1,
+      "flags": [],
+      "artifact": "runtime_verify_llm\\artifacts\\p5\\nightly_report.json",
+      "error_class": null,
+      "updated_ts": "2026-10-28T22:51:04.500+08:00"
+    }
+  },
+  "phases": {
+    "P0": "PHASE_ENTER",
+    "P1": "PHASE_ENTER",
+    "P2": "PHASE_ENTER",
+    "P3": "PHASE_ENTER",
+    "P4": "PHASE_ENTER",
+    "P5": "PHASE_ENTER"
+  },
+  "counters": {
+    "RUN_START": 3,
+    "PHASE_ENTER": 6,
+    "TASK_STARTED": 7,
+    "TASK_SUCCEEDED": 7,
+    "RUN_END": 3,
+    "SESSION_ROTATED": 3
+  },
+  "malformed_lines": 0
+}

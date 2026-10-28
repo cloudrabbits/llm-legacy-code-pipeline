@@ -1,0 +1,20 @@
+{
+  "module": "Goods",
+  "risks": [
+    {
+      "level": "中",
+      "desc": "控制器层采用原生Servlet架构，缺乏现代Spring MVC或RESTful规范支持，不利于接口标准化与前后端解耦。",
+      "evidence": "com.hy.cxp.supermarket.servlet.GoodsServlet"
+    },
+    {
+      "level": "高",
+      "desc": "业务涉及goods、goods_view与suppliers三表关联操作，切片未体现显式事务边界声明，跨表数据修改存在一致性隐患。",
+      "evidence": "com.hy.cxp.supermarket.biz.impl.GoodsBizImpl"
+    },
+    {
+      "level": "中",
+      "desc": "JSP页面集中存放于security目录但未见拦截器或RBAC配置说明，结合完整CRUD权限范围，存在越权访问风险。",
+      "evidence": "WebRoot/security/productUpdate.jsp"
+    }
+  ]
+}

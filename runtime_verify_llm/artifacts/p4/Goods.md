@@ -1,0 +1,3 @@
+# 模块 Goods
+
+商品（Goods）模块采用经典分层架构，涵盖Servlet控制层、Biz业务层、DAO数据层及Entity实体类。核心请求由GoodsServlet路由至GoodsBizImpl，经GoodsDaoImpl持久化操作goods与goods_view表，并关联suppliers供应商信息。前端通过JSP页面（如productAdd.jsp等）提供商品的新增、修改、删除、详情查看及分页模糊查询能力。模块职责清晰、功能完整，符合传统Web应用规范。但未标记P1标签且沿用Servlet架构，需注意后续技术栈演进与跨表事务管控。
