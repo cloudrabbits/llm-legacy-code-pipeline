@@ -17,6 +17,7 @@ __all__ = ["BackendProfile", "JsonChatProfile", "RequestSpec", "Normalized", "bu
 PROFILE_MODULES: dict[str, str] = {
     "deepseek_sim_qwen38": "pipeline.profiles.deepseek_sim_qwen38",
     "ollama_qwen38": "pipeline.profiles.ollama_qwen38",
+    "ollama_qwen36_a3b": "pipeline.profiles.ollama_qwen36_a3b",
 }
 
 

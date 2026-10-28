@@ -1,0 +1,64 @@
+# 本地 Ollama 验证画像：本机 Ollama + qwen3.6-35B-A3B。
+# 与 ollama_qwen38 的唯一区别是 model 名；报文形状（ollama_native /api/chat）
+# 对 Qwen3 系列通用，切换后端 = 改 --profile。
+# 模型原生上下文 262144，远大于预算 92160，num_ctx 逐请求显式下发无压力。
+
+name: ollama_qwen36_a3b
+transport: ollama_native
+endpoint: http://127.0.0.1:11434/api/chat
+model: qwen3.6-35B-A3B
+
+auth:
+  type: none
+
+extra_headers: {}
+
+effort:
+  mode: enum
+  reasoning_toggle:
+    path: think
+    enabled_value: true
+  # 档位名必须加引号（YAML 1.1 会把裸 `off` 解析成布尔 False）。
+  payload:
+    "off":
+      think: false
+    "low":
+      think: true
+      reasoning_effort: low
+    "medium":
+      think: true
+      reasoning_effort: medium
+    "xhigh":
+      think: true
+      reasoning_effort: xhigh
+
+response:
+  text: message.content
+  reasoning: message.thinking
+  finish_reason: done_reason
+  prompt_tokens: prompt_eval_count      # Ollama 用 Qwen 自己的计数，与估算可比
+  completion_tokens: eval_count
+  done_flag: done
+  prompt_comparable: true
+  finish_reason_aliases:
+    stop: stop
+    length: length
+
+# 报文字段落位：num_ctx 逐请求显式下发，不依赖 Ollama 全局默认（规格书第五节）。
+request_map:
+  messages: messages
+  max_output_tokens: options.num_predict
+  num_ctx: options.num_ctx
+
+request_defaults:
+  stream: false
+
+options:
+  # 规格书第五节：资源稳定性。num_ctx 不写在这里——它由 TaskContext.num_ctx
+  # 逐请求显式传入，不依赖 Ollama 全局默认。
+  keep_alive: 30m
+
+notes: |
+  本机 Ollama 验证用。宿主环境变量（参考 tools/deploy/env_ollama.ps1）：
+    OLLAMA_NUM_PARALLEL=1  OLLAMA_MAX_LOADED_MODELS=1
+    OLLAMA_KEEP_ALIVE=30m  OLLAMA_LOAD_TIMEOUT=900
