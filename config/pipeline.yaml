@@ -1,0 +1,47 @@
+# 流水线运行时配置（M2+）。路径、时间窗、门禁阈值一律外置。
+
+run:
+  # 夜间窗口：到点后停止取新任务，但允许在途任务跑完
+  window:
+    start: "01:00"
+    end: "09:00"
+    max_duration_hours: 8
+  # 本地连续失败达到阈值后的动作：
+  #   mark_failed —— 仿真阶段默认（规格书第三节第 4 条）
+  #   route_cloud —— 切云端（内网上线后改）
+  degrade_action: mark_failed
+  local_failures_before_degrade: 3
+  max_retries: 3
+  base_backoff_sec: 30
+  max_backoff_sec: 600
+
+session:
+  # 规格书第五节：单会话 ≤6 轮；累计 prompt_eval_count ≥70K 或切模块或质量下降时开新会话
+  max_turns: 6
+  max_cumulative_prompt_tokens: 70000
+  # 跨会话靠 summaries/*.md 传递，不靠对话历史
+  max_summary_tokens: 4000
+
+resources:
+  # 每 10 个任务查一次显存水位
+  gpu_sample_every_tasks: 10
+  heartbeat_interval_sec: 30
+  # 守护脚本判定：无心跳超过该秒数即重启编排器
+  watchdog_no_heartbeat_sec: 600
+
+logging:
+  dir: logs
+  retention_days: 14
+  level: INFO
+
+paths:
+  state: runtime/state
+  artifacts: runtime/artifacts
+  summaries: runtime/summaries
+  tasks: tasks
+
+# 阶段级软阻塞：P2 失败率 > 20% 则跳过 P3（TODO(确认#6) 已确认可接受）
+gates:
+  P3:
+    watch_phase: P2
+    skip_if_failure_rate_above: 0.20

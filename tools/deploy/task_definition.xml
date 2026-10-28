@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<!--
+  夜间流水线的计划任务定义（非「基本任务」模式）。
+
+  占位符由 tools/deploy/register_task.ps1 替换：
+    {{REPO_ROOT}}   仓库根目录
+    {{PROJECT}}     被分析项目路径
+    {{PROFILE}}     后端画像名
+    {{START_DATE}}  起始日期 yyyy-MM-dd
+    {{START_TIME}}  启动时刻 HH:mm
+    {{DURATION}}    最长运行时长，ISO8601 区间（默认 PT8H）
+-->
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>JSP/Java/Oracle 老项目夜间无人值守分析流水线</Description>
+    <URI>\LegacyCodeNightly</URI>
+  </RegistrationInfo>
+  <Triggers>
+    <CalendarTrigger>
+      <StartBoundary>{{START_DATE}}T{{START_TIME}}:00</StartBoundary>
+      <Enabled>true</Enabled>
+      <ScheduleByDay>
+        <DaysInterval>1</DaysInterval>
+      </ScheduleByDay>
+    </CalendarTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="Author">
+      <UserId>S-1-5-18</UserId>
+      <RunLevel>HighestAvailable</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>false</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <WakeToRun>false</WakeToRun>
+    <ExecutionTimeLimit>{{DURATION}}</ExecutionTimeLimit>
+    <Priority>4</Priority>
+    <RestartOnFailure>
+      <Interval>PT10M</Interval>
+      <Count>3</Count>
+    </RestartOnFailure>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>cmd.exe</Command>
+      <Arguments>/c cd /d "{{REPO_ROOT}}" &amp;&amp; python orchestrator.py --project "{{PROJECT}}" --profile {{PROFILE}} &gt;&gt; logs\orchestrator.stdout.log 2&gt;&amp;1</Arguments>
+      <WorkingDirectory>{{REPO_ROOT}}</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>

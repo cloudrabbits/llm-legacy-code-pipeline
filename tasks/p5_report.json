@@ -1,0 +1,16 @@
+[
+  {
+    "task_id": "P5-report",
+    "phase": "P5",
+    "kind": "report",
+    "route": "local",
+    "depends_on": [
+      "P4-arch"
+    ],
+    "effort": "off",
+    "acceptance": {
+      "llm_free": true,
+      "min_chars": 50
+    }
+  }
+]

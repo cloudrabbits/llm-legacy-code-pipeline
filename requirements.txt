@@ -1,0 +1,7 @@
+# M1 骨架与契约测试所需依赖（Python 3.11+，Windows 验证于 3.13.2）
+pydantic>=2.7,<3
+PyYAML>=6.0
+httpx>=0.27
+tokenizers>=0.19      # Qwen BPE 本地缓存估算；内网离线可只拷 models/qwen2_bpe/
+pytest>=8.0
+jsonschema>=4.21      # 产物验收（M3 起使用）

@@ -1,0 +1,5121 @@
+{
+  "root": "D:\\IdeaProjects\\supermarketmanager",
+  "name": "supermarketmanager",
+  "generated_at": "2026-10-28T14:31:27",
+  "files": [
+    {
+      "file": "README.md",
+      "ext": ".md",
+      "size": 1206,
+      "lines": 16,
+      "encoding": "utf-8-sig",
+      "label": "Markdown"
+    },
+    {
+      "file": "supermarket.sql",
+      "ext": ".sql",
+      "size": 5180,
+      "lines": 149,
+      "encoding": "gb18030",
+      "label": "SQL 脚本"
+    },
+    {
+      "file": ".settings/org.eclipse.wst.common.project.facet.core.xml",
+      "ext": ".xml",
+      "size": 252,
+      "lines": 8,
+      "encoding": "utf-8-sig",
+      "label": "XML 配置"
+    },
+    {
+      "file": "WebRoot/login.html",
+      "ext": ".html",
+      "size": 1182,
+      "lines": 33,
+      "encoding": "utf-8-sig",
+      "label": "HTML 页面"
+    },
+    {
+      "file": "WebRoot/login.jsp",
+      "ext": ".jsp",
+      "size": 1970,
+      "lines": 57,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/META-INF/MANIFEST.MF",
+      "ext": ".mf",
+      "size": 39,
+      "lines": 4,
+      "encoding": "utf-8-sig",
+      "label": "清单文件"
+    },
+    {
+      "file": "WebRoot/WEB-INF/web.xml",
+      "ext": ".xml",
+      "size": 3463,
+      "lines": 83,
+      "encoding": "utf-8-sig",
+      "label": "XML 配置"
+    },
+    {
+      "file": "WebRoot/js/billadd.js",
+      "ext": ".js",
+      "size": 2332,
+      "lines": 82,
+      "encoding": "utf-8-sig",
+      "label": "JavaScript"
+    },
+    {
+      "file": "WebRoot/js/checkform.js",
+      "ext": ".js",
+      "size": 402,
+      "lines": 23,
+      "encoding": "utf-8-sig",
+      "label": "JavaScript"
+    },
+    {
+      "file": "WebRoot/js/datetime.js",
+      "ext": ".js",
+      "size": 10434,
+      "lines": 360,
+      "encoding": "utf-8-sig",
+      "label": "JavaScript"
+    },
+    {
+      "file": "WebRoot/js/jquery.js",
+      "ext": ".js",
+      "size": 282988,
+      "lines": 9790,
+      "encoding": "utf-8-sig",
+      "label": "JavaScript"
+    },
+    {
+      "file": "WebRoot/js/js.js",
+      "ext": ".js",
+      "size": 1597,
+      "lines": 66,
+      "encoding": "utf-8-sig",
+      "label": "JavaScript"
+    },
+    {
+      "file": "WebRoot/js/password.js",
+      "ext": ".js",
+      "size": 1997,
+      "lines": 85,
+      "encoding": "utf-8-sig",
+      "label": "JavaScript"
+    },
+    {
+      "file": "WebRoot/js/time.js",
+      "ext": ".js",
+      "size": 1086,
+      "lines": 47,
+      "encoding": "utf-8-sig",
+      "label": "JavaScript"
+    },
+    {
+      "file": "WebRoot/security/billAdd.jsp",
+      "ext": ".jsp",
+      "size": 4687,
+      "lines": 129,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/billList.jsp",
+      "ext": ".jsp",
+      "size": 6742,
+      "lines": 198,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/billUpdate.jsp",
+      "ext": ".jsp",
+      "size": 6129,
+      "lines": 147,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/billView.jsp",
+      "ext": ".jsp",
+      "size": 3216,
+      "lines": 82,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/password.jsp",
+      "ext": ".jsp",
+      "size": 3859,
+      "lines": 121,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/productAdd.jsp",
+      "ext": ".jsp",
+      "size": 4941,
+      "lines": 132,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/productList.jsp",
+      "ext": ".jsp",
+      "size": 4388,
+      "lines": 139,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/productUpdate.jsp",
+      "ext": ".jsp",
+      "size": 4301,
+      "lines": 129,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/productView.jsp",
+      "ext": ".jsp",
+      "size": 3146,
+      "lines": 101,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/providerAdd.jsp",
+      "ext": ".jsp",
+      "size": 4867,
+      "lines": 128,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/providerList.jsp",
+      "ext": ".jsp",
+      "size": 5704,
+      "lines": 182,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/providerUpdate.jsp",
+      "ext": ".jsp",
+      "size": 4967,
+      "lines": 128,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/providerView.jsp",
+      "ext": ".jsp",
+      "size": 3031,
+      "lines": 80,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/public.html",
+      "ext": ".html",
+      "size": 1593,
+      "lines": 46,
+      "encoding": "utf-8-sig",
+      "label": "HTML 页面"
+    },
+    {
+      "file": "WebRoot/security/userAdd.jsp",
+      "ext": ".jsp",
+      "size": 4769,
+      "lines": 145,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/userList.jsp",
+      "ext": ".jsp",
+      "size": 5460,
+      "lines": 177,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/userUpdate.jsp",
+      "ext": ".jsp",
+      "size": 5173,
+      "lines": 143,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/userView.jsp",
+      "ext": ".jsp",
+      "size": 3433,
+      "lines": 115,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "WebRoot/security/welcome.jsp",
+      "ext": ".jsp",
+      "size": 2306,
+      "lines": 79,
+      "encoding": "utf-8-sig",
+      "label": "JSP 页面"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/GoodsBiz.java",
+      "ext": ".java",
+      "size": 610,
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/OrdersBiz.java",
+      "ext": ".java",
+      "size": 1225,
+      "lines": 24,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/SuppliersBiz.java",
+      "ext": ".java",
+      "size": 587,
+      "lines": 18,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/UsersBiz.java",
+      "ext": ".java",
+      "size": 650,
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/GoodsBizImpl.java",
+      "ext": ".java",
+      "size": 1108,
+      "lines": 58,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/OrdersBizImpl.java",
+      "ext": ".java",
+      "size": 1606,
+      "lines": 72,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/SuppliersBizImpl.java",
+      "ext": ".java",
+      "size": 1136,
+      "lines": 54,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/UsersBizImpl.java",
+      "ext": ".java",
+      "size": 1166,
+      "lines": 60,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/controller/ControllerServlet.java",
+      "ext": ".java",
+      "size": 4536,
+      "lines": 133,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/GoodsDao.java",
+      "ext": ".java",
+      "size": 610,
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/OrdersDao.java",
+      "ext": ".java",
+      "size": 1207,
+      "lines": 24,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/SuppliersDao.java",
+      "ext": ".java",
+      "size": 587,
+      "lines": 18,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/UsersDao.java",
+      "ext": ".java",
+      "size": 641,
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/GoodsDaoImpl.java",
+      "ext": ".java",
+      "size": 4850,
+      "lines": 209,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/OrdersDaoImpl.java",
+      "ext": ".java",
+      "size": 9208,
+      "lines": 357,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/SuppliersDaoImpl.java",
+      "ext": ".java",
+      "size": 6910,
+      "lines": 256,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/UsersDaoImpl.java",
+      "ext": ".java",
+      "size": 6666,
+      "lines": 273,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Goods.java",
+      "ext": ".java",
+      "size": 1932,
+      "lines": 103,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/GoodsView.java",
+      "ext": ".java",
+      "size": 1316,
+      "lines": 70,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Orders.java",
+      "ext": ".java",
+      "size": 1237,
+      "lines": 87,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/OrdersDetail.java",
+      "ext": ".java",
+      "size": 2120,
+      "lines": 97,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/OrdersView.java",
+      "ext": ".java",
+      "size": 1421,
+      "lines": 81,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Suppliers.java",
+      "ext": ".java",
+      "size": 2367,
+      "lines": 107,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Users.java",
+      "ext": ".java",
+      "size": 2101,
+      "lines": 107,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/UsersView.java",
+      "ext": ".java",
+      "size": 1262,
+      "lines": 68,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/filter/CharacterEncodingFilter.java",
+      "ext": ".java",
+      "size": 1291,
+      "lines": 44,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/filter/SercurityFilter.java",
+      "ext": ".java",
+      "size": 1343,
+      "lines": 47,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/GoodsServlet.java",
+      "ext": ".java",
+      "size": 7700,
+      "lines": 231,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/OrdersServlet.java",
+      "ext": ".java",
+      "size": 12122,
+      "lines": 357,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/SuppliersServlet.java",
+      "ext": ".java",
+      "size": 8527,
+      "lines": 259,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/UsersServlet.java",
+      "ext": ".java",
+      "size": 8107,
+      "lines": 239,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/util/BaseDao.java",
+      "ext": ".java",
+      "size": 2183,
+      "lines": 117,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/util/Page.java",
+      "ext": ".java",
+      "size": 1869,
+      "lines": 112,
+      "encoding": "utf-8-sig",
+      "label": "Java 源码"
+    }
+  ],
+  "binaries": [
+    {
+      "file": ".classpath",
+      "ext": "",
+      "size": 1372,
+      "note": ""
+    },
+    {
+      "file": ".mymetadata",
+      "ext": "",
+      "size": 345,
+      "note": ""
+    },
+    {
+      "file": ".project",
+      "ext": "",
+      "size": 1765,
+      "note": ""
+    },
+    {
+      "file": "README",
+      "ext": "",
+      "size": 0,
+      "note": ""
+    },
+    {
+      "file": "supermarket.dmp",
+      "ext": ".dmp",
+      "size": 8192,
+      "note": ""
+    },
+    {
+      "file": "supermarket.~sql",
+      "ext": ".~sql",
+      "size": 5180,
+      "note": ""
+    },
+    {
+      "file": ".settings/.jsdtscope",
+      "ext": "",
+      "size": 500,
+      "note": ""
+    },
+    {
+      "file": ".settings/com.genuitec.eclipse.j2eedt.core.prefs",
+      "ext": ".prefs",
+      "size": 1009,
+      "note": ""
+    },
+    {
+      "file": ".settings/org.eclipse.jdt.core.prefs",
+      "ext": ".prefs",
+      "size": 364,
+      "note": ""
+    },
+    {
+      "file": ".settings/org.eclipse.wst.common.component",
+      "ext": ".component",
+      "size": 504,
+      "note": ""
+    },
+    {
+      "file": ".settings/org.eclipse.wst.jsdt.ui.superType.container",
+      "ext": ".container",
+      "size": 49,
+      "note": ""
+    },
+    {
+      "file": ".settings/org.eclipse.wst.jsdt.ui.superType.name",
+      "ext": ".name",
+      "size": 6,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-beanutils-1.7.0.jar",
+      "ext": ".jar",
+      "size": 188671,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-collections-3.2.jar",
+      "ext": ".jar",
+      "size": 571259,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-lang-2.4.jar",
+      "ext": ".jar",
+      "size": 261809,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-logging-1.1.jar",
+      "ext": ".jar",
+      "size": 52915,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/ezmorph-1.0.4.jar",
+      "ext": ".jar",
+      "size": 86381,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/json-lib-2.2.3-jdk13.jar",
+      "ext": ".jar",
+      "size": 148271,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/Thumbs.db",
+      "ext": ".db",
+      "size": 31744,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/buy.png",
+      "ext": ".png",
+      "size": 2246,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/clock.jpg",
+      "ext": ".jpg",
+      "size": 22016,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/formBg.png",
+      "ext": ".png",
+      "size": 41921,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/gys.png",
+      "ext": ".png",
+      "size": 5294,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/home.png",
+      "ext": ".png",
+      "size": 3667,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/icon.png",
+      "ext": ".png",
+      "size": 6417,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/leftBg.png",
+      "ext": ".png",
+      "size": 2902,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/loginBg.jpg",
+      "ext": ".jpg",
+      "size": 18389,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/login_bg.jpg",
+      "ext": ".jpg",
+      "size": 45619,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/login_img.png",
+      "ext": ".png",
+      "size": 8908,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/mm.png",
+      "ext": ".png",
+      "size": 2565,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/read.png",
+      "ext": ".png",
+      "size": 1359,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/schu.png",
+      "ext": ".png",
+      "size": 3963,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/search.png",
+      "ext": ".png",
+      "size": 3632,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/tc.png",
+      "ext": ".png",
+      "size": 1875,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/tianjia.png",
+      "ext": ".png",
+      "size": 3881,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/time.png",
+      "ext": ".png",
+      "size": 1208,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/xiugai.png",
+      "ext": ".png",
+      "size": 3927,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/yh.png",
+      "ext": ".png",
+      "size": 5369,
+      "note": ""
+    },
+    {
+      "file": "WebRoot/img/zd.png",
+      "ext": ".png",
+      "size": 1710,
+      "note": ""
+    },
+    {
+      "file": "screenshots/supermarket1.jpg",
+      "ext": ".jpg",
+      "size": 134386,
+      "note": ""
+    },
+    {
+      "file": "screenshots/supermarket2.jpg",
+      "ext": ".jpg",
+      "size": 130342,
+      "note": ""
+    },
+    {
+      "file": "screenshots/supermarket3.jpg",
+      "ext": ".jpg",
+      "size": 111455,
+      "note": ""
+    }
+  ],
+  "java": [
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/GoodsBiz.java",
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz",
+      "primary_type": "GoodsBiz",
+      "types": [
+        {
+          "type": "GoodsBiz",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Goods",
+        "com.hy.cxp.supermarket.entity.GoodsView",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Goods good"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Goods good"
+        },
+        {
+          "name": "findSid",
+          "args": ""
+        }
+      ],
+      "method_count": 8,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/OrdersBiz.java",
+      "lines": 24,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz",
+      "primary_type": "OrdersBiz",
+      "types": [
+        {
+          "type": "OrdersBiz",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Orders",
+        "com.hy.cxp.supermarket.entity.OrdersDetail",
+        "com.hy.cxp.supermarket.entity.OrdersView",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Orders order"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Orders order"
+        },
+        {
+          "name": "findGid",
+          "args": "String gname,int sid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGid",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "String gname"
+        },
+        {
+          "name": "search",
+          "args": "String gname,String sname,String opaid"
+        }
+      ],
+      "method_count": 11,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/SuppliersBiz.java",
+      "lines": 18,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz",
+      "primary_type": "SuppliersBiz",
+      "types": [
+        {
+          "type": "SuppliersBiz",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "findByIdForUpdate",
+          "args": "int id"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Suppliers suppliers"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Suppliers suppliers"
+        }
+      ],
+      "method_count": 8,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/UsersBiz.java",
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz",
+      "primary_type": "UsersBiz",
+      "types": [
+        {
+          "type": "UsersBiz",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Users",
+        "com.hy.cxp.supermarket.entity.UsersView",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "login",
+          "args": "Users user"
+        },
+        {
+          "name": "modifypwd",
+          "args": "Users user,String newPwd"
+        },
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Users user"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Users user"
+        }
+      ],
+      "method_count": 9,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/GoodsBizImpl.java",
+      "lines": 58,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz.impl",
+      "primary_type": "GoodsBizImpl",
+      "types": [
+        {
+          "type": "GoodsBizImpl",
+          "kind": "class",
+          "extends": "",
+          "implements": "GoodsBiz"
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.biz.GoodsBiz",
+        "com.hy.cxp.supermarket.dao.GoodsDao",
+        "com.hy.cxp.supermarket.dao.impl.GoodsDaoImpl",
+        "com.hy.cxp.supermarket.entity.Goods",
+        "com.hy.cxp.supermarket.entity.GoodsView",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Goods good"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Goods good"
+        },
+        {
+          "name": "findSid",
+          "args": ""
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        }
+      ],
+      "method_count": 8,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/OrdersBizImpl.java",
+      "lines": 72,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz.impl",
+      "primary_type": "OrdersBizImpl",
+      "types": [
+        {
+          "type": "OrdersBizImpl",
+          "kind": "class",
+          "extends": "",
+          "implements": "OrdersBiz"
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.biz.OrdersBiz",
+        "com.hy.cxp.supermarket.dao.OrdersDao",
+        "com.hy.cxp.supermarket.dao.impl.OrdersDaoImpl",
+        "com.hy.cxp.supermarket.entity.Orders",
+        "com.hy.cxp.supermarket.entity.OrdersDetail",
+        "com.hy.cxp.supermarket.entity.OrdersView",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Orders order"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Orders order"
+        },
+        {
+          "name": "findGid",
+          "args": "String gname,int sid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGid",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "String gname"
+        },
+        {
+          "name": "search",
+          "args": "String gname, String sname, String opaid"
+        }
+      ],
+      "method_count": 11,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/SuppliersBizImpl.java",
+      "lines": 54,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz.impl",
+      "primary_type": "SuppliersBizImpl",
+      "types": [
+        {
+          "type": "SuppliersBizImpl",
+          "kind": "class",
+          "extends": "",
+          "implements": "SuppliersBiz"
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.biz.SuppliersBiz",
+        "com.hy.cxp.supermarket.dao.SuppliersDao",
+        "com.hy.cxp.supermarket.dao.impl.SuppliersDaoImpl",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Suppliers suppliers"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Suppliers suppliers"
+        },
+        {
+          "name": "findByIdForUpdate",
+          "args": "int id"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        }
+      ],
+      "method_count": 8,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/biz/impl/UsersBizImpl.java",
+      "lines": 60,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.biz.impl",
+      "primary_type": "UsersBizImpl",
+      "types": [
+        {
+          "type": "UsersBizImpl",
+          "kind": "class",
+          "extends": "",
+          "implements": "UsersBiz"
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.biz.UsersBiz",
+        "com.hy.cxp.supermarket.dao.impl.UsersDaoImpl",
+        "com.hy.cxp.supermarket.entity.Users",
+        "com.hy.cxp.supermarket.entity.UsersView",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "login",
+          "args": "Users user"
+        },
+        {
+          "name": "modifypwd",
+          "args": "Users user,String newPwd"
+        },
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Users user"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Users user"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        }
+      ],
+      "method_count": 9,
+      "layer": "业务层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/controller/ControllerServlet.java",
+      "lines": 133,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.controller",
+      "primary_type": "ControllerServlet",
+      "types": [
+        {
+          "type": "ControllerServlet",
+          "kind": "class",
+          "extends": "HttpServlet",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.io.IOException",
+        "javax.servlet.ServletException",
+        "javax.servlet.http.HttpServlet",
+        "javax.servlet.http.HttpServletRequest",
+        "javax.servlet.http.HttpServletResponse",
+        "javax.servlet.http.HttpSession",
+        "com.hy.cxp.supermarket.biz.UsersBiz",
+        "com.hy.cxp.supermarket.biz.impl.UsersBizImpl",
+        "com.hy.cxp.supermarket.entity.Users"
+      ],
+      "methods": [
+        {
+          "name": "doGet",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "doPost",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "process",
+          "args": "HttpServletRequest request,\r \t\t\tHttpServletResponse response"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        }
+      ],
+      "method_count": 7,
+      "layer": "控制层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [
+        "/servlet/GoodsServlet",
+        "/servlet/OrdersServlet",
+        "/servlet/SuppliersServlet",
+        "/servlet/UsersServlet",
+        "login.jsp"
+      ],
+      "redirects": [
+        "login.html",
+        "security/welcome.jsp"
+      ],
+      "actions": [
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "login.do",
+        "loginOut.do",
+        "modifyPassword.do"
+      ],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [
+        "newPassword",
+        "oldPassword",
+        "password",
+        "username"
+      ],
+      "request_attrs": [
+        "errmsg"
+      ],
+      "session_attrs": [
+        "name",
+        "pwd"
+      ],
+      "biz_calls": [
+        "userBiz.login"
+      ],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 1,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/GoodsDao.java",
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao",
+      "primary_type": "GoodsDao",
+      "types": [
+        {
+          "type": "GoodsDao",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Goods",
+        "com.hy.cxp.supermarket.entity.GoodsView",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Goods good"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Goods good"
+        },
+        {
+          "name": "findSid",
+          "args": ""
+        }
+      ],
+      "method_count": 8,
+      "layer": "持久层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/OrdersDao.java",
+      "lines": 24,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao",
+      "primary_type": "OrdersDao",
+      "types": [
+        {
+          "type": "OrdersDao",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Orders",
+        "com.hy.cxp.supermarket.entity.OrdersDetail",
+        "com.hy.cxp.supermarket.entity.OrdersView",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Orders order"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Orders order"
+        },
+        {
+          "name": "findGid",
+          "args": "String gname,int sid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGid",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "String gname"
+        },
+        {
+          "name": "search",
+          "args": "String gname,String sname,String opaid"
+        }
+      ],
+      "method_count": 11,
+      "layer": "持久层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/SuppliersDao.java",
+      "lines": 18,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao",
+      "primary_type": "SuppliersDao",
+      "types": [
+        {
+          "type": "SuppliersDao",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        },
+        {
+          "name": "findByIdForUpdate",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Suppliers suppliers"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Suppliers suppliers"
+        }
+      ],
+      "method_count": 8,
+      "layer": "持久层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/UsersDao.java",
+      "lines": 20,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao",
+      "primary_type": "UsersDao",
+      "types": [
+        {
+          "type": "UsersDao",
+          "kind": "interface",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.util.List",
+        "com.hy.cxp.supermarket.entity.Users",
+        "com.hy.cxp.supermarket.entity.UsersView",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "login",
+          "args": "Users user"
+        },
+        {
+          "name": "modifypwd",
+          "args": "Users user,String newPwd"
+        },
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Users user"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Users user"
+        }
+      ],
+      "method_count": 9,
+      "layer": "持久层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/GoodsDaoImpl.java",
+      "lines": 209,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao.impl",
+      "primary_type": "GoodsDaoImpl",
+      "types": [
+        {
+          "type": "GoodsDaoImpl",
+          "kind": "class",
+          "extends": "BaseDao",
+          "implements": "GoodsDao"
+        }
+      ],
+      "imports": [
+        "java.sql.Connection",
+        "java.sql.PreparedStatement",
+        "java.sql.ResultSet",
+        "java.sql.SQLException",
+        "java.util.ArrayList",
+        "java.util.List",
+        "com.hy.cxp.supermarket.dao.GoodsDao",
+        "com.hy.cxp.supermarket.entity.Goods",
+        "com.hy.cxp.supermarket.entity.GoodsView",
+        "com.hy.cxp.supermarket.util.BaseDao",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Goods good"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Goods good"
+        },
+        {
+          "name": "findSid",
+          "args": ""
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        }
+      ],
+      "method_count": 8,
+      "layer": "持久层",
+      "sqls": [
+        "select * from goods_view",
+        "update goods set gprice=?,gunit=?,sid=?,gstock=? where gid=? and gname=?",
+        "delete from goods where gid=?",
+        "insert into goods values(?,?,?,?,?,?)",
+        "select sid from suppliers order by sid",
+        "select * from goods_view where gname like ?"
+      ],
+      "tables": [
+        "goods",
+        "goods_view",
+        "suppliers"
+      ],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/OrdersDaoImpl.java",
+      "lines": 357,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao.impl",
+      "primary_type": "OrdersDaoImpl",
+      "types": [
+        {
+          "type": "OrdersDaoImpl",
+          "kind": "class",
+          "extends": "BaseDao",
+          "implements": "OrdersDao"
+        }
+      ],
+      "imports": [
+        "java.sql.Connection",
+        "java.sql.PreparedStatement",
+        "java.sql.ResultSet",
+        "java.sql.SQLException",
+        "java.util.ArrayList",
+        "java.util.List",
+        "com.hy.cxp.supermarket.dao.OrdersDao",
+        "com.hy.cxp.supermarket.entity.Orders",
+        "com.hy.cxp.supermarket.entity.OrdersDetail",
+        "com.hy.cxp.supermarket.entity.OrdersView",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.BaseDao",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Orders order"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Orders order"
+        },
+        {
+          "name": "findGid",
+          "args": "String gname, int sid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGid",
+          "args": "int gid"
+        },
+        {
+          "name": "findSupByGname",
+          "args": "String gname"
+        },
+        {
+          "name": "search",
+          "args": "String gname, String sname, String opaid"
+        }
+      ],
+      "method_count": 11,
+      "layer": "持久层",
+      "sqls": [
+        "select em.* from( select e.* ,rownum r from( select * from orders_view order by oid ) e where rownum<=(?))",
+        "update orders set gid=?,onum=?,opaid=?  where oid=?",
+        "delete from orders where oid=?",
+        "insert into orders values(?,?,?,to_date(?,'yyyy-mm-dd'),?)",
+        "select g.gid from goods g,suppliers s where g.sid=s.sid and g.gname=? and s.sid=?",
+        "select s.sid,s.sname from goods g,suppliers s where g.sid=s.sid and g.gname=(select  gname from goods where gid=(select gid from orders where oid=?))",
+        "select s.sid,s.sname from goods g,suppliers s where g.sid=s.sid and g.gname=(select  gname from goods where gid=?)",
+        "select s.sid,s.sname from goods g,suppliers s where g.sid=s.sid and g.gname=?"
+      ],
+      "tables": [
+        "goods",
+        "orders",
+        "orders_view"
+      ],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 1,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/SuppliersDaoImpl.java",
+      "lines": 256,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao.impl",
+      "primary_type": "SuppliersDaoImpl",
+      "types": [
+        {
+          "type": "SuppliersDaoImpl",
+          "kind": "class",
+          "extends": "BaseDao",
+          "implements": "SuppliersDao"
+        }
+      ],
+      "imports": [
+        "java.sql.Connection",
+        "java.sql.PreparedStatement",
+        "java.sql.ResultSet",
+        "java.sql.SQLException",
+        "java.util.ArrayList",
+        "java.util.List",
+        "com.hy.cxp.supermarket.dao.SuppliersDao",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.BaseDao",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "findByIdForUpdate",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Suppliers suppliers"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Suppliers suppliers"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        }
+      ],
+      "method_count": 8,
+      "layer": "持久层",
+      "sqls": [
+        "select sid,sname,scontacts,stel,sfax,sdate from suppliers order by sid",
+        "select sid,sname,scontacts,stel,sfax,sdesc from suppliers where sid=?",
+        "select sid,sname,scontacts,stel,sadd,sfax,sdesc from suppliers where sid=?",
+        "select em.* from( select e.* ,rownum r from( select * from suppliers_view order by sid ) e where rownum<=(?))",
+        "update suppliers set  stel=?,sadd=?,sfax=?,sdesc=? where sid=?",
+        "delete from suppliers where sid=?",
+        "insert into suppliers values(?,?,?,?,?,?,?,to_date(?,'yyyy-mm-dd'))",
+        "select sid,sname,scontacts,stel,sfax,sdate from suppliers  where sname like ? order by sid"
+      ],
+      "tables": [
+        "suppliers",
+        "suppliers_view"
+      ],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/dao/impl/UsersDaoImpl.java",
+      "lines": 273,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.dao.impl",
+      "primary_type": "UsersDaoImpl",
+      "types": [
+        {
+          "type": "UsersDaoImpl",
+          "kind": "class",
+          "extends": "BaseDao",
+          "implements": "UsersDao"
+        }
+      ],
+      "imports": [
+        "java.sql.Connection",
+        "java.sql.PreparedStatement",
+        "java.sql.ResultSet",
+        "java.sql.SQLException",
+        "java.util.ArrayList",
+        "java.util.List",
+        "com.hy.cxp.supermarket.dao.UsersDao",
+        "com.hy.cxp.supermarket.entity.Users",
+        "com.hy.cxp.supermarket.entity.UsersView",
+        "com.hy.cxp.supermarket.util.BaseDao",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "login",
+          "args": "Users user"
+        },
+        {
+          "name": "modifypwd",
+          "args": "Users user,String newPwd"
+        },
+        {
+          "name": "list",
+          "args": ""
+        },
+        {
+          "name": "findById",
+          "args": "int id"
+        },
+        {
+          "name": "getPageInfo",
+          "args": "Page pages"
+        },
+        {
+          "name": "update",
+          "args": "Users user"
+        },
+        {
+          "name": "del",
+          "args": "int id"
+        },
+        {
+          "name": "add",
+          "args": "Users user"
+        },
+        {
+          "name": "findByName",
+          "args": "String name"
+        }
+      ],
+      "method_count": 9,
+      "layer": "持久层",
+      "sqls": [
+        "select count(1) from users where uname=? and upwd=?",
+        "update users set upwd=? where  uname=? and upwd=?",
+        "select * from users_view order by userid",
+        "select userid,uname,usex,to_char(ubirth,'YYYY-MM-DD'),utel,uadd,utype from users where userid=?",
+        "select em.* from( select e.* ,rownum r from( select * from users_view order by userid ) e where rownum<=(?))",
+        "update users set usex=?,ubirth=to_date(?,'yyyy-mm-dd'),utel=?,uadd=?,utype=? where userid=?",
+        "delete from users where userid=?",
+        "insert into users values(?,?,?,?,to_date(?,'yyyy-mm-dd'),?,?,?)"
+      ],
+      "tables": [
+        "users",
+        "users_view"
+      ],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Goods.java",
+      "lines": 103,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "Goods",
+      "types": [
+        {
+          "type": "Goods",
+          "kind": "class",
+          "extends": "",
+          "implements": "Serializable"
+        }
+      ],
+      "imports": [
+        "java.io.Serializable"
+      ],
+      "methods": [
+        {
+          "name": "getGid",
+          "args": ""
+        },
+        {
+          "name": "setGid",
+          "args": "int gid"
+        },
+        {
+          "name": "getGname",
+          "args": ""
+        },
+        {
+          "name": "setGname",
+          "args": "String gname"
+        },
+        {
+          "name": "getGprice",
+          "args": ""
+        },
+        {
+          "name": "setGprice",
+          "args": "float gprice"
+        },
+        {
+          "name": "getGunit",
+          "args": ""
+        },
+        {
+          "name": "setGunit",
+          "args": "String gunit"
+        },
+        {
+          "name": "getSid",
+          "args": ""
+        },
+        {
+          "name": "setSid",
+          "args": "int sid"
+        },
+        {
+          "name": "getGstock",
+          "args": ""
+        },
+        {
+          "name": "setGstock",
+          "args": "int gstock"
+        },
+        {
+          "name": "getSerialversionuid",
+          "args": ""
+        },
+        {
+          "name": "Goods",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "Goods",
+          "args": "int gid, String gname, float gprice, String gunit, int sid,\r \t\t\tint gstock"
+        },
+        {
+          "name": "super",
+          "args": ""
+        }
+      ],
+      "method_count": 17,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/GoodsView.java",
+      "lines": 70,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "GoodsView",
+      "types": [
+        {
+          "type": "GoodsView",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "GoodsView",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "GoodsView",
+          "args": "int gid, String gname, float gprice, String phone,\r \t\t\tString gunit"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "getGid",
+          "args": ""
+        },
+        {
+          "name": "setGid",
+          "args": "int gid"
+        },
+        {
+          "name": "getGname",
+          "args": ""
+        },
+        {
+          "name": "setGname",
+          "args": "String gname"
+        },
+        {
+          "name": "getGprice",
+          "args": ""
+        },
+        {
+          "name": "setGprice",
+          "args": "float gprice"
+        },
+        {
+          "name": "getGunit",
+          "args": ""
+        },
+        {
+          "name": "setGunit",
+          "args": "String gunit"
+        },
+        {
+          "name": "getPhone",
+          "args": ""
+        },
+        {
+          "name": "setPhone",
+          "args": "String phone"
+        }
+      ],
+      "method_count": 14,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Orders.java",
+      "lines": 87,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "Orders",
+      "types": [
+        {
+          "type": "Orders",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "Orders",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "Orders",
+          "args": "int oid, int gid, int onum, String date, int opaid"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "getOid",
+          "args": ""
+        },
+        {
+          "name": "setOid",
+          "args": "int oid"
+        },
+        {
+          "name": "getGid",
+          "args": ""
+        },
+        {
+          "name": "setGid",
+          "args": "int gid"
+        },
+        {
+          "name": "getOnum",
+          "args": ""
+        },
+        {
+          "name": "setOnum",
+          "args": "int onum"
+        },
+        {
+          "name": "getDate",
+          "args": ""
+        },
+        {
+          "name": "setDate",
+          "args": "String date"
+        },
+        {
+          "name": "getOpaid",
+          "args": ""
+        },
+        {
+          "name": "setOpaid",
+          "args": "int opaid"
+        }
+      ],
+      "method_count": 14,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/OrdersDetail.java",
+      "lines": 97,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "OrdersDetail",
+      "types": [
+        {
+          "type": "OrdersDetail",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "OrdersDetail",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "OrdersDetail",
+          "args": "String oid, String gname, String gprice, String gunit,\r \t\t\tString onum, String cost, String sname, String opaid"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "getOid",
+          "args": ""
+        },
+        {
+          "name": "setOid",
+          "args": "String oid"
+        },
+        {
+          "name": "getGname",
+          "args": ""
+        },
+        {
+          "name": "setGname",
+          "args": "String gname"
+        },
+        {
+          "name": "getGprice",
+          "args": ""
+        },
+        {
+          "name": "setGprice",
+          "args": "String gprice"
+        },
+        {
+          "name": "getGunit",
+          "args": ""
+        },
+        {
+          "name": "setGunit",
+          "args": "String gunit"
+        },
+        {
+          "name": "getOnum",
+          "args": ""
+        },
+        {
+          "name": "setOnum",
+          "args": "String onum"
+        },
+        {
+          "name": "getCost",
+          "args": ""
+        },
+        {
+          "name": "setCost",
+          "args": "String cost"
+        },
+        {
+          "name": "getSname",
+          "args": ""
+        },
+        {
+          "name": "setSname",
+          "args": "String sname"
+        },
+        {
+          "name": "getOpaid",
+          "args": ""
+        },
+        {
+          "name": "setOpaid",
+          "args": "String opaid"
+        }
+      ],
+      "method_count": 20,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/OrdersView.java",
+      "lines": 81,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "OrdersView",
+      "types": [
+        {
+          "type": "OrdersView",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "OrdersView",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "OrdersView",
+          "args": "int oid, String gname, String sname, float cost,\r \t\t\tString opaid, String date"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "getOid",
+          "args": ""
+        },
+        {
+          "name": "setOid",
+          "args": "int oid"
+        },
+        {
+          "name": "getGname",
+          "args": ""
+        },
+        {
+          "name": "setGname",
+          "args": "String gname"
+        },
+        {
+          "name": "getSname",
+          "args": ""
+        },
+        {
+          "name": "setSname",
+          "args": "String sname"
+        },
+        {
+          "name": "getCost",
+          "args": ""
+        },
+        {
+          "name": "setCost",
+          "args": "float cost"
+        },
+        {
+          "name": "getDate",
+          "args": ""
+        },
+        {
+          "name": "setDate",
+          "args": "String date"
+        },
+        {
+          "name": "getOpaid",
+          "args": ""
+        },
+        {
+          "name": "setOpaid",
+          "args": "String opaid"
+        }
+      ],
+      "method_count": 16,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Suppliers.java",
+      "lines": 107,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "Suppliers",
+      "types": [
+        {
+          "type": "Suppliers",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "Suppliers",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "Suppliers",
+          "args": "int sid, String sname, String scontacts, String stel,\r \t\t\tString sadd, String sfax, String sdesc"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "Suppliers",
+          "args": "int sid, String sname, String scontacts, String stel,\r \t\t\tString sadd, String sfax, String sdesc, String date"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "getSid",
+          "args": ""
+        },
+        {
+          "name": "setSid",
+          "args": "int sid"
+        },
+        {
+          "name": "getSname",
+          "args": ""
+        },
+        {
+          "name": "setSname",
+          "args": "String sname"
+        },
+        {
+          "name": "getScontacts",
+          "args": ""
+        },
+        {
+          "name": "setScontacts",
+          "args": "String scontacts"
+        },
+        {
+          "name": "getStel",
+          "args": ""
+        },
+        {
+          "name": "setStel",
+          "args": "String stel"
+        },
+        {
+          "name": "getSadd",
+          "args": ""
+        },
+        {
+          "name": "setSadd",
+          "args": "String sadd"
+        },
+        {
+          "name": "getSfax",
+          "args": ""
+        },
+        {
+          "name": "setSfax",
+          "args": "String sfax"
+        },
+        {
+          "name": "getSdesc",
+          "args": ""
+        },
+        {
+          "name": "setSdesc",
+          "args": "String sdesc"
+        },
+        {
+          "name": "getDate",
+          "args": ""
+        },
+        {
+          "name": "setDate",
+          "args": "String date"
+        }
+      ],
+      "method_count": 22,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/Users.java",
+      "lines": 107,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "Users",
+      "types": [
+        {
+          "type": "Users",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "Users",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "Users",
+          "args": "String uname, String upwd"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "Users",
+          "args": "int userid, String uname, String upwd, String usex,\r \t\t\tString ubirth, String utel, String uadd, int utype"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "getUserid",
+          "args": ""
+        },
+        {
+          "name": "setUserid",
+          "args": "int userid"
+        },
+        {
+          "name": "getUname",
+          "args": ""
+        },
+        {
+          "name": "setUname",
+          "args": "String uname"
+        },
+        {
+          "name": "getUpwd",
+          "args": ""
+        },
+        {
+          "name": "setUpwd",
+          "args": "String upwd"
+        },
+        {
+          "name": "getUsex",
+          "args": ""
+        },
+        {
+          "name": "setUsex",
+          "args": "String usex"
+        },
+        {
+          "name": "getUbirth",
+          "args": ""
+        },
+        {
+          "name": "setUbirth",
+          "args": "String ubirth"
+        },
+        {
+          "name": "getUtel",
+          "args": ""
+        },
+        {
+          "name": "setUtel",
+          "args": "String utel"
+        },
+        {
+          "name": "getUadd",
+          "args": ""
+        },
+        {
+          "name": "setUadd",
+          "args": "String uadd"
+        },
+        {
+          "name": "getUtype",
+          "args": ""
+        },
+        {
+          "name": "setUtype",
+          "args": "int utype"
+        }
+      ],
+      "method_count": 22,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 1
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/entity/UsersView.java",
+      "lines": 68,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.entity",
+      "primary_type": "UsersView",
+      "types": [
+        {
+          "type": "UsersView",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "getUserid",
+          "args": ""
+        },
+        {
+          "name": "setUserid",
+          "args": "int userid"
+        },
+        {
+          "name": "getUname",
+          "args": ""
+        },
+        {
+          "name": "setUname",
+          "args": "String uname"
+        },
+        {
+          "name": "getUsex",
+          "args": ""
+        },
+        {
+          "name": "setUsex",
+          "args": "String usex"
+        },
+        {
+          "name": "getUbirth",
+          "args": ""
+        },
+        {
+          "name": "setUbirth",
+          "args": "String ubirth"
+        },
+        {
+          "name": "getUtel",
+          "args": ""
+        },
+        {
+          "name": "setUtel",
+          "args": "String utel"
+        },
+        {
+          "name": "getUtype",
+          "args": ""
+        },
+        {
+          "name": "setUtype",
+          "args": "String utype"
+        }
+      ],
+      "method_count": 12,
+      "layer": "实体/POJO",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/filter/CharacterEncodingFilter.java",
+      "lines": 44,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.filter",
+      "primary_type": "CharacterEncodingFilter",
+      "types": [
+        {
+          "type": "CharacterEncodingFilter",
+          "kind": "class",
+          "extends": "",
+          "implements": "Filter"
+        }
+      ],
+      "imports": [
+        "java.io.IOException",
+        "javax.servlet.Filter",
+        "javax.servlet.FilterChain",
+        "javax.servlet.FilterConfig",
+        "javax.servlet.ServletException",
+        "javax.servlet.ServletRequest",
+        "javax.servlet.ServletResponse"
+      ],
+      "methods": [
+        {
+          "name": "init",
+          "args": "FilterConfig filterConfig"
+        },
+        {
+          "name": "doFilter",
+          "args": "ServletRequest request, ServletResponse response,\r \t\t\tFilterChain chain"
+        },
+        {
+          "name": "destroy",
+          "args": ""
+        }
+      ],
+      "method_count": 3,
+      "layer": "过滤器/拦截器",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 3,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/filter/SercurityFilter.java",
+      "lines": 47,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.filter",
+      "primary_type": "SercurityFilter",
+      "types": [
+        {
+          "type": "SercurityFilter",
+          "kind": "class",
+          "extends": "",
+          "implements": "Filter"
+        }
+      ],
+      "imports": [
+        "java.io.IOException",
+        "javax.servlet.Filter",
+        "javax.servlet.FilterChain",
+        "javax.servlet.FilterConfig",
+        "javax.servlet.ServletException",
+        "javax.servlet.ServletRequest",
+        "javax.servlet.ServletResponse",
+        "javax.servlet.http.HttpServletRequest",
+        "javax.servlet.http.HttpServletResponse",
+        "javax.servlet.http.HttpSession"
+      ],
+      "methods": [
+        {
+          "name": "init",
+          "args": "FilterConfig filterConfig"
+        },
+        {
+          "name": "doFilter",
+          "args": "ServletRequest request, ServletResponse response,\r \t\t\tFilterChain chain"
+        },
+        {
+          "name": "destroy",
+          "args": ""
+        }
+      ],
+      "method_count": 3,
+      "layer": "过滤器/拦截器",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [
+        "/supermarketmanager1115/login.html"
+      ],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 1,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/GoodsServlet.java",
+      "lines": 231,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.servlet",
+      "primary_type": "GoodsServlet",
+      "types": [
+        {
+          "type": "GoodsServlet",
+          "kind": "class",
+          "extends": "HttpServlet",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.io.IOException",
+        "java.util.List",
+        "javax.servlet.ServletException",
+        "javax.servlet.http.Cookie",
+        "javax.servlet.http.HttpServlet",
+        "javax.servlet.http.HttpServletRequest",
+        "javax.servlet.http.HttpServletResponse",
+        "com.hy.cxp.supermarket.biz.GoodsBiz",
+        "com.hy.cxp.supermarket.biz.impl.GoodsBizImpl",
+        "com.hy.cxp.supermarket.entity.Goods",
+        "com.hy.cxp.supermarket.entity.GoodsView"
+      ],
+      "methods": [
+        {
+          "name": "GoodsServlet",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "destroy",
+          "args": ""
+        },
+        {
+          "name": "doGet",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "doPost",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "init",
+          "args": ""
+        },
+        {
+          "name": "process",
+          "args": "HttpServletRequest request,\r \t\t\tHttpServletResponse response"
+        },
+        {
+          "name": "if",
+          "args": "action == null"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "if",
+          "args": "cookies.length > 0"
+        },
+        {
+          "name": "for",
+          "args": "Cookie cookie : cookies"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        }
+      ],
+      "method_count": 14,
+      "layer": "控制层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [
+        "../security/productAdd.jsp",
+        "../security/productList.jsp",
+        "../security/productUpdate.jsp",
+        "../security/productView.jsp"
+      ],
+      "redirects": [
+        "Goods.do"
+      ],
+      "actions": [
+        "add",
+        "addView",
+        "del",
+        "details",
+        "save",
+        "search",
+        "update"
+      ],
+      "action_null_branch": true,
+      "uses_action_param": true,
+      "params": [
+        "action",
+        "gid",
+        "gstock",
+        "id",
+        "name",
+        "price",
+        "productId",
+        "productName",
+        "sid",
+        "unit"
+      ],
+      "request_attrs": [
+        "good",
+        "goodsList",
+        "sidList"
+      ],
+      "session_attrs": [],
+      "biz_calls": [
+        "biz.findByName",
+        "goodBiz.add",
+        "goodBiz.del",
+        "goodBiz.findById",
+        "goodBiz.findSid",
+        "goodBiz.list",
+        "goodBiz.update"
+      ],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 13,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/OrdersServlet.java",
+      "lines": 357,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.servlet",
+      "primary_type": "OrdersServlet",
+      "types": [
+        {
+          "type": "OrdersServlet",
+          "kind": "class",
+          "extends": "HttpServlet",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.io.IOException",
+        "java.io.PrintWriter",
+        "java.text.DateFormat",
+        "java.text.SimpleDateFormat",
+        "java.util.ArrayList",
+        "java.util.Date",
+        "java.util.HashSet",
+        "java.util.List",
+        "java.util.Set",
+        "javax.servlet.ServletException",
+        "javax.servlet.http.Cookie",
+        "javax.servlet.http.HttpServlet",
+        "javax.servlet.http.HttpServletRequest",
+        "javax.servlet.http.HttpServletResponse",
+        "net.sf.json.JSONArray",
+        "com.hy.cxp.supermarket.biz.GoodsBiz",
+        "com.hy.cxp.supermarket.biz.OrdersBiz",
+        "com.hy.cxp.supermarket.biz.SuppliersBiz",
+        "com.hy.cxp.supermarket.biz.impl.GoodsBizImpl",
+        "com.hy.cxp.supermarket.biz.impl.OrdersBizImpl",
+        "com.hy.cxp.supermarket.biz.impl.SuppliersBizImpl",
+        "com.hy.cxp.supermarket.entity.Goods",
+        "com.hy.cxp.supermarket.entity.GoodsView",
+        "com.hy.cxp.supermarket.entity.Orders",
+        "com.hy.cxp.supermarket.entity.OrdersDetail",
+        "com.hy.cxp.supermarket.entity.OrdersView",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "OrdersServlet",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "destroy",
+          "args": ""
+        },
+        {
+          "name": "doGet",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "doPost",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "init",
+          "args": ""
+        },
+        {
+          "name": "process",
+          "args": "HttpServletRequest request,\r \t\t\tHttpServletResponse response"
+        },
+        {
+          "name": "if",
+          "args": "action == null"
+        },
+        {
+          "name": "for",
+          "args": "GoodsView good : goodsList"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "if",
+          "args": "cookies.length > 0"
+        },
+        {
+          "name": "for",
+          "args": "Cookie cookie : cookies"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "time",
+          "args": "Date date"
+        }
+      ],
+      "method_count": 16,
+      "layer": "控制层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [
+        "../security/billAdd.jsp",
+        "../security/billList.jsp",
+        "../security/billUpdate.jsp",
+        "../security/billView.jsp"
+      ],
+      "redirects": [
+        "Orders.do"
+      ],
+      "actions": [
+        "add",
+        "addView",
+        "del",
+        "details",
+        "goodajax",
+        "save",
+        "search",
+        "supplierajax",
+        "update"
+      ],
+      "action_null_branch": true,
+      "uses_action_param": true,
+      "params": [
+        "action",
+        "billId",
+        "billName",
+        "billNum",
+        "gname",
+        "id",
+        "oid",
+        "onum",
+        "opaid",
+        "pageIndex",
+        "sid",
+        "sname",
+        "supplier",
+        "zhifu"
+      ],
+      "request_attrs": [
+        "goodsList",
+        "order",
+        "ordersList",
+        "pages",
+        "suppliersList"
+      ],
+      "session_attrs": [],
+      "biz_calls": [
+        "biz.findGid",
+        "biz.findSupByGname",
+        "goodBiz.findById",
+        "goodBiz.list",
+        "orderBiz.add",
+        "orderBiz.del",
+        "orderBiz.findById",
+        "orderBiz.findGid",
+        "orderBiz.findSupByGname",
+        "orderBiz.getPageInfo",
+        "orderBiz.list",
+        "orderBiz.update",
+        "ordersBiz.search",
+        "supplierBiz.list"
+      ],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 20,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/SuppliersServlet.java",
+      "lines": 259,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.servlet",
+      "primary_type": "SuppliersServlet",
+      "types": [
+        {
+          "type": "SuppliersServlet",
+          "kind": "class",
+          "extends": "HttpServlet",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.io.IOException",
+        "java.text.DateFormat",
+        "java.text.SimpleDateFormat",
+        "java.util.Date",
+        "java.util.List",
+        "javax.servlet.ServletException",
+        "javax.servlet.http.Cookie",
+        "javax.servlet.http.HttpServlet",
+        "javax.servlet.http.HttpServletRequest",
+        "javax.servlet.http.HttpServletResponse",
+        "com.hy.cxp.supermarket.biz.SuppliersBiz",
+        "com.hy.cxp.supermarket.biz.impl.SuppliersBizImpl",
+        "com.hy.cxp.supermarket.entity.Suppliers",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "SuppliersServlet",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "destroy",
+          "args": ""
+        },
+        {
+          "name": "doGet",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "doPost",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "init",
+          "args": ""
+        },
+        {
+          "name": "process",
+          "args": "HttpServletRequest request,\r \t\t\tHttpServletResponse response"
+        },
+        {
+          "name": "if",
+          "args": "action == null"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "if",
+          "args": "cookies.length > 0"
+        },
+        {
+          "name": "for",
+          "args": "Cookie cookie : cookies"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "time",
+          "args": "Date date"
+        }
+      ],
+      "method_count": 16,
+      "layer": "控制层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [
+        "../security/providerList.jsp",
+        "../security/providerUpdate.jsp",
+        "../security/providerView.jsp"
+      ],
+      "redirects": [
+        "Suppliers.do"
+      ],
+      "actions": [
+        "add",
+        "del",
+        "details",
+        "save",
+        "search",
+        "update"
+      ],
+      "action_null_branch": true,
+      "uses_action_param": true,
+      "params": [
+        "action",
+        "address",
+        "describe",
+        "fax",
+        "id",
+        "name",
+        "pageIndex",
+        "people",
+        "phone",
+        "providerId",
+        "providerName",
+        "sid"
+      ],
+      "request_attrs": [
+        "pages",
+        "providerList",
+        "supplier"
+      ],
+      "session_attrs": [],
+      "biz_calls": [
+        "biz.findByName",
+        "supplierBiz.add",
+        "supplierBiz.del",
+        "suppliersBiz.findById",
+        "suppliersBiz.findByIdForUpdate",
+        "suppliersBiz.getPageInfo",
+        "suppliersBiz.list",
+        "suppliersBiz.update"
+      ],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 14,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/servlet/UsersServlet.java",
+      "lines": 239,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.servlet",
+      "primary_type": "UsersServlet",
+      "types": [
+        {
+          "type": "UsersServlet",
+          "kind": "class",
+          "extends": "HttpServlet",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.io.IOException",
+        "java.util.List",
+        "javax.servlet.ServletException",
+        "javax.servlet.http.Cookie",
+        "javax.servlet.http.HttpServlet",
+        "javax.servlet.http.HttpServletRequest",
+        "javax.servlet.http.HttpServletResponse",
+        "com.hy.cxp.supermarket.biz.UsersBiz",
+        "com.hy.cxp.supermarket.biz.impl.UsersBizImpl",
+        "com.hy.cxp.supermarket.entity.Users",
+        "com.hy.cxp.supermarket.entity.UsersView",
+        "com.hy.cxp.supermarket.util.Page"
+      ],
+      "methods": [
+        {
+          "name": "UsersServlet",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "destroy",
+          "args": ""
+        },
+        {
+          "name": "doGet",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "doPost",
+          "args": "HttpServletRequest request, HttpServletResponse response"
+        },
+        {
+          "name": "process",
+          "args": "request, response"
+        },
+        {
+          "name": "init",
+          "args": ""
+        },
+        {
+          "name": "process",
+          "args": "HttpServletRequest request,\r \t\t\tHttpServletResponse response"
+        },
+        {
+          "name": "if",
+          "args": "action == null"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        },
+        {
+          "name": "if",
+          "args": "cookies.length > 0"
+        },
+        {
+          "name": "for",
+          "args": "Cookie cookie : cookies"
+        },
+        {
+          "name": "if",
+          "args": "count > 0"
+        }
+      ],
+      "method_count": 15,
+      "layer": "控制层",
+      "sqls": [],
+      "tables": [],
+      "forwards": [
+        "../security/userList.jsp",
+        "../security/userUpdate.jsp",
+        "../security/userView.jsp"
+      ],
+      "redirects": [
+        "Users.do"
+      ],
+      "actions": [
+        "add",
+        "del",
+        "details",
+        "save",
+        "search",
+        "update"
+      ],
+      "action_null_branch": true,
+      "uses_action_param": true,
+      "params": [
+        "action",
+        "houseDate",
+        "id",
+        "name",
+        "pageIndex",
+        "sex",
+        "uid",
+        "userAddress",
+        "userId",
+        "userName",
+        "userlei",
+        "userpassword",
+        "userphone"
+      ],
+      "request_attrs": [
+        "pages",
+        "user",
+        "usersList"
+      ],
+      "session_attrs": [],
+      "biz_calls": [
+        "biz.findByName",
+        "userBiz.add",
+        "userBiz.del",
+        "userBiz.findById",
+        "userBiz.getPageInfo",
+        "userBiz.list",
+        "userBiz.update"
+      ],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 12,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/util/BaseDao.java",
+      "lines": 117,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.util",
+      "primary_type": "BaseDao",
+      "types": [
+        {
+          "type": "BaseDao",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [
+        "java.sql.Connection",
+        "java.sql.PreparedStatement",
+        "java.sql.ResultSet",
+        "java.sql.SQLException",
+        "javax.naming.Context",
+        "javax.naming.InitialContext",
+        "javax.naming.NamingException",
+        "javax.sql.DataSource"
+      ],
+      "methods": [
+        {
+          "name": "getPoolConnection",
+          "args": ""
+        },
+        {
+          "name": "closeAll",
+          "args": "ResultSet rs, PreparedStatement ps, Connection con"
+        },
+        {
+          "name": "if",
+          "args": "rs != null"
+        },
+        {
+          "name": "if",
+          "args": "ps != null"
+        },
+        {
+          "name": "if",
+          "args": "con != null"
+        },
+        {
+          "name": "executeUpdateSql",
+          "args": "String sql, Object... param"
+        },
+        {
+          "name": "if",
+          "args": "param != null"
+        },
+        {
+          "name": "for",
+          "args": "int i = 0; i < param.length; i++"
+        }
+      ],
+      "method_count": 8,
+      "layer": "工具类",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [
+        "java:comp/env/jdbc/orcl"
+      ],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    },
+    {
+      "file": "src/com/hy/cxp/supermarket/util/Page.java",
+      "lines": 112,
+      "encoding": "utf-8-sig",
+      "package": "com.hy.cxp.supermarket.util",
+      "primary_type": "Page",
+      "types": [
+        {
+          "type": "Page",
+          "kind": "class",
+          "extends": "",
+          "implements": ""
+        }
+      ],
+      "imports": [],
+      "methods": [
+        {
+          "name": "getTotalPageCount",
+          "args": ""
+        },
+        {
+          "name": "setTotalPageCount",
+          "args": "int totalPageCount"
+        },
+        {
+          "name": "getPageSize",
+          "args": ""
+        },
+        {
+          "name": "setPageSize",
+          "args": "int pageSize"
+        },
+        {
+          "name": "getTotalCount",
+          "args": ""
+        },
+        {
+          "name": "setTotalCount",
+          "args": "int totalCount"
+        },
+        {
+          "name": "if",
+          "args": "totalCount > 0"
+        },
+        {
+          "name": "getCurrPageNo",
+          "args": ""
+        },
+        {
+          "name": "setCurrPageNo",
+          "args": "int currPageNo"
+        },
+        {
+          "name": "if",
+          "args": "currPageNo > 0"
+        },
+        {
+          "name": "Page",
+          "args": "int pageSize, int totalCount, int currPageNo"
+        },
+        {
+          "name": "super",
+          "args": ""
+        },
+        {
+          "name": "Page",
+          "args": ""
+        },
+        {
+          "name": "super",
+          "args": ""
+        }
+      ],
+      "method_count": 14,
+      "layer": "工具类",
+      "sqls": [],
+      "tables": [],
+      "forwards": [],
+      "redirects": [],
+      "actions": [],
+      "action_null_branch": false,
+      "uses_action_param": false,
+      "params": [],
+      "request_attrs": [],
+      "session_attrs": [],
+      "biz_calls": [],
+      "jndi": [],
+      "jdbc_url": [],
+      "driver": [],
+      "println_count": 0,
+      "todo_count": 0
+    }
+  ],
+  "jsp": [
+    {
+      "file": "WebRoot/login.jsp",
+      "lines": 57,
+      "encoding": "utf-8-sig",
+      "title": "系统登录 - 超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {},
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "login.do"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "<%=basePath%>",
+        "css/style.css",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "errmsg"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/billAdd.jsp",
+      "lines": 129,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Orders.do?action=add"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "billList.html",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "gname",
+        "goodsList",
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 3,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/billList.jsp",
+      "lines": 198,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Orders.do#",
+        "Orders.do?action=addView",
+        "Orders.do?action=del",
+        "Orders.do?action=details&id=${order.oid}",
+        "Orders.do?action=update&id=${order.oid}",
+        "Orders.do?pageIndex=${pages.currPageNo + 1}",
+        "Orders.do?pageIndex=${pages.currPageNo - 1}",
+        "Orders.do?pageIndex=${pages.currPageNo}#",
+        "Orders.do?pageIndex=${pages.totalPageCount}",
+        "Orders.do?pageIndex=1",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [
+        "Orders.do?action=search&gname="
+      ],
+      "el_expressions": [
+        "order.cost",
+        "order.date",
+        "order.gname",
+        "order.oid",
+        "order.opaid",
+        "order.sname",
+        "ordersList",
+        "ordersList.size",
+        "pages.currPageNo",
+        "pages.totalPageCount",
+        "param.action",
+        "param.pageIndex",
+        "sessionScope.name",
+        "supplier.sname",
+        "suppliersList"
+      ],
+      "scriptlet_blocks": 3,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/billUpdate.jsp",
+      "lines": 147,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Orders.do?action=save"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "billList.html",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "order.cost",
+        "order.gname",
+        "order.gunit",
+        "order.oid",
+        "order.onum",
+        "order.opaid",
+        "sessionScope.name",
+        "supplier.sid",
+        "supplier.sname",
+        "suppliersList"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/billView.jsp",
+      "lines": 82,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "javascript:void(0);",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "order.cost",
+        "order.gname",
+        "order.gunit",
+        "order.oid",
+        "order.onum",
+        "order.opaid",
+        "order.sname",
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/password.jsp",
+      "lines": 121,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {},
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "modifyPassword.do"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name",
+        "sessionScope.pwd"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/productAdd.jsp",
+      "lines": 132,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Goods.do?action=add"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "login.html",
+        "loginOut.do",
+        "providerList.html",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name",
+        "sid",
+        "sidList"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/productList.jsp",
+      "lines": 139,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Goods.do#",
+        "Goods.do?action=addView",
+        "Goods.do?action=del",
+        "Goods.do?action=details&id=${good.gid}",
+        "Goods.do?action=update&id=${good.gid}",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [
+        "Goods.do?action=search&name="
+      ],
+      "el_expressions": [
+        "good.gid",
+        "good.gname",
+        "good.gprice",
+        "good.gunit",
+        "good.phone",
+        "goodsList",
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/productUpdate.jsp",
+      "lines": 129,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Goods.do?action=save"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "login.html",
+        "loginOut.do",
+        "providerList.html",
+        "security/password.jsps",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "good.gid",
+        "good.gname",
+        "good.gprice",
+        "good.gstock",
+        "good.gunit",
+        "sessionScope.name",
+        "sid",
+        "sidList"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/productView.jsp",
+      "lines": 101,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "javascript:void(0);",
+        "login.html",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "good.gid",
+        "good.gname",
+        "good.gprice",
+        "good.gstock",
+        "good.gunit",
+        "good.sid",
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/providerAdd.jsp",
+      "lines": 128,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {},
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Suppliers.do?action=add"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "login.html",
+        "loginOut.do",
+        "providerList.html",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/providerList.jsp",
+      "lines": 182,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Suppliers.do#",
+        "Suppliers.do?action=del",
+        "Suppliers.do?action=details&id=${provider.sid}",
+        "Suppliers.do?action=update&id=${provider.sid}",
+        "Suppliers.do?pageIndex=${pages.currPageNo + 1}",
+        "Suppliers.do?pageIndex=${pages.currPageNo - 1}",
+        "Suppliers.do?pageIndex=${pages.currPageNo}#",
+        "Suppliers.do?pageIndex=${pages.totalPageCount}",
+        "Suppliers.do?pageIndex=1",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "security/providerAdd.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [
+        "Suppliers.do?action=search&name="
+      ],
+      "el_expressions": [
+        "pages.currPageNo",
+        "pages.totalPageCount",
+        "param.pageIndex",
+        "provider.date",
+        "provider.scontacts",
+        "provider.sfax",
+        "provider.sid",
+        "provider.sname",
+        "provider.stel",
+        "providerList",
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/providerUpdate.jsp",
+      "lines": 128,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {},
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Suppliers.do?action=save&id=${supplier.sid}"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "login.html",
+        "loginOut.do",
+        "providerList.html",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name",
+        "supplier.sadd",
+        "supplier.scontacts",
+        "supplier.sdesc",
+        "supplier.sfax",
+        "supplier.sid",
+        "supplier.sname",
+        "supplier.stel"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/providerView.jsp",
+      "lines": 80,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {},
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "billList.html",
+        "css/public.css",
+        "css/style.css",
+        "javascript:void(0);",
+        "login.html",
+        "password.html",
+        "productList.html",
+        "providerList.html",
+        "styles.css",
+        "userList.html"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name",
+        "supplier.scontacts",
+        "supplier.sdesc",
+        "supplier.sfax",
+        "supplier.sid",
+        "supplier.sname",
+        "supplier.stel"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/userAdd.jsp",
+      "lines": 145,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Users.do?action=add"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css",
+        "userList.html"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/userList.jsp",
+      "lines": 177,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "import": "java.util.*",
+        "language": "java",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "com.hy.cxp.supermarket.entity.Users",
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "Users.do#",
+        "Users.do?action=del",
+        "Users.do?action=details&id=${user.userid}",
+        "Users.do?action=update&id=${user.userid}",
+        "Users.do?pageIndex=${pages.currPageNo + 1}",
+        "Users.do?pageIndex=${pages.currPageNo - 1}",
+        "Users.do?pageIndex=${pages.currPageNo}#",
+        "Users.do?pageIndex=${pages.totalPageCount}",
+        "Users.do?pageIndex=1",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "security/userAdd.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [
+        "Users.do?action=search&name="
+      ],
+      "el_expressions": [
+        "pages.currPageNo",
+        "pages.totalPageCount",
+        "sessionScope.name",
+        "user.ubirth",
+        "user.uname",
+        "user.userid",
+        "user.usex",
+        "user.utel",
+        "user.utype",
+        "usersList"
+      ],
+      "scriptlet_blocks": 8,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/userUpdate.jsp",
+      "lines": 143,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [
+        "Users.do?action=save&id=${user.userid}"
+      ],
+      "form_methods": [
+        "POST"
+      ],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "login.html",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css",
+        "userList.html"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name",
+        "user.uadd",
+        "user.ubirth",
+        "user.uname",
+        "user.userid",
+        "user.usex",
+        "user.utel",
+        "user.utype"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/userView.jsp",
+      "lines": 115,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {
+        "c": "http://java.sun.com/jsp/jstl/core"
+      },
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "billList.html",
+        "css/public.css",
+        "css/style.css",
+        "javascript:void(0);",
+        "loginOut.do",
+        "password.html",
+        "productList.html",
+        "providerList.html",
+        "styles.css",
+        "userList.html"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name",
+        "user.uadd",
+        "user.ubirth",
+        "user.uname",
+        "user.userid",
+        "user.usex",
+        "user.utel",
+        "user.utype"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    },
+    {
+      "file": "WebRoot/security/welcome.jsp",
+      "lines": 79,
+      "encoding": "utf-8-sig",
+      "title": "超市账单管理系统",
+      "page_directives": {
+        "language": "java",
+        "import": "java.util.*",
+        "pageEncoding": "UTF-8"
+      },
+      "imports": [
+        "java.util.*"
+      ],
+      "taglibs": {},
+      "includes_directive": [],
+      "includes_runtime": [],
+      "form_actions": [],
+      "form_methods": [],
+      "hrefs": [
+        "#",
+        "<%=basePath%>",
+        "Goods.do",
+        "Orders.do",
+        "Suppliers.do",
+        "Users.do",
+        "css/public.css",
+        "css/style.css",
+        "loginOut.do",
+        "security/password.jsp",
+        "styles.css"
+      ],
+      "ajax_urls": [],
+      "el_expressions": [
+        "sessionScope.name"
+      ],
+      "scriptlet_blocks": 2,
+      "declarations": 0,
+      "expressions": 1,
+      "use_bean": false
+    }
+  ],
+  "sql": [
+    {
+      "file": "supermarket.sql",
+      "encoding": "gb18030",
+      "tables": [
+        "goods",
+        "orders",
+        "suppliers",
+        "users"
+      ],
+      "views": [
+        "goods_view",
+        "orders_detail",
+        "orders_view",
+        "suppliers_view",
+        "users_view"
+      ],
+      "sequences": [
+        "seq_gid",
+        "seq_oid",
+        "seq_sid",
+        "seq_uid"
+      ]
+    }
+  ],
+  "xml_props": [
+    {
+      "file": ".settings/org.eclipse.wst.common.project.facet.core.xml",
+      "ext": ".xml",
+      "encoding": "utf-8-sig"
+    },
+    {
+      "file": "WebRoot/WEB-INF/web.xml",
+      "ext": ".xml",
+      "encoding": "utf-8-sig"
+    }
+  ],
+  "webxml": {
+    "declared_version": "3.0",
+    "schema_version": "2.5",
+    "servlets": [
+      {
+        "name": "Controller",
+        "class": "com.hy.cxp.supermarket.controller.ControllerServlet",
+        "jsp": "",
+        "init_params": {},
+        "load_on_startup": ""
+      },
+      {
+        "name": "UsersServlet",
+        "class": "com.hy.cxp.supermarket.servlet.UsersServlet",
+        "jsp": "",
+        "init_params": {},
+        "load_on_startup": ""
+      },
+      {
+        "name": "OrdersServlet",
+        "class": "com.hy.cxp.supermarket.servlet.OrdersServlet",
+        "jsp": "",
+        "init_params": {},
+        "load_on_startup": ""
+      },
+      {
+        "name": "SuppliersServlet",
+        "class": "com.hy.cxp.supermarket.servlet.SuppliersServlet",
+        "jsp": "",
+        "init_params": {},
+        "load_on_startup": ""
+      },
+      {
+        "name": "GoodsServlet",
+        "class": "com.hy.cxp.supermarket.servlet.GoodsServlet",
+        "jsp": "",
+        "init_params": {},
+        "load_on_startup": ""
+      }
+    ],
+    "servlet_mappings": [
+      {
+        "name": "Controller",
+        "url_pattern": "*.do"
+      },
+      {
+        "name": "UsersServlet",
+        "url_pattern": "/servlet/UsersServlet"
+      },
+      {
+        "name": "OrdersServlet",
+        "url_pattern": "/servlet/OrdersServlet"
+      },
+      {
+        "name": "SuppliersServlet",
+        "url_pattern": "/servlet/SuppliersServlet"
+      },
+      {
+        "name": "GoodsServlet",
+        "url_pattern": "/servlet/GoodsServlet"
+      }
+    ],
+    "filters": [
+      {
+        "name": "CharaterEncodingFilter",
+        "class": "com.hy.cxp.supermarket.filter.CharacterEncodingFilter"
+      },
+      {
+        "name": "SercurityFilter",
+        "class": "com.hy.cxp.supermarket.filter.SercurityFilter"
+      }
+    ],
+    "filter_mappings": [
+      {
+        "name": "CharaterEncodingFilter",
+        "url_pattern": "/*"
+      },
+      {
+        "name": "SercurityFilter",
+        "url_pattern": "/security/*"
+      }
+    ],
+    "listeners": [],
+    "welcome_files": [
+      "login.html",
+      "index.jsp"
+    ],
+    "context_params": {
+      "encoding": "utf-8"
+    },
+    "file": "WebRoot/WEB-INF/web.xml"
+  },
+  "jars": [
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-beanutils-1.7.0.jar",
+      "name": "commons-beanutils-1.7.0.jar",
+      "size": 188671
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-collections-3.2.jar",
+      "name": "commons-collections-3.2.jar",
+      "size": 571259
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-lang-2.4.jar",
+      "name": "commons-lang-2.4.jar",
+      "size": 261809
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/commons-logging-1.1.jar",
+      "name": "commons-logging-1.1.jar",
+      "size": 52915
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/ezmorph-1.0.4.jar",
+      "name": "ezmorph-1.0.4.jar",
+      "size": 86381
+    },
+    {
+      "file": "WebRoot/WEB-INF/lib/json-lib-2.2.3-jdk13.jar",
+      "name": "json-lib-2.2.3-jdk13.jar",
+      "size": 148271
+    }
+  ],
+  "jndi": [
+    "java:comp/env/jdbc/orcl"
+  ],
+  "jdbc_urls": [],
+  "drivers": [],
+  "encoding_stats": {
+    "utf-8-sig": 65,
+    "gb18030": 1
+  }
+}

@@ -1,0 +1,80 @@
+# 外网仿真画像：用 DeepSeek V4.1-Flash 官方 API 仿真内网 Qwen3.8-27B 的能力包络。
+#
+# 核心原则：主动放弃 DeepSeek 超出 Qwen3.8-27B 的能力（超长窗口、超强推理）。
+# 窗口钳制由 config/budget.yaml 统一提供，本画像不得放宽。
+
+name: deepseek_sim_qwen38
+transport: http_json
+endpoint: https://api.deepseek.com/chat/completions
+model: deepseek-flash
+
+auth:
+  type: bearer
+  token_env: DEEPSEEK_API_KEY
+  token_file: config/secrets.local.yaml
+  token_key: deepseek.api_key
+
+extra_headers: {}
+# TODO(确认#ext-2): Tracking ID 的 header 名官方未公开，确认后填进 extra_headers
+#   extra_headers:
+#     X-DS-Tracking-Id: a22d793d-6657-4e9a-bed5-19c05da71d25
+
+effort:
+  mode: enum
+  # 推理开关的落位，供后端无关的契约测试断言「effort=off 时确实没要求思考」
+  reasoning_toggle:
+    path: thinking.type
+    enabled_value: enabled
+  # 官方《思考模式》文档（2026 版，OpenAI 格式）：
+  #   * 思考开关 = thinking.type: enabled|disabled
+  #   * 思考强度 = reasoning_effort: low|high|max   —— **不接受 "none"**
+  #     （"none" 是 Anthropic 格式 reasoning.effort 的取值）
+  #   * 官方映射表：minimal->low, low->low, medium->high, high->high,
+  #                 xhigh->high, max->max, ultra->max
+  #
+  # TODO(确认#ext-1): 规格书要求 xhigh -> max，官方实为 xhigh -> high。
+  #                   当前按规格书（max）实现；若要贴官方映射，把下行改成 high 即可，
+  #                   无需改任何 Python 代码。
+  # 注意：档位名必须加引号——YAML 1.1 会把裸 `off` 解析成布尔 False。
+  payload:
+    "off":
+      thinking.type: disabled
+      reasoning_effort: null      # 关闭思考时不得携带该字段
+    "low":
+      thinking.type: enabled
+      reasoning_effort: low
+    "medium":
+      thinking.type: enabled
+      reasoning_effort: high
+    "xhigh":
+      thinking.type: enabled
+      reasoning_effort: max
+
+response:
+  text: choices.0.message.content
+  reasoning: choices.0.message.reasoning_content
+  finish_reason: choices.0.finish_reason
+  prompt_tokens: usage.prompt_tokens
+  completion_tokens: usage.completion_tokens
+  # DeepSeek 用自有 tokenizer 计数，与 Qwen 估算不可比，
+  # 否则 SUSPECT 会被系统性误报。偏差仍会记录，只是不升级为标记位。
+  prompt_comparable: false
+
+# 报文字段落位：DeepSeek 走 OpenAI chat/completions 形状，无 num_ctx 概念，
+# 窗口钳制完全由客户端预算（config/budget.yaml）承担。
+request_map:
+  messages: messages
+  max_output_tokens: max_tokens
+  num_ctx: null
+
+request_defaults:
+  stream: false
+  # 注意：思考模式下 temperature / top_p / presence_penalty / frequency_penalty
+  # 不生效（设置也不报错），因此这里一律不传，避免产生虚假可控感。
+
+options: {}
+
+notes: |
+  外网仿真专用。窗口/预算来自 config/budget.yaml（92160 / 80000 / 8192），
+  token 估算统一走 Qwen tokenizer（见 pipeline/tokenizer.py），
+  DeepSeek 不得因为自身 1M 窗口而吞下超限任务。

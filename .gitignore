@@ -22,3 +22,10 @@ logs/
 run/
 reports/
 PAUSE
+
+# ===== 夜间流水线（M1+）=====
+runtime/
+config/secrets.local.yaml
+# Qwen BPE 词表缓存，7MB，内网用 tools/fetch_tokenizer.py 重新拉取
+models/
+.pytest_cache/

@@ -1,0 +1,25 @@
+[
+  {
+    "task_id": "P4-arch",
+    "phase": "P4",
+    "kind": "architecture",
+    "route": "local",
+    "depends_on": [
+      "P3-deps"
+    ],
+    "effort": "medium",
+    "max_output_tokens": 8192,
+    "max_retries": 2,
+    "timeout_sec": 1800,
+    "payload": {
+      "module": "auto"
+    },
+    "acceptance": {
+      "min_chars": 20,
+      "required_keys": [
+        "summary",
+        "risks"
+      ]
+    }
+  }
+]

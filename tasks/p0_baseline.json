@@ -1,0 +1,13 @@
+[
+  {
+    "task_id": "P0-baseline",
+    "phase": "P0",
+    "kind": "baseline",
+    "route": "local",
+    "effort": "off",
+    "acceptance": {
+      "llm_free": true,
+      "min_chars": 50
+    }
+  }
+]

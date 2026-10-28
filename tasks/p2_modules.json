@@ -1,0 +1,22 @@
+[
+  {
+    "task_id": "P2-modules",
+    "phase": "P2",
+    "kind": "modules",
+    "route": "local",
+    "depends_on": [
+      "P1-batch-001",
+      "P1-batch-002"
+    ],
+    "effort": "medium",
+    "max_output_tokens": 8192,
+    "max_retries": 3,
+    "timeout_sec": 900,
+    "acceptance": {
+      "min_chars": 20,
+      "required_keys": [
+        "modules"
+      ]
+    }
+  }
+]

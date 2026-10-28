@@ -1,0 +1,102 @@
+[
+  {
+    "task_id": "P1-batch-001",
+    "phase": "P1",
+    "kind": "classify",
+    "route": "local",
+    "depends_on": [
+      "P0-baseline"
+    ],
+    "input_files": [
+      "WebRoot/login.jsp",
+      "WebRoot/security/billAdd.jsp",
+      "WebRoot/security/billList.jsp",
+      "WebRoot/security/billUpdate.jsp",
+      "WebRoot/security/billView.jsp",
+      "WebRoot/security/password.jsp",
+      "WebRoot/security/productAdd.jsp",
+      "WebRoot/security/productList.jsp",
+      "WebRoot/security/productUpdate.jsp",
+      "WebRoot/security/productView.jsp",
+      "WebRoot/security/providerAdd.jsp",
+      "WebRoot/security/providerList.jsp",
+      "WebRoot/security/providerUpdate.jsp",
+      "WebRoot/security/providerView.jsp",
+      "WebRoot/security/userAdd.jsp",
+      "WebRoot/security/userList.jsp",
+      "WebRoot/security/userUpdate.jsp",
+      "WebRoot/security/userView.jsp",
+      "WebRoot/security/welcome.jsp",
+      "src/com/hy/cxp/supermarket/biz/GoodsBiz.java",
+      "src/com/hy/cxp/supermarket/biz/OrdersBiz.java",
+      "src/com/hy/cxp/supermarket/biz/SuppliersBiz.java",
+      "src/com/hy/cxp/supermarket/biz/UsersBiz.java",
+      "src/com/hy/cxp/supermarket/biz/impl/GoodsBizImpl.java",
+      "src/com/hy/cxp/supermarket/biz/impl/OrdersBizImpl.java",
+      "src/com/hy/cxp/supermarket/biz/impl/SuppliersBizImpl.java",
+      "src/com/hy/cxp/supermarket/biz/impl/UsersBizImpl.java",
+      "src/com/hy/cxp/supermarket/controller/ControllerServlet.java",
+      "src/com/hy/cxp/supermarket/dao/GoodsDao.java",
+      "src/com/hy/cxp/supermarket/dao/OrdersDao.java",
+      "src/com/hy/cxp/supermarket/dao/SuppliersDao.java",
+      "src/com/hy/cxp/supermarket/dao/UsersDao.java",
+      "src/com/hy/cxp/supermarket/dao/impl/GoodsDaoImpl.java"
+    ],
+    "effort": "medium",
+    "max_output_tokens": 8192,
+    "max_retries": 3,
+    "timeout_sec": 900,
+    "acceptance": {
+      "min_chars": 20,
+      "required_keys": [
+        "items"
+      ],
+      "regex_must": [
+        "\"layer\"\\s*:\\s*\"(jsp|servlet|biz|dao|entity|util|config|sql|other)\""
+      ]
+    }
+  },
+  {
+    "task_id": "P1-batch-002",
+    "phase": "P1",
+    "kind": "classify",
+    "route": "local",
+    "depends_on": [
+      "P0-baseline"
+    ],
+    "input_files": [
+      "src/com/hy/cxp/supermarket/dao/impl/OrdersDaoImpl.java",
+      "src/com/hy/cxp/supermarket/dao/impl/SuppliersDaoImpl.java",
+      "src/com/hy/cxp/supermarket/dao/impl/UsersDaoImpl.java",
+      "src/com/hy/cxp/supermarket/entity/Goods.java",
+      "src/com/hy/cxp/supermarket/entity/GoodsView.java",
+      "src/com/hy/cxp/supermarket/entity/Orders.java",
+      "src/com/hy/cxp/supermarket/entity/OrdersDetail.java",
+      "src/com/hy/cxp/supermarket/entity/OrdersView.java",
+      "src/com/hy/cxp/supermarket/entity/Suppliers.java",
+      "src/com/hy/cxp/supermarket/entity/Users.java",
+      "src/com/hy/cxp/supermarket/entity/UsersView.java",
+      "src/com/hy/cxp/supermarket/filter/CharacterEncodingFilter.java",
+      "src/com/hy/cxp/supermarket/filter/SercurityFilter.java",
+      "src/com/hy/cxp/supermarket/servlet/GoodsServlet.java",
+      "src/com/hy/cxp/supermarket/servlet/OrdersServlet.java",
+      "src/com/hy/cxp/supermarket/servlet/SuppliersServlet.java",
+      "src/com/hy/cxp/supermarket/servlet/UsersServlet.java",
+      "src/com/hy/cxp/supermarket/util/BaseDao.java",
+      "src/com/hy/cxp/supermarket/util/Page.java"
+    ],
+    "effort": "medium",
+    "max_output_tokens": 8192,
+    "max_retries": 3,
+    "timeout_sec": 900,
+    "acceptance": {
+      "min_chars": 20,
+      "required_keys": [
+        "items"
+      ],
+      "regex_must": [
+        "\"layer\"\\s*:\\s*\"(jsp|servlet|biz|dao|entity|util|config|sql|other)\""
+      ]
+    }
+  }
+]
