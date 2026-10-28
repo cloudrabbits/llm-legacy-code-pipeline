@@ -32,3 +32,6 @@ models/
 
 # ===== 离线依赖缓存（pip download 产物，体积大，不入库）=====
 wheels/
+
+# ===== Linux 部署：install.sh 生成的本地配置（含本机项目路径）=====
+tools/deploy/linux/nightly.env

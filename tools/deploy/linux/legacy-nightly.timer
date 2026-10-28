@@ -1,0 +1,14 @@
+[Unit]
+Description=每日 {{START_TIME}} 启动夜间分析流水线
+
+[Timer]
+# OnCalendar 等价 CalendarTrigger + ScheduleByDay(DaysInterval=1)
+OnCalendar=*-*-* {{START_TIME}}:00
+# Persistent 等价 StartWhenAvailable：错过执行点（关机）后补跑一次
+Persistent=true
+AccuracySec=1min
+RandomizedDelaySec=0
+Unit=legacy-nightly.service
+
+[Install]
+WantedBy=timers.target

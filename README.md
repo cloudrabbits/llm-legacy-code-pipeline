@@ -98,6 +98,7 @@ tasks/*.json             任务队列（pydantic 校验）
 contract_tests/          后端无关契约测试（同一套断言跑两个画像）
 tests/                   单元测试 + dry-run 集成测试
 tools/                   fetch_tokenizer / smoke_backend / plan_tasks / watchdog.ps1 / deploy/
+                         （Linux：deploy/linux/{install.sh,run_nightly.sh,watchdog.sh} + jlp.sh）
 ```
 
 **约束是自动强制的**：`tests/test_no_backend_branch.py` 会用 `tokenize` 剥掉注释与字符串，
@@ -160,6 +161,11 @@ response:
 ---
 
 ## 4. 无人值守部署（Windows）
+
+> Linux（systemd）部署见 [`tools/deploy/linux/README.md`](tools/deploy/linux/README.md)。
+> 其中 `install.sh` / `run_nightly.sh` / `watchdog.sh` 与本节 4.1–4.3 一一对应，
+> 流水线本体（`orchestrator.py` / `pipeline/` / `tools/jlp`）无需任何改动。
+> 事实层入口在 Linux 上用 `./jlp.sh`（等价 `.\jlp.ps1`）。
 
 ### 4.1 注册计划任务
 
@@ -284,6 +290,12 @@ Java/JSP/web.xml/SQL 解析、URL 路由还原、模块纵向切片、确定性�
 ```powershell
 .\jlp.ps1 -ProjectPath D:\IdeaProjects\supermarketmanager
 .\jlp.ps1 -SelfTest
+```
+
+```bash
+# Linux
+./jlp.sh --src /data/supermarketmanager
+./jlp.sh --self-test
 ```
 
 案例（`supermarketmanager`，MyEclipse 时代 JSP + Servlet + Oracle 工程）已被 `tools/jlp`

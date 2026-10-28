@@ -1,3 +1,10 @@
 *.js linguist-language=Java
 *.css linguist-language=Java
 *.html linguist-language=Java
+
+# Linux 部署资产必须 LF：CRLF 会让 shebang 变成 `#!/usr/bin/env bash\r`，
+# 也会给 systemd 的键值后面粘上 \r。Windows 侧 core.autocrlf=true 时尤其重要。
+*.sh text eol=lf
+*.service text eol=lf
+*.timer text eol=lf
+*.env text eol=lf

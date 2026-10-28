@@ -1,0 +1,12 @@
+[Unit]
+Description=每 5 分钟检查一次夜间流水线心跳
+
+[Timer]
+# 等价 Windows：schtasks /SC MINUTE /MO 5
+OnBootSec=5min
+OnUnitActiveSec=5min
+AccuracySec=1min
+Unit=legacy-watchdog.service
+
+[Install]
+WantedBy=timers.target

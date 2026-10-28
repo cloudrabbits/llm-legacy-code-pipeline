@@ -1,0 +1,19 @@
+[Unit]
+Description=Ollama Service（常驻，崩溃自动拉起）
+Documentation=file:{{REPO_ROOT}}/tools/deploy/linux/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User={{OLLAMA_USER}}
+EnvironmentFile=-{{REPO_ROOT}}/tools/deploy/linux/ollama.env
+ExecStart={{OLLAMA_BIN}} serve
+# 等价 Windows 侧的「Restart on failure, 3 次，间隔 10 秒」
+Restart=always
+RestartSec=10
+StartLimitIntervalSec=86400
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target

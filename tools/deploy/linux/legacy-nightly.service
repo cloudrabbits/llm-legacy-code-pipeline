@@ -1,0 +1,38 @@
+[Unit]
+Description=JSP/Java/Oracle 老项目夜间无人值守分析流水线
+Documentation=file:{{REPO_ROOT}}/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User={{RUN_AS}}
+WorkingDirectory={{REPO_ROOT}}
+EnvironmentFile=-{{REPO_ROOT}}/tools/deploy/linux/nightly.env
+# 日志目录要先存在，否则 StandardOutput=append: 会打不开
+ExecStartPre=/bin/sh -c 'mkdir -p "{{REPO_ROOT}}/logs"'
+# 单实例由 run_nightly.sh 内的 flock -n 保证
+# （等价 Windows task_definition.xml 的 MultipleInstancesPolicy=IgnoreNew）
+ExecStart={{REPO_ROOT}}/tools/deploy/linux/run_nightly.sh
+
+# 编排器自己守 8 小时窗口（到点停止取新任务、跑完在途任务后退出）；
+# 这里是硬兜底，等价 ExecutionTimeLimit=PT8H。
+TimeoutStartSec={{DURATION_SEC}}
+RuntimeMaxSec={{DURATION_SEC}}
+
+# 退出码 2 = 时间窗耗尽（EXIT_PARTIAL），属正常收尾，不能算失败
+SuccessExitStatus=0 2
+
+# 失败重试 3 次 × 10 分钟，等价 RestartOnFailure Interval=PT10M Count=3
+Restart=on-failure
+RestartSec=600
+StartLimitIntervalSec=86400
+StartLimitBurst=3
+
+# 等价 Windows 侧的 >> logs\orchestrator.stdout.log 2>&1
+# 注：append: 需要 systemd >= 240
+StandardOutput=append:{{REPO_ROOT}}/logs/orchestrator.stdout.log
+StandardError=append:{{REPO_ROOT}}/logs/orchestrator.stdout.log
+
+[Install]
+WantedBy=multi-user.target
