@@ -1,0 +1,24 @@
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+
+# ===== 编辑器 / OS =====
+.idea/
+.vscode/
+.DS_Store
+*.iml
+
+# ===== 本地环境 / 密钥 =====
+.env
+*.local
+
+# ===== LLM 流水线运行时产物（默认在 ~/nightly，位于仓库外）=====
+# 仅作为兜底，避免误提交本地运行态
+state.db
+work/
+out/
+logs/
+run/
+reports/
+PAUSE

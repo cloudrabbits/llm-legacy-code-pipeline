@@ -1,0 +1,21 @@
+# 任务队列（制表符分隔）。列：id phase title prompt depends output chunks priority timeout_min retries check [max_out]
+# max_out: 该任务的输出 token 预算（留空则用 MAX_OUTPUT_TOKENS 默认 3500）。
+#          实测：补丁类任务 3500 写不完 2 个文件的完整 diff，会被截断成 corrupt patch，故 T16 给 6000。
+# chunks: "-" 表示单分片；否则指向 tasks/<file>（每行：seq | 输入glob(分号分隔) | 输出分片路径）
+id	phase	title	prompt	depends	output	chunks	priority	timeout_min	retries	check	max_out
+T01	P1	代码清单与模块地图	tasks/T01.md	-	docs/arch/01-inventory.md	-	2	20	2	size>2000|heading:'^## '
+T02	P1	分层架构与调用链	tasks/T02.md	T01	docs/arch/02-architecture.md	-	2	35	2	size>3000|grep:'调用链'
+T03	P1	数据模型与SQL映射	tasks/T03.md	T01	docs/arch/03-data-model.md	-	2	35	2	size>3000|heading:'^## '
+T04	P1	鉴权与会话链路	tasks/T04.md	T01	docs/arch/04-auth-flow.md	-	3	25	2	size>2000|heading:'^## '
+T05	P1	JDBC与资源风险	tasks/T05.md	T03	docs/arch/05-risks-jdbc.md	-	3	30	2	size>2500|notgrep:'TODO'
+T06	P1	视图层与JSP结构	tasks/T06.md	T02	docs/arch/06-view-layer.md	tasks/T06.chunks.tsv	3	40	2	size>2500|heading:'^## '
+T07	P2	Maven依赖治理	tasks/T07.md	T01	docs/deps/01-maven-deps.md	-	4	25	2	size>3000|grep:'junit-jupiter'
+T08	P2	类级依赖图与耦合	tasks/T08.md	T02	docs/deps/02-class-deps.md	-	4	40	2	size>2500|heading:'^## '
+T09	P2	前端资源与第三方组件	tasks/T09.md	T06	docs/deps/03-frontend-deps.md	-	6	25	2	size>1500
+T10	P2	外部服务与运行时依赖	tasks/T10.md	T03	docs/deps/04-runtime-deps.md	-	5	25	2	size>1500|grep:'MySQL'
+T11	P3	测试策略与范围	tasks/T11.md	T05,T08	docs/test/00-strategy.md	-	5	30	2	size>2500|heading:'^## '
+T12	P3	DAO层用例	tasks/T12.md	T03,T11	docs/test/TC-dao.md	-	5	40	2	size>3000|grep:'TC-'
+T13	P3	Servlet与鉴权用例	tasks/T13.md	T04,T11	docs/test/TC-servlet-auth.md	-	5	40	2	size>3000|grep:'TC-'
+T14	P3	端到端用例与数据夹具	tasks/T14.md	T12,T13	docs/test/TC-e2e.md	-	6	40	2	size>3000|grep:'TC-'
+T15	P4	重构方案分级	tasks/T15.md	T08,T05	docs/refactor/00-plan.md	-	7	45	2	size>4000|grep:'P0'
+T16	P4	高优先级补丁定位与改动说明	tasks/T16.md	T15	docs/patches/p0-001.md	-	8	45	2	size>800|heading:'^## '

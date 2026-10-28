@@ -1,0 +1,4 @@
+# 视图层分片：JSP 单文件最长 278 行，但中文密集（约 4-5K tokens/页），两页一批可控制在 12K 输入内
+# seq | 输入 glob（分号分隔，用于白天变更失效判定） | 输出分片路径
+1	src/main/webapp/add.jsp;src/main/webapp/update.jsp	docs/arch/06-view-layer.part1.md
+2	src/main/webapp/home.jsp;src/main/webapp/detail.jsp;src/main/webapp/login.jsp	docs/arch/06-view-layer.part2.md
