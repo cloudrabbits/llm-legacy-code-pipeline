@@ -85,9 +85,8 @@ def main(argv=None) -> int:
     import stage_modules
     import stage_report
 
-    # tools/jlp/jlp.py -> tools/jlp -> tools -> <repo root>
-    repo_root = os.path.dirname(os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__))))
+    # jlp/jlp.py -> jlp -> <repo root>
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     out = args.out or os.path.join(repo_root, "out", os.path.basename(src.rstrip("\\/")) or "project")
     out = os.path.abspath(out)
     os.makedirs(out, exist_ok=True)

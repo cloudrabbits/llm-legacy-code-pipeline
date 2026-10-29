@@ -1,7 +1,7 @@
 """资源与存活监控：心跳文件 + 显存水位采样。
 
 心跳：每 30s 原子写一次 `runtime/state/heartbeat.json`；
-      看门狗（tools/watchdog.ps1）10 分钟无更新即重启编排器。
+      看门狗（ops/watchdog.ps1）10 分钟无更新即重启编排器。
 显存：每 10 个任务调一次 nvidia-smi，水位写 `logs/gpu.jsonl`，
       用于事后判断是否有显存缓慢增长（KV cache 泄漏）。
 """

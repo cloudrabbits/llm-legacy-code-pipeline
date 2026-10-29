@@ -10,8 +10,11 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# 本脚本位于 <repo>/tools/deploy/linux/，故仓库根在上三级
+# 本脚本位于 <repo>/ops/deploy/linux/，故仓库根在上三级
 REPO_ROOT="$(cd "$HERE/../../.." && pwd)"
+
+# shellcheck disable=SC1091
+source "$HERE/common.sh"
 
 # nightly.env 由 install.sh 生成，同时作为 systemd 的 EnvironmentFile。
 # 外部传入优先（systemd drop-in 的 Environment=、手动 export），nightly.env 只作兜底，
@@ -31,16 +34,9 @@ PROFILE="${_ext_profile:-${PROFILE:-ollama_qwen38}}"
 PYTHON="${_ext_python:-${PYTHON:-python3}}"
 NIGHTLY_EXTRA_ARGS="${_ext_args:-${NIGHTLY_EXTRA_ARGS:-}}"
 
-: "${PROJECT:?PROJECT 未配置，请先运行 tools/deploy/linux/install.sh}"
+: "${PROJECT:?PROJECT 未配置，请先运行 ops/deploy/linux/install.sh}"
 
-# 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
-_project_slug() {
-    local name safe
-    name="$(basename "${1%/}")"
-    name="${name:-project}"
-    safe="$(printf '%s' "$name" | sed -E 's/[^[:alnum:]._-]+/_/g')"
-    printf '%s' "${safe:-project}"
-}
+# project_slug 的唯一实现见 pipeline/util.py；shell 侧等价实现见 common.sh
 RUNTIME_SLUG="$(_project_slug "$PROJECT")"
 
 # 单实例锁按项目隔离，避免不同项目共用同一 runtime 时互相阻塞

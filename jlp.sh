@@ -13,7 +13,7 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-JLP_PY="$HERE/tools/jlp/jlp.py"
+JLP_PY="$HERE/jlp/jlp.py"
 
 [[ -f "$JLP_PY" ]] || { printf '[jlp] not found: %s（请在仓库根目录运行）\n' "$JLP_PY" >&2; exit 2; }
 

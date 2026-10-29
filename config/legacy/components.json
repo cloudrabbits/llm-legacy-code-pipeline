@@ -1,6 +1,6 @@
 {
   "_schema": {
-    "_doc": "组件改造台账。与 tools/jlp/lib_registry.py 内置基线按 id 归并：同 id 覆盖，新 id 追加。内置基类已覆盖 ant / velocity / ibatis2 / quartz / poi / axis / dom4j / commons-* / servlet-api / jce-sunjce，这里只填项目专属或闭源组件。",
+    "_doc": "组件改造台账。与 jlp/lib_registry.py 内置基线按 id 归并：同 id 覆盖，新 id 追加。内置基类已覆盖 ant / velocity / ibatis2 / quartz / poi / axis / dom4j / commons-* / servlet-api / jce-sunjce，这里只填项目专属或闭源组件。",
     "id": "唯一标识，覆盖内置项时用内置 id（如 ibatis2）",
     "name": "可读名",
     "category": "构建|视图/模板|持久层|调度|文档处理|WebService|XML 处理|工具库|数据源|日志|安全/平台 API|平台 API|闭源组件",

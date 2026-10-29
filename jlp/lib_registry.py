@@ -14,7 +14,7 @@
     * `modules`：整体对象覆盖（缺省字段回落到代码默认行为）。
     * `enabled: false` 的条目整体不生效，留作模板占位。
 
-设计约束（与 tools/jlp 一致）：
+设计约束（与 jlp 一致）：
     * 只用标准库，Python >= 3.8；只读磁盘，不编译、不执行、不联网。
     * 配置缺失 = 该扩展口子不启用；配置**非法** = 直接抛 ValueError（快速失败，不静默降级）。
 """
@@ -59,8 +59,8 @@ DEFAULT_SECTIONS = {
     "modules": ("modules.json", "modules"),
 }
 
-# tools/jlp/lib_registry.py -> tools/jlp -> tools -> <仓库根>
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# jlp/lib_registry.py -> jlp -> <仓库根>
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 _DEFAULT_DIR = os.path.join(_REPO_ROOT, "config", "legacy")
 _OVERRIDE_DIR: str | None = None

@@ -1,7 +1,7 @@
 """后端冒烟自检：用极小请求验证画像真的能跑通。
 
-    python tools/smoke_backend.py --profile deepseek_sim_qwen38
-    python tools/smoke_backend.py --profile ollama_qwen38 --effort off
+    python ops/smoke_backend.py --profile deepseek_sim_qwen38
+    python ops/smoke_backend.py --profile ollama_qwen38 --effort off
 
 会分别以指定档位发一个最小请求，打印归一化结果与标记位。
 用于：① 上线前确认参数名没写错；② 内网切换后确认服务可达。
@@ -14,7 +14,7 @@ import json
 import os
 import sys
 
-# 允许以 `python tools/smoke_backend.py` 直接运行
+# 允许以 `python ops/smoke_backend.py` 直接运行
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pipeline.backend import Backend  # noqa: E402

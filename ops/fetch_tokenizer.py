@@ -1,9 +1,9 @@
 """下载并缓存 Qwen BPE 词表，供离线 token 估算使用。
 
 用法：
-    python tools/fetch_tokenizer.py                 # 默认 Qwen2.5-32B 词表
-    python tools/fetch_tokenizer.py --repo Qwen/Qwen3-32B
-    python tools/fetch_tokenizer.py --check         # 只检查本地缓存是否可用
+    python ops/fetch_tokenizer.py                 # 默认 Qwen2.5-32B 词表
+    python ops/fetch_tokenizer.py --repo Qwen/Qwen3-32B
+    python ops/fetch_tokenizer.py --check         # 只检查本地缓存是否可用
 
 只需在外网跑一次；内网把整个 `models/qwen2_bpe/` 目录拷过去即可离线工作。
 Qwen2 / Qwen3 共用同一套 151k BPE 词表。

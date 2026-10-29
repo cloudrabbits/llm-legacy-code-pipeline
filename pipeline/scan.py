@@ -1,6 +1,6 @@
-"""事实层：调用仓库里既有的静态分析器 `tools/jlp` 取结构化事实。
+"""事实层：调用仓库里既有的静态分析器 `jlp` 取结构化事实。
 
-原则（沿用 tools/jlp 的「事实优先」）：
+原则（沿用 jlp 的「事实优先」）：
     **数量、清单、依赖边一律由脚本算出**；LLM 只负责归类、归并、叙述，
     不允许产生事实。因此 P0 / P2 / P3 的骨架全部来自这里。
 """
@@ -16,17 +16,17 @@ from .context import Block
 from .errors import ConfigError
 
 __all__ = ["ROOT", "JLP_DIR", "load_jlp", "load_registry", "load_project_facts",
-           "component_ledger", "platform_deps", "strip_bodies", "source_blocks", "read_source"]
+           "component_ledger", "platform_deps", "source_blocks", "read_source", "rel_list"]
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-JLP_DIR = os.path.join(ROOT, "tools", "jlp")
+JLP_DIR = os.path.join(ROOT, "jlp")
 
 #: 单文件送入 LLM 的最大字符数（超出截断并标注，避免单块吃掉整个预算）
 DEFAULT_MAX_CHARS = 20_000
 
 
 def _load_module(name: str, path: str):
-    """按文件路径加载模块（tools/jlp 不是包，不能 import）。"""
+    """按文件路径加载模块（jlp/ 不是可 import 的包，只能按路径加载）。"""
     if not os.path.exists(path):
         raise ConfigError(f"缺少静态分析器: {path}")
     spec = importlib.util.spec_from_file_location(name, path)
@@ -43,8 +43,8 @@ _JLP_CACHE: dict[str, Any] = {}
 def load_jlp() -> tuple[Any, Any]:
     """加载 `lib_scan` 与 `lib_model`。
 
-    `tools/jlp` 内部的模块之间用的是裸 import（`from lib_scan import ...`），
-    因此需要把该目录临时放进 `sys.path`。
+    `jlp/` 内部的模块之间用的是裸 import（`from lib_scan import ...`），
+    因此需要把该目录临时放进 `sys.path`（与 `jlp/jlp.py` 的做法一致）。
     """
     if "scan" in _JLP_CACHE:
         return _JLP_CACHE["scan"], _JLP_CACHE["model"]
@@ -68,13 +68,6 @@ def load_registry() -> Any:
     lib_registry = _load_module("jlp_lib_registry", os.path.join(JLP_DIR, "lib_registry.py"))
     _JLP_CACHE["registry"] = lib_registry
     return lib_registry
-
-
-def strip_bodies(project: dict) -> dict:
-    """剥离 `_body`（源码正文只用于构造 prompt，不进产物 JSON）。"""
-    for unit in project.get("java") or []:
-        unit.pop("_body", None)
-    return project
 
 
 def load_project_facts(project_root: str, *, exclude_dirs: Sequence[str] = ()) -> dict:
@@ -112,27 +105,19 @@ def platform_deps(facts: dict) -> list[dict]:
     return list((facts.get("project") or {}).get("platform_deps") or [])
 
 
-def module_names(facts: dict) -> list[str]:
-    """脚本切分出的模块名（`domain`），供 P4 生成每个模块的摘要任务。"""
-    names = []
-    for mod in facts.get("modules") or []:
-        name = (mod or {}).get("domain")
-        if name:
-            names.append(name)
-    return names
-
-
 def read_source(rel: str, project_root: str | None = None) -> str:
-    """按老项目常见的混编码降级读取源码：`utf-8-sig -> utf-8 -> gb18030 -> latin-1`。"""
+    """按老项目常见的混编码降级读取源码。
+
+    降级链**不在本文件实现**——复用 `jlp/lib_scan._decode`
+    （`utf-8-sig -> utf-8 -> gb18030 -> big5 -> latin-1`，兜底 `replace`）。
+    同一份文件会被「事实层扫描」与「流水线重读」两条路径解码，
+    两边必须走同一条链，否则构造 prompt 时的 token 估算会与实际产物出现偏差。
+    """
+    lib_scan, _ = load_jlp()
     path = rel if os.path.isabs(rel) else os.path.join(project_root or "", rel)
-    for encoding in ("utf-8-sig", "utf-8", "gb18030", "big5", "latin-1"):
-        try:
-            with open(path, "r", encoding=encoding) as fh:
-                return fh.read()
-        except (UnicodeDecodeError, LookupError):
-            continue
-    with open(path, "rb") as fh:  # 最后兜底：二进制也能读，只是可能有乱码
-        return fh.read().decode("utf-8", errors="replace")
+    with open(path, "rb") as fh:
+        text, _encoding = lib_scan._decode(fh.read())
+    return text
 
 
 def _truncate(text: str, max_chars: int) -> str:

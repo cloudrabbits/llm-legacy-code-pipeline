@@ -2,7 +2,7 @@
 <!--
   夜间流水线的计划任务定义（非「基本任务」模式）。
 
-  占位符由 tools/deploy/register_task.ps1 替换：
+  占位符由 ops/deploy/register_task.ps1 替换：
     {{REPO_ROOT}}   仓库根目录
     {{PROJECT}}     被分析项目路径
     {{PROFILE}}     后端画像名

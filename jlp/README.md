@@ -17,11 +17,11 @@
 
 ```bash
 # 跨平台
-python tools/jlp/jlp.py --src /path/to/project --out ./out/project
-python tools/jlp/jlp.py --self-test
-python tools/jlp/jlp.py --src X --stages structure,deps
-python tools/jlp/jlp.py --src X --facts-only
-python tools/jlp/jlp.py --src X --llm-url http://127.0.0.1:11434/api/generate --llm-model qwen2.5:7b
+python jlp/jlp.py --src /path/to/project --out ./out/project
+python jlp/jlp.py --self-test
+python jlp/jlp.py --src X --stages structure,deps
+python jlp/jlp.py --src X --facts-only
+python jlp/jlp.py --src X --llm-url http://127.0.0.1:11434/api/generate --llm-model qwen2.5:7b
 ```
 
 ### 命令行参数
@@ -149,7 +149,7 @@ utf-8-sig → utf-8 → gb18030 → big5 → latin-1
 ## 自检
 
 ```powershell
-python tools/jlp/jlp.py --self-test
+python jlp/jlp.py --self-test
 ```
 
 合成一个 8 类 / 3 页的迷你工程（含 GBK 编码的 `.sql` 与 `.jsp`、前端控制器、

@@ -19,6 +19,11 @@ import pytest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 #: 编排侧源码（profiles/ 包是唯一的后端差异收敛点，不在扫描范围内）
+#:
+#: ★ 这里是**硬约束**：一旦某个文件被重命名/移动而没有同步本清单，测试会
+#: **失败**而不是跳过——历史上 `pipeline/stages.py` 拆成 `pipeline/stages/`
+#: 包后，本清单仍写着旧路径，而当时的逻辑是 `pytest.skip`，于是 677 行的阶段
+#: 代码在无人察觉的情况下脱离了「禁止后端判别分支」的约束检查。
 SCANNED = [
     "pipeline/backend.py",
     "pipeline/executor.py",
@@ -35,10 +40,18 @@ SCANNED = [
     "pipeline/checkpoint.py",
     "pipeline/artifacts.py",
     "pipeline/monitor.py",
-    "pipeline/stages.py",
     "pipeline/scan.py",
     "pipeline/acceptance.py",
     "pipeline/logging_setup.py",
+    # stages 由单个 stages.py 拆成的包：每个模块都要纳入扫描
+    "pipeline/stages/__init__.py",
+    "pipeline/stages/common.py",
+    "pipeline/stages/p0_baseline.py",
+    "pipeline/stages/p1_classify.py",
+    "pipeline/stages/p2_modules.py",
+    "pipeline/stages/p3_deps.py",
+    "pipeline/stages/p4_architecture.py",
+    "pipeline/stages/p5_report.py",
 ]
 
 FORBIDDEN = ["deepseek", "ollama", "qwen3", "provider"]
@@ -58,7 +71,12 @@ def code_only(source: str) -> str:
 def test_no_backend_specific_branch(rel_path: str):
     path = os.path.join(REPO_ROOT, rel_path)
     if not os.path.exists(path):
-        pytest.skip(f"{rel_path} 尚未实现（后续里程碑纳入）")
+        # 不跳过：文件缺失几乎总是「重命名/移动后忘了同步 SCANNED」，
+        # 静默跳过会让该文件在无人知晓的情况下脱离架构约束。
+        pytest.fail(
+            f"架构约束扫描目标不存在：{rel_path}。"
+            f"若该文件已被重命名或移动，请同步更新本文件的 SCANNED 清单。"
+        )
     with open(path, "r", encoding="utf-8") as fh:
         code = code_only(fh.read())
     for token in FORBIDDEN:
@@ -72,7 +90,8 @@ def test_profiles_package_is_the_only_place_with_backend_names():
         os.path.join(REPO_ROOT, "config"),
         os.path.join(REPO_ROOT, "contract_tests"),
         os.path.join(REPO_ROOT, "tests"),
-        os.path.join(REPO_ROOT, "tools"),
+        os.path.join(REPO_ROOT, "ops"),    # 运维脚本（profile 名/厂商词是合法输入）
+        os.path.join(REPO_ROOT, "jlp"),    # 静态事实层（只读解析，与后端无关）
     )
     offenders = []
     for dirpath, dirnames, filenames in os.walk(REPO_ROOT):

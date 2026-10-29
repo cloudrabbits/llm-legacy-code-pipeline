@@ -36,7 +36,7 @@ try {
 } catch { }
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$JlpPy     = Join-Path $ScriptDir 'tools\jlp\jlp.py'
+$JlpPy     = Join-Path $ScriptDir 'jlp\jlp.py'
 
 if (-not (Test-Path -LiteralPath $JlpPy)) {
     Write-Host "[jlp] not found: $JlpPy (run from repo root)" -ForegroundColor Red

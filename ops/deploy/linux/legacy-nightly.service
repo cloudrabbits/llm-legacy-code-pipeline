@@ -8,12 +8,12 @@ Wants=network-online.target
 Type=oneshot
 User={{RUN_AS}}
 WorkingDirectory={{REPO_ROOT}}
-EnvironmentFile=-{{REPO_ROOT}}/tools/deploy/linux/nightly.env
+EnvironmentFile=-{{REPO_ROOT}}/ops/deploy/linux/nightly.env
 # 日志目录要先存在，否则 StandardOutput=append: 会打不开
 ExecStartPre=/bin/sh -c 'mkdir -p "{{REPO_ROOT}}/logs"'
 # 单实例由 run_nightly.sh 内的 flock -n 保证
 # （等价 Windows task_definition.xml 的 MultipleInstancesPolicy=IgnoreNew）
-ExecStart={{REPO_ROOT}}/tools/deploy/linux/run_nightly.sh
+ExecStart={{REPO_ROOT}}/ops/deploy/linux/run_nightly.sh
 
 # 编排器自己守 8 小时窗口（到点停止取新任务、跑完在途任务后退出）；
 # 这里是硬兜底，等价 ExecutionTimeLimit=PT8H。

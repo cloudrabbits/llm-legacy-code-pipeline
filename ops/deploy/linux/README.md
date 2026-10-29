@@ -1,18 +1,18 @@
 # Linux 部署（systemd）
 
-Windows 侧 `tools/deploy/*.ps1` + `tools/watchdog.ps1` 的 Linux 对应物。
-流水线核心（`orchestrator.py` / `pipeline/` / `tools/jlp`）本身跨平台，本目录只补**外围运维**。
+Windows 侧 `ops/deploy/*.ps1` + `ops/watchdog.ps1` 的 Linux 对应物。
+流水线核心（`orchestrator.py` / `pipeline/` / `jlp`）本身跨平台，本目录只补**外围运维**。
 
 ## 文件对照
 
 | Linux | Windows 对应 | 作用 |
 |---|---|---|
-| `install.sh` | `tools/deploy/register_task.ps1` + `task_definition.xml` | 渲染单元模板、安装、启用/禁用定时器 |
+| `install.sh` | `ops/deploy/register_task.ps1` + `task_definition.xml` | 渲染单元模板、安装、启用/禁用定时器 |
 | `run_nightly.sh` | `task_definition.xml` 的 `<Exec>` | 单实例（flock）启动编排器 |
-| `watchdog.sh` | `tools/watchdog.ps1` | 心跳超时则杀僵死进程并重启 |
+| `watchdog.sh` | `ops/watchdog.ps1` | 心跳超时则杀僵死进程并重启 |
 | `legacy-nightly.service/.timer` | 计划任务 `LegacyCodeNightly` | 每日定时 + 8 小时上限 + 失败重试 |
 | `legacy-watchdog.service/.timer` | 计划任务 `LegacyCodeNightlyWatchdog` | 每 5 分钟做一次心跳检查 |
-| `ollama.env` | `tools/deploy/env_ollama.ps1` | Ollama 资源稳定性环境变量 |
+| `ollama.env` | `ops/deploy/env_ollama.ps1` | Ollama 资源稳定性环境变量 |
 | `ollama.service` | `ollama_service.md` 的方式二/三 | Ollama 常驻 + 崩溃自动拉起 |
 | `nightly.env` | （由 install.sh 生成） | PROJECT / PROFILE / 心跳路径等，兼作 systemd `EnvironmentFile` |
 | `../../jlp.sh` | `jlp.ps1` | 事实层分析器入口 |
@@ -32,7 +32,7 @@ sudo localectl set-locale LANG=C.UTF-8
 sudo git clone <repo> /opt/llm-legacy-code-pipeline
 cd /opt/llm-legacy-code-pipeline
 python3 -m pip install -r requirements.txt
-python3 tools/fetch_tokenizer.py            # Qwen 词表，只需一次
+python3 ops/fetch_tokenizer.py            # Qwen 词表，只需一次
 
 # 自检（应与 Windows 上同样是 116 passed）
 python3 -m pytest contract_tests tests -q
@@ -44,7 +44,7 @@ python3 -m pytest contract_tests tests -q
 若 clone 后脚本没有可执行位（`bash: ./install.sh: Permission denied`）：
 
 ```bash
-chmod +x tools/deploy/linux/*.sh jlp.sh
+chmod +x ops/deploy/linux/*.sh jlp.sh
 ```
 
 （`install.sh` 本身也会给这几个脚本补一次 `chmod 0755`。）
@@ -56,7 +56,7 @@ chmod +x tools/deploy/linux/*.sh jlp.sh
 ### 方式 A：注册但保持定时器 disabled（推荐首夜，等价 `-Manual`）
 
 ```bash
-sudo tools/deploy/linux/install.sh \
+sudo ops/deploy/linux/install.sh \
     --project /data/supermarketmanager \
     --profile ollama_qwen38 \
     --manual
@@ -69,7 +69,7 @@ sudo systemctl status legacy-nightly
 ### 方式 B：每日 01:00 自动启动，最长 8 小时（等价 `-Schedule -Start 01:00`）
 
 ```bash
-sudo tools/deploy/linux/install.sh \
+sudo ops/deploy/linux/install.sh \
     --project /data/supermarketmanager \
     --profile ollama_qwen38 \
     --schedule --start 01:00 --duration 8h
@@ -86,7 +86,7 @@ sudo tools/deploy/linux/install.sh \
 --user             # 安装为 ~/.config/systemd/user 下的用户单元，无需 root
 --duration 480m    # 改动时长上限（systemd 时间跨度）
 --python /usr/bin/python3.11
-sudo tools/deploy/linux/install.sh --uninstall        # 卸载（--user 模式加 --user）
+sudo ops/deploy/linux/install.sh --uninstall        # 卸载（--user 模式加 --user）
 ```
 
 用户单元在会话退出后会停，服务器场景需要：
@@ -118,7 +118,7 @@ sudo loginctl enable-linger "$USER"
 `legacy-watchdog.timer` 每 5 分钟调起一次 `watchdog.sh` 做**单次**检查
 （与 Windows 版一致：不做常驻进程）。
 
-判定逻辑与 `tools/watchdog.ps1` 完全相同：
+判定逻辑与 `ops/watchdog.ps1` 完全相同：
 
 - 心跳文件不存在 → 视为从未启动，跳过（避免无限重启）；
 - 心跳不可解析 → 按超时处理；
@@ -129,7 +129,7 @@ sudo loginctl enable-linger "$USER"
 ```bash
 sudo systemctl start legacy-watchdog              # 手动检查一次
 tail -f logs/watchdog.log
-./tools/deploy/linux/watchdog.sh --dry-run        # 只判断不动作
+./ops/deploy/linux/watchdog.sh --dry-run        # 只判断不动作
 ```
 
 ---
@@ -138,7 +138,7 @@ tail -f logs/watchdog.log
 
 ```bash
 # 变量含义见 ollama.env 里的注释；改完需重启服务才生效
-sudo tools/deploy/linux/install.sh --project /data/supermarketmanager --with-ollama \
+sudo ops/deploy/linux/install.sh --project /data/supermarketmanager --with-ollama \
     --ollama-bin /usr/local/bin/ollama --ollama-user ollama
 
 sudo systemctl status ollama
@@ -151,7 +151,7 @@ curl http://127.0.0.1:11434/api/tags
 ```ini
 # sudo systemctl edit ollama
 [Service]
-EnvironmentFile=/opt/llm-legacy-code-pipeline/tools/deploy/linux/ollama.env
+EnvironmentFile=/opt/llm-legacy-code-pipeline/ops/deploy/linux/ollama.env
 ```
 
 `num_ctx` **不在环境变量里设**：编排器对每个请求显式下发 `options.num_ctx=92160`，
@@ -163,8 +163,8 @@ EnvironmentFile=/opt/llm-legacy-code-pipeline/tools/deploy/linux/ollama.env
 
 ```bash
 # crontab -e
-0 1   * * * cd /opt/llm-legacy-code-pipeline && ./tools/deploy/linux/run_nightly.sh  >> logs/cron.log 2>&1
-*/5 * * * * cd /opt/llm-legacy-code-pipeline && ./tools/deploy/linux/watchdog.sh      >> logs/cron.log 2>&1
+0 1   * * * cd /opt/llm-legacy-code-pipeline && ./ops/deploy/linux/run_nightly.sh  >> logs/cron.log 2>&1
+*/5 * * * * cd /opt/llm-legacy-code-pipeline && ./ops/deploy/linux/watchdog.sh      >> logs/cron.log 2>&1
 ```
 
 cron 环境里 `PATH` 很窄，且默认 locale 是 `C`，建议在 crontab 顶部加：
@@ -178,7 +178,7 @@ PYTHONUTF8=1
 容器里没有 cron 时，让看门狗常驻即可（它顺带承担重启职责，但**首次启动仍需手动**）：
 
 ```bash
-./tools/deploy/linux/watchdog.sh --loop --interval 300
+./ops/deploy/linux/watchdog.sh --loop --interval 300
 ```
 
 ---
@@ -186,7 +186,7 @@ PYTHONUTF8=1
 ## 5. 验收清单（迁移当天）
 
 - [ ] `python3 -m pytest contract_tests tests -q` 全绿（与 Windows 同数：116 passed）
-- [ ] `python3 tools/smoke_backend.py --profile ollama_qwen38 --effort off` 能拿到结果
+- [ ] `python3 ops/smoke_backend.py --profile ollama_qwen38 --effort off` 能拿到结果
 - [ ] `models/qwen2_bpe/tokenizer.json` 已就位（否则 token 估算退化为启发式 ×1.18）
 - [ ] `systemctl status legacy-nightly` 一次手动跑完整，退出码 0 或 2
 - [ ] `logs/orchestrator.stdout.log` 与 `logs/orchestrator.log` 中文正常（无 `?`/乱码）
@@ -211,7 +211,7 @@ PYTHONUTF8=1
 
 ## 7. 与 Windows 的行为差异（仅此两处）
 
-1. **文件系统大小写敏感**：Linux 区分大小写，`tools/jlp/lib_model.py` 按字面的
+1. **文件系统大小写敏感**：Linux 区分大小写，`jlp/lib_model.py` 按字面的
    `WebRoot` 匹配目录；老工程若实际目录叫 `webroot`，Windows 能匹配而 Linux 不能。
 2. **日志轮转**：Windows 侧靠 `TimedRotatingFileHandler`（保留 14 天）+ 计划任务重定向；
    Linux 侧同样靠 `TimedRotatingFileHandler`，但 `orchestrator.stdout.log` 会一直追加，

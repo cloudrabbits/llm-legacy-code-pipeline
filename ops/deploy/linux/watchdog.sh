@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# 编排器看门狗（tools/watchdog.ps1 的 Linux 版）。
+# 编排器看门狗（ops/watchdog.ps1 的 Linux 版）。
 #
 # 行为与 Windows 版一致：
 #   * 心跳由 orchestrator.py 每 30s 原子写一次 runtime/state/heartbeat.json；
@@ -10,30 +10,26 @@
 #   * 心跳不可解析 = 按超时处理。
 #
 # 用法：
-#   tools/deploy/linux/watchdog.sh                 # 检查一次
-#   tools/deploy/linux/watchdog.sh --loop          # 常驻，每 300s 检查一次
-#   tools/deploy/linux/watchdog.sh --loop --interval 60
-#   tools/deploy/linux/watchdog.sh --dry-run       # 只打印判断，不杀不重启
+#   ops/deploy/linux/watchdog.sh                 # 检查一次
+#   ops/deploy/linux/watchdog.sh --loop          # 常驻，每 300s 检查一次
+#   ops/deploy/linux/watchdog.sh --loop --interval 60
+#   ops/deploy/linux/watchdog.sh --dry-run       # 只打印判断，不杀不重启
 #
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# 本脚本位于 <repo>/tools/deploy/linux/，故仓库根在上三级
+# 本脚本位于 <repo>/ops/deploy/linux/，故仓库根在上三级
 REPO_ROOT="$(cd "$HERE/../../.." && pwd)"
+
+# shellcheck disable=SC1091
+source "$HERE/common.sh"
 
 if [[ -f "$HERE/nightly.env" ]]; then
     # shellcheck disable=SC1091
     source "$HERE/nightly.env"
 fi
 
-# 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
-_project_slug() {
-    local name safe
-    name="$(basename "${1%/}")"
-    name="${name:-project}"
-    safe="$(printf '%s' "$name" | sed -E 's/[^[:alnum:]._-]+/_/g')"
-    printf '%s' "${safe:-project}"
-}
+# project_slug 的唯一实现见 pipeline/util.py， shell 侧等价实现见 common.sh
 RUNTIME_SLUG="$(_project_slug "${PROJECT:-}")"
 
 # 心跳按项目隔离，避免不同项目共用同一 runtime 时看门狗误判

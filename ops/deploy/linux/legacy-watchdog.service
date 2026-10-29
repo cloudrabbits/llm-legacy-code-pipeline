@@ -1,13 +1,13 @@
 [Unit]
 Description=夜间流水线看门狗（单次心跳检查）
-Documentation=file:{{REPO_ROOT}}/tools/deploy/linux/README.md
+Documentation=file:{{REPO_ROOT}}/ops/deploy/linux/README.md
 After=legacy-nightly.service
 
 [Service]
 Type=oneshot
 User={{RUN_AS}}
 WorkingDirectory={{REPO_ROOT}}
-EnvironmentFile=-{{REPO_ROOT}}/tools/deploy/linux/nightly.env
+EnvironmentFile=-{{REPO_ROOT}}/ops/deploy/linux/nightly.env
 ExecStartPre=/bin/sh -c 'mkdir -p "{{REPO_ROOT}}/logs"'
 # 默认只检查一次；常驻模式请用 ExecStart 加 --loop（见 README「无 systemd」一节）
-ExecStart={{REPO_ROOT}}/tools/deploy/linux/watchdog.sh
+ExecStart={{REPO_ROOT}}/ops/deploy/linux/watchdog.sh

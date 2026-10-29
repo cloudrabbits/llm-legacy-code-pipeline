@@ -62,6 +62,6 @@ options:
   keep_alive: 30m
 
 notes: |
-  本机 Ollama 验证用。宿主环境变量（参考 tools/deploy/env_ollama.ps1）：
+  本机 Ollama 验证用。宿主环境变量（参考 ops/deploy/env_ollama.ps1）：
     OLLAMA_NUM_PARALLEL=1  OLLAMA_MAX_LOADED_MODELS=1
     OLLAMA_KEEP_ALIVE=30m  OLLAMA_LOAD_TIMEOUT=900

@@ -9,7 +9,7 @@
 
 .EXAMPLE
     # 注册但默认禁用（推荐首夜）
-    powershell -ExecutionPolicy Bypass -File tools\deploy\register_task.ps1 `
+    powershell -ExecutionPolicy Bypass -File ops/deploy\register_task.ps1 `
         -Project D:\IdeaProjects\supermarketmanager -Manual
 
 .EXAMPLE

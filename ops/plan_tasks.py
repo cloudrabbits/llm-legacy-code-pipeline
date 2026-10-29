@@ -3,8 +3,8 @@
 按目标项目的真实规模切批：P1 的输入批由 Qwen tokenizer 估算后装箱，
 保证每批都不超过输入预算（超预算的任务在客户端会被拒，等于白排一晚）。
 
-    python tools/plan_tasks.py --project D:\\IdeaProjects\\supermarketmanager
-    python tools/plan_tasks.py --project <path> --limit-p1 2     # 首夜抽样试点
+    python ops/plan_tasks.py --project D:\\IdeaProjects\\supermarketmanager
+    python ops/plan_tasks.py --project <path> --limit-p1 2     # 首夜抽样试点
 """
 
 from __future__ import annotations
@@ -16,12 +16,11 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pipeline.scan import load_project_facts, read_source, rel_list  # noqa: E402
+from pipeline.scan import DEFAULT_MAX_CHARS, load_project_facts, read_source, rel_list  # noqa: E402
 from pipeline.context import plan_batches  # noqa: E402
 from pipeline.tokenizer import Tokenizer  # noqa: E402
 
 DEFAULT_BATCH_TOKENS = 30_000
-DEFAULT_MAX_CHARS = 20_000
 
 
 def build(project_root: str, *, batch_tokens: int, limit_p1: int | None, effort: str) -> dict[str, list[dict]]:

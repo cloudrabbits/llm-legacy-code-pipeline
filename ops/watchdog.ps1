@@ -9,12 +9,12 @@
 
 .EXAMPLE
     # 手动检查一次
-    powershell -ExecutionPolicy Bypass -File tools\watchdog.ps1 -Project D:\IdeaProjects\supermarketmanager
+    powershell -ExecutionPolicy Bypass -File ops/watchdog.ps1 -Project D:\IdeaProjects\supermarketmanager
 
 .EXAMPLE
     # 注册为每 5 分钟运行一次的守护任务
     schtasks /Create /TN "LegacyCodeNightlyWatchdog" /SC MINUTE /MO 5 /RU SYSTEM /RL HIGHEST ^
-      /TR "powershell -ExecutionPolicy Bypass -File D:\IdeaProjects\llm-legacy-code-pipeline\tools\watchdog.ps1 -Project D:\IdeaProjects\supermarketmanager" /F
+      /TR "powershell -ExecutionPolicy Bypass -File D:\IdeaProjects\llm-legacy-code-pipeline\ops/watchdog.ps1 -Project D:\IdeaProjects\supermarketmanager" /F
 #>
 param(
     [string]$Project,
@@ -34,15 +34,9 @@ param(
     -HeartbeatPath 可强制覆盖（兼容旧布局或自定义 --runtime）。
 #>
 
-function Get-ProjectSlug([string]$Project) {
-    # 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
-    $raw = $Project.TrimEnd('\', '/')
-    $name = Split-Path -Leaf $raw
-    if (-not $name) { $name = 'project' }
-    $safe = $name -replace '[^A-Za-z0-9._-]+', '_'
-    if (-not $safe) { $safe = 'project' }
-    return $safe
-}
+# Get-ProjectSlug 来自 ops/deploy/common.ps1（Linux 侧对应 common.sh），
+# 便于 tests/test_slug_consistency.py 单独加载校验，而不必 dot-source 整个看门狗。
+. (Join-Path $PSScriptRoot 'deploy\common.ps1')
 
 if (-not $HeartbeatPath) {
     $slug = Get-ProjectSlug $Project

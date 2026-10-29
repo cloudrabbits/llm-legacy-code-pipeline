@@ -4,7 +4,7 @@
 > Ant / Velocity / iBATIS 2 / Quartz / Apache POI / Axis / Commons 系列 /
 > dom4j / Servlet API / JCE Provider(Sun) 以及若干闭源框架平台组件。
 >
-> 本方案由 `llm-legacy-code-pipeline` 的静态事实层（`tools/jlp`）支撑：
+> 本方案由 `llm-legacy-code-pipeline` 的静态事实层（`jlp`）支撑：
 > **清单、数量、依赖边一律脚本产出**，LLM 只做叙述与归并，不产生事实。
 
 ---
@@ -31,8 +31,8 @@
 
 | 约束 | 说明 | 落点 |
 |---|---|---|
-| C1 只读 | 不编译、不执行、不联网、不写入被分析目录 | `tools/jlp` 全流程 |
-| C2 零第三方依赖 | 事实层只用 Python 标准库（≥3.8），扩展配置用 **JSON** 而非 YAML | `tools/jlp/lib_registry.py` |
+| C1 只读 | 不编译、不执行、不联网、不写入被分析目录 | `jlp` 全流程 |
+| C2 零第三方依赖 | 事实层只用 Python 标准库（≥3.8），扩展配置用 **JSON** 而非 YAML | `jlp/lib_registry.py` |
 | C3 事实优先 | 数量/清单/依赖边由脚本产出，LLM 不得生成事实 | `pipeline/stages.py` P0/P2/P3 |
 | C4 后端无关 | `pipeline/`、`orchestrator.py` 中不得出现后端名 | `tests/test_no_backend_branch.py` |
 | C5 快速失败 | 扩展配置**非法**直接抛错，不静默降级；**缺失**则视为该口子未启用 | `lib_registry.load()` |
@@ -49,8 +49,8 @@
 | 模块边界配置 | `config/legacy/modules.json` | JSON | 架构组 |
 | 风险规则配置 | `config/legacy/risk_rules.json` | JSON | 架构组 + 安全 |
 | 事实产物 | `runtime/<slug>/artifacts/p0/inventory.json`、`p0/baseline.md` | JSON + Markdown（自动生成） | 流水线 |
-| 依赖与台账报告 | `out/<项目>/02-dependencies.md`、`facts.json` | Markdown + JSON（自动生成） | `tools/jlp` |
-| 风险清单 | `out/<项目>/10-requirement-analysis.md` | Markdown（自动生成） | `tools/jlp` |
+| 依赖与台账报告 | `out/<项目>/02-dependencies.md`、`facts.json` | Markdown + JSON（自动生成） | `jlp` |
+| 风险清单 | `out/<项目>/10-requirement-analysis.md` | Markdown（自动生成） | `jlp` |
 | 回归证据 | `tests/test_legacy_registry.py` | pytest | 架构组 |
 
 命令：
@@ -59,7 +59,7 @@
 # 事实层单独跑（不改被分析项目）
 .\jlp.ps1 -ProjectPath D:\IdeaProjects\supermarketmanager
 # 指定另一套扩展配置（如内网项目 A / 项目 B 各一套）
-python tools/jlp/jlp.py --src <项目> --rules D:\rules\projA
+python jlp/jlp.py --src <项目> --rules D:\rules\projA
 # 流水线（含 P0 基线里的组件台账）
 python orchestrator.py --project <项目> --profile ollama_qwen38
 ```
@@ -228,7 +228,7 @@ JDK/容器版本定档 ──► javax -> jakarta（S4，全量改名）
 ### 5.3 与本流水线的对接
 
 - **改造前**：跑一次 P0–P5，产物作为"改造前基线"归档（`runtime/<slug>/` 已按项目隔离）。
-- **改造中**：每个阶段结束后重跑 `tools/jlp`，diff 两份 `facts.json` 的
+- **改造中**：每个阶段结束后重跑 `jlp`，diff 两份 `facts.json` 的
   `components` / `platform_deps` / 风险清单，确认"组件只减不增、风险只降不升"。
 - **改造后**：P3 的跨层违规数、P4 的风险条目数应不高于基线；晨报 `p5/nightly_report.md`
   直接作为阶段验收材料的索引。
@@ -237,7 +237,7 @@ JDK/容器版本定档 ──► javax -> jakarta（S4，全量改名）
 
 ## 6. 扩展口子（预留，供后续自行补充）
 
-四个口子统一放在 `config/legacy/`（JSON，纯标准库可读），由 `tools/jlp/lib_registry.py` 加载：
+四个口子统一放在 `config/legacy/`（JSON，纯标准库可读），由 `jlp/lib_registry.py` 加载：
 
 | 文件 | 解决什么 | 默认行为 |
 |---|---|---|
@@ -372,7 +372,7 @@ JDK/容器版本定档 ──► javax -> jakarta（S4，全量改名）
 #    config\legacy\risk_rules.json
 
 # 5) 回归验证：改造后重跑，diff 两份 facts.json
-python tools/jlp/jlp.py --src <项目> --out out\<项目>_after
+python jlp/jlp.py --src <项目> --out out\<项目>_after
 #    关注：components 只减不增、platform_deps 版本线索上升、风险条目不增加
 
 # 6) 流水线（夜间无人值守，P0 基线自带组件台账）

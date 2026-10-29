@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# 注册夜间分析流水线（tools/deploy/register_task.ps1 的 Linux 版）。
+# 注册夜间分析流水线（ops/deploy/register_task.ps1 的 Linux 版）。
 #
 # 与 Windows 侧的对应关系：
 #   schtasks /Create /XML task_definition.xml  ->  渲染单元模板到 systemd 单元目录
@@ -8,20 +8,23 @@
 #   /ENABLE + 每日 01:00（-Schedule）          ->  systemctl enable --now legacy-nightly.timer
 #
 # 用法：
-#   sudo tools/deploy/linux/install.sh --project /data/supermarketmanager \
+#   sudo ops/deploy/linux/install.sh --project /data/supermarketmanager \
 #        --profile ollama_qwen38 --manual
 #
-#   sudo tools/deploy/linux/install.sh --project /data/supermarketmanager \
+#   sudo ops/deploy/linux/install.sh --project /data/supermarketmanager \
 #        --profile ollama_qwen38 --schedule --start 01:00 --duration 8h
 #
-#   tools/deploy/linux/install.sh --project /data/supermarketmanager --user   # 无 root 时
-#   sudo tools/deploy/linux/install.sh --uninstall
+#   ops/deploy/linux/install.sh --project /data/supermarketmanager --user   # 无 root 时
+#   sudo ops/deploy/linux/install.sh --uninstall
 #
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# 本脚本位于 <repo>/tools/deploy/linux/，故仓库根在上三级
+# 本脚本位于 <repo>/ops/deploy/linux/，故仓库根在上三级
 REPO_ROOT="$(cd "$HERE/../../.." && pwd)"
+
+# shellcheck disable=SC1091
+source "$HERE/common.sh"
 
 PROJECT=""
 PROFILE="ollama_qwen38"
@@ -39,14 +42,7 @@ UNINSTALL=0
 
 die() { printf '[install] 错误：%s\n' "$*" >&2; exit 1; }
 
-# 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
-_project_slug() {
-    local name safe
-    name="$(basename "${1%/}")"
-    name="${name:-project}"
-    safe="$(printf '%s' "$name" | sed -E 's/[^[:alnum:]._-]+/_/g')"
-    printf '%s' "${safe:-project}"
-}
+# _project_slug 见 common.sh（shell 侧唯一实现）
 info() { printf '[install] %s\n' "$*"; }
 
 usage() {
@@ -140,7 +136,7 @@ mkdir -p "$UNIT_DIR"
 # ---------------------------------------------------------------- 生成 nightly.env
 # 同时作为 systemd EnvironmentFile 与两个脚本的 source 目标
 cat >"$HERE/nightly.env" <<EOF
-# 由 tools/deploy/linux/install.sh 生成（$(date '+%Y-%m-%d %H:%M:%S')）
+# 由 ops/deploy/linux/install.sh 生成（$(date '+%Y-%m-%d %H:%M:%S')）
 REPO_ROOT=$REPO_ROOT
 PROJECT=$PROJECT
 PROFILE=$PROFILE

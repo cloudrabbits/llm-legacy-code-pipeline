@@ -31,17 +31,17 @@ cd D:\IdeaProjects\llm-legacy-code-pipeline
 
 # 0) 依赖 + Qwen 词表（词表只需下一次，之后离线可用；内网只需拷 models\qwen2_bpe\）
 python -m pip install -r requirements.txt
-python tools\fetch_tokenizer.py
+python ops/fetch_tokenizer.py
 
 # 1) 自检：契约测试两个画像全绿
 python -m pytest contract_tests tests -q
 
 # 2) 后端冒烟（确认参数名/鉴权/归一化都对）
-python tools\smoke_backend.py --profile deepseek_sim_qwen38 --effort off
-python tools\smoke_backend.py --profile deepseek_sim_qwen38 --effort medium
+python ops/smoke_backend.py --profile deepseek_sim_qwen38 --effort off
+python ops/smoke_backend.py --profile deepseek_sim_qwen38 --effort medium
 
 # 3) 生成任务队列
-python tools\plan_tasks.py --project D:\IdeaProjects\supermarketmanager
+python ops/plan_tasks.py --project D:\IdeaProjects\supermarketmanager
 
 # 4) 先 dry-run（只跑纯脚本阶段，不花 token）
 python orchestrator.py --project D:\IdeaProjects\supermarketmanager --dry-run --verbose
@@ -95,11 +95,25 @@ pipeline/
   context.py             预算装配与分块装箱
   planner.py             任务加载/校验/排序/软阻塞门禁
   executor.py            重试、指数退避、降级路由
-  stages.py              P0–P5 阶段处理器
-  scan.py                事实层：调用 tools/jlp 取结构化事实
+  stages/                P0–P5 阶段处理器（按阶段拆包）
+    common.py              跨阶段共用：上下文装配、摘要压缩、产物读取、脚本骨架视图
+    p0_baseline.py         纯脚本
+    p1_classify.py         LLM 打标 + 脚本补齐未覆盖文件
+    p2_modules.py          脚本骨架 + LLM 归并
+    p3_deps.py             脚本先算边落盘，LLM 只判违规
+    p4_architecture.py     逐模块摘要，单模块失败只降级
+    p5_report.py           纯脚本聚合
+  scan.py                事实层：调用 jlp 取结构化事实
   acceptance.py          产物自动验收
   monitor.py             心跳 + nvidia-smi 显存水位
   logging_setup.py       分类日志 + 按天轮转
+jlp/                     静态事实层：只读扫描，零 LLM、零第三方依赖
+  jlp.py                 CLI 入口（jlp.ps1 / jlp.sh 调它）
+  lib_scan.py            磁盘扫描 + Java/JSP/web.xml/SQL 解析 + 混编码降级解码
+  lib_model.py           路由还原、模块纵向切片、风险派生
+  lib_registry.py        外置扩展注册表
+  stage_*.py             各阶段渲染（preflight/structure/deps/modules/report/llm）
+  selftest.py            自带合成语料自检（28 项）
 config/
   budget.yaml            92160 / 80000 / 8192（三值不随后端变化）
   pipeline.yaml          时间窗、重试、门禁、资源、路径
@@ -108,13 +122,14 @@ config/
 tasks/*.json             任务队列（pydantic 校验）
 contract_tests/          后端无关契约测试（同一套断言跑两个画像）
 tests/                   单元测试 + dry-run 集成测试
-tools/                   fetch_tokenizer / smoke_backend / plan_tasks / watchdog.ps1 / deploy/
-                         （Linux：deploy/linux/{install.sh,run_nightly.sh,watchdog.sh} + jlp.sh）
+ops/                     运维脚本：fetch_tokenizer / smoke_backend / plan_tasks / watchdog.ps1
+  deploy/                Windows：register_task.ps1 / env_ollama.ps1 / common.ps1
+    linux/               Linux：install.sh / run_nightly.sh / watchdog.sh / common.sh + systemd unit
 ```
 
 **约束是自动强制的**：`tests/test_no_backend_branch.py` 会用 `tokenize` 剥掉注释与字符串，
 只扫代码标识符；`pipeline/`、`orchestrator.py` 里出现 `deepseek` / `ollama` / `provider` 即失败。
-后端名只允许出现在 `pipeline/profiles/`、`config/`、`tests/`、`tools/`。
+后端名只允许出现在 `pipeline/profiles/`、`config/`、`tests/`、`ops/`。
 
 后端差异全部体现在 YAML 的**声明式路径**里，例如：
 
@@ -173,16 +188,16 @@ response:
 
 ## 4. 无人值守部署（Windows）
 
-> Linux（systemd）部署见 [`tools/deploy/linux/README.md`](tools/deploy/linux/README.md)。
+> Linux（systemd）部署见 [`ops/deploy/linux/README.md`](ops/deploy/linux/README.md)。
 > 其中 `install.sh` / `run_nightly.sh` / `watchdog.sh` 与本节 4.1–4.3 一一对应，
-> 流水线本体（`orchestrator.py` / `pipeline/` / `tools/jlp`）无需任何改动。
+> 流水线本体（`orchestrator.py` / `pipeline/` / `jlp`）无需任何改动。
 > 事实层入口在 Linux 上用 `./jlp.sh`（等价 `.\jlp.ps1`）。
 
 ### 4.1 注册计划任务
 
 ```powershell
 # 方式 A（推荐首夜）：注册但 Enabled=false，需要时手动触发
-powershell -ExecutionPolicy Bypass -File tools\deploy\register_task.ps1 `
+powershell -ExecutionPolicy Bypass -File ops/deploy\register_task.ps1 `
     -Project D:\IdeaProjects\supermarketmanager -Manual
 
 schtasks /Run /TN LegacyCodeNightly      # 手动跑
@@ -190,7 +205,7 @@ schtasks /End /TN LegacyCodeNightly      # 停
 schtasks /Query /TN LegacyCodeNightly /V /FO LIST
 
 # 方式 B：每日 01:00 自动启动，最长 8 小时
-powershell -ExecutionPolicy Bypass -File tools\deploy\register_task.ps1 `
+powershell -ExecutionPolicy Bypass -File ops/deploy\register_task.ps1 `
     -Project D:\IdeaProjects\supermarketmanager -Schedule -Start 01:00
 ```
 
@@ -202,7 +217,7 @@ powershell -ExecutionPolicy Bypass -File tools\deploy\register_task.ps1 `
 ```powershell
 # 每 5 分钟检查一次心跳，10 分钟无心跳则杀掉僵死进程并重启
 schtasks /Create /TN "LegacyCodeNightlyWatchdog" /SC MINUTE /MO 5 /RU SYSTEM /RL HIGHEST `
-  /TR "powershell -ExecutionPolicy Bypass -File D:\IdeaProjects\llm-legacy-code-pipeline\tools\watchdog.ps1 -Project D:\IdeaProjects\supermarketmanager" /F
+  /TR "powershell -ExecutionPolicy Bypass -File D:\IdeaProjects\llm-legacy-code-pipeline\ops/watchdog.ps1 -Project D:\IdeaProjects\supermarketmanager" /F
 ```
 
 ### 4.3 时间窗行为
@@ -216,13 +231,13 @@ schtasks /Create /TN "LegacyCodeNightlyWatchdog" /SC MINUTE /MO 5 /RU SYSTEM /RL
 
 1. 拷 `models\qwen2_bpe\tokenizer.json`（7MB；缺了会退化为启发式 ×1.18 安全系数）。
 2. `pip install -r requirements.txt`（或提前 `pip download` 离线包）。
-3. Ollama 注册为服务：见 [`tools/deploy/ollama_service.md`](tools/deploy/ollama_service.md)，
-   环境变量脚本 `tools\deploy\env_ollama.ps1`。
+3. Ollama 注册为服务：见 [`ops/deploy/ollama_service.md`](ops/deploy/ollama_service.md)，
+   环境变量脚本 `ops/deploy\env_ollama.ps1`。
 4. 改 `--profile ollama_qwen38`，跑一遍：
 
 ```powershell
 python -m pytest contract_tests -q                                  # 必须与阶段一同样全绿
-python tools\smoke_backend.py --profile ollama_qwen38 --effort off
+python ops/smoke_backend.py --profile ollama_qwen38 --effort off
 python orchestrator.py --project <内网项目> --profile ollama_qwen38 --max-tasks 3 --verbose
 ```
 
@@ -244,7 +259,7 @@ python orchestrator.py --project <内网项目> --profile ollama_qwen38 --max-ta
 | SUSPECT 可比性 | 用量偏差同比例时：Ollama 标 `SUSPECT`，DeepSeek 不标（自有 tokenizer，标记即误报） |
 
 ```powershell
-python -m pytest contract_tests tests -q     # 当前 134 passed
+python -m pytest -q                           # 当前 144 passed（testpaths 见 pyproject.toml）
 ```
 
 ### 外网仿真实跑结果（`supermarketmanager`，7 个任务全绿）
@@ -301,10 +316,10 @@ P5-report      succeeded   nightly_report.md
 
 ---
 
-## 9. 事实层：`tools/jlp`（静态分析器）
+## 9. 事实层：`jlp`（静态分析器）
 
 本流水线的 P0/P2/P3 不自己造事实，而是调用仓库里既有的静态分析器
-[`tools/jlp`](tools/jlp/README.md)——它只做**只读静态解析**：混编码降级解码、
+[`jlp`](jlp/README.md)——它只做**只读静态解析**：混编码降级解码、
 Java/JSP/web.xml/SQL 解析、URL 路由还原、模块纵向切片、确定性风险规则（每条带证据）。
 
 它零第三方依赖、自带 28 项离线自检，可独立使用：
@@ -320,7 +335,7 @@ Java/JSP/web.xml/SQL 解析、URL 路由还原、模块纵向切片、确定性�
 ./jlp.sh --self-test
 ```
 
-案例（`supermarketmanager`，MyEclipse 时代 JSP + Servlet + Oracle 工程）已被 `tools/jlp`
+案例（`supermarketmanager`，MyEclipse 时代 JSP + Servlet + Oracle 工程）已被 `jlp`
 完整分析过，产出 4 个功能模块（Users / Suppliers / Goods / Orders），
 本流水线的 P2/P4 结果与之一致——这也是选择"脚本算事实、模型做叙述"的直接原因。
 

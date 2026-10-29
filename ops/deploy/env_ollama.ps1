@@ -6,8 +6,8 @@
     以「机器级」写入，Ollama 服务重启后生效。改动前请确认 L20 为独占使用。
 
 .EXAMPLE
-    powershell -ExecutionPolicy Bypass -File tools\deploy\env_ollama.ps1
-    powershell -ExecutionPolicy Bypass -File tools\deploy\env_ollama.ps1 -KvCache ""   # 关闭 KV cache 量化
+    powershell -ExecutionPolicy Bypass -File ops/deploy\env_ollama.ps1
+    powershell -ExecutionPolicy Bypass -File ops/deploy\env_ollama.ps1 -KvCache ""   # 关闭 KV cache 量化
 #>
 param(
     [string]$KvCache = "q8_0",
@@ -40,4 +40,4 @@ Write-Host "  Restart-Service Ollama          # 若以 Windows 服务方式安�
 Write-Host "  # 或：任务管理器结束 ollama.exe 后重新启动"
 Write-Host ""
 Write-Host "验证：curl http://127.0.0.1:11434/api/tags"
-Write-Host "自检：python tools\smoke_backend.py --profile ollama_qwen38 --effort off"
+Write-Host "自检：python ops/smoke_backend.py --profile ollama_qwen38 --effort off"

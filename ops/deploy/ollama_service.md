@@ -10,7 +10,7 @@
 先执行（以管理员身份）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\deploy\env_ollama.ps1
+powershell -ExecutionPolicy Bypass -File ops/deploy\env_ollama.ps1
 ```
 
 写入的机器级变量：
@@ -64,7 +64,7 @@ Get-Service Ollama | Select-Object Status, StartType
 curl http://127.0.0.1:11434/api/tags
 
 # 3) 逐请求 num_ctx 生效（观察返回的 prompt_eval_count 是否与估算接近）
-python tools\smoke_backend.py --profile ollama_qwen38 --effort off
+python ops/smoke_backend.py --profile ollama_qwen38 --effort off
 
 # 4) 显存水位
 nvidia-smi --query-gpu=memory.used,memory.total --format=csv
@@ -75,5 +75,5 @@ nvidia-smi --query-gpu=memory.used,memory.total --format=csv
 - [ ] `models/qwen2_bpe/tokenizer.json` 已拷到内网（否则 token 估算退化为启发式 ×1.18）
 - [ ] `pip install -r requirements.txt` 可在内网离线安装（或提前 pip download）
 - [ ] `python -m pytest contract_tests -q` 两个画像全绿
-- [ ] `python tools\smoke_backend.py --profile ollama_qwen38` 能拿到结果
+- [ ] `python ops/smoke_backend.py --profile ollama_qwen38` 能拿到结果
 - [ ] 计划任务已注册但 `Enabled=false`，先手动跑一夜
