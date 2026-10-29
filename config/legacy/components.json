@@ -1,0 +1,60 @@
+{
+  "_schema": {
+    "_doc": "组件改造台账。与 tools/jlp/lib_registry.py 内置基线按 id 归并：同 id 覆盖，新 id 追加。内置基类已覆盖 ant / velocity / ibatis2 / quartz / poi / axis / dom4j / commons-* / servlet-api / jce-sunjce，这里只填项目专属或闭源组件。",
+    "id": "唯一标识，覆盖内置项时用内置 id（如 ibatis2）",
+    "name": "可读名",
+    "category": "构建|视图/模板|持久层|调度|文档处理|WebService|XML 处理|工具库|数据源|日志|安全/平台 API|平台 API|闭源组件",
+    "status": "active|maintenance|EOL|unknown（闭源组件通常先填 unknown，确认厂商支持状态后再定）",
+    "provided_by": "app=随 war 打包 | container=容器提供 | jdk=JDK 提供 | unknown=待人工确认",
+    "namespaces": "源码 import 前缀，用于统计引用次数",
+    "jar_patterns": "war 内 jar 文件名关键字（小写匹配），用于判定是否已打包",
+    "file_markers": "磁盘『物证』文件名，支持 *.vm / *.wsdd 这类通配符",
+    "code_patterns": "源码正文正则，用于抓没有 import 也能识别的用法",
+    "requires": "配套 jar 关键字，缺失会在台账里标出",
+    "migration": "{target: 迁移目标, breaking: low|medium|high, phase: S0..S5}",
+    "hint_from": "仅平台组件用：webxml_declared_version | webxml_schema_version",
+    "version_hint": "手工填写的版本线索（hint_from 未指定时生效）",
+    "notes": "改造注意事项，会带进报告",
+    "enabled": false
+  },
+  "components": [
+    {
+      "id": "closed-mvc-framework",
+      "enabled": false,
+      "name": "【示例】某闭源 MVC 平台框架",
+      "category": "闭源组件",
+      "status": "unknown",
+      "provided_by": "app",
+      "namespaces": ["com.vendor.framework.web"],
+      "jar_patterns": ["vendor-framework"],
+      "file_markers": ["vendor-framework.xml"],
+      "code_patterns": ["extends\\s+com\\.vendor\\.framework\\.BaseAction"],
+      "requires": [],
+      "migration": {
+        "target": "待定：先冻结接口，再做防腐层隔离，最后按模块替换",
+        "breaking": "high",
+        "phase": "S5"
+      },
+      "notes": "闭源组件无法靠 import 推断语义，需补：包名前缀、jar 名、配置文件、基类/接口签名、厂商支持状态"
+    },
+    {
+      "id": "closed-report-engine",
+      "enabled": false,
+      "name": "【示例】某闭源报表/打印引擎",
+      "category": "闭源组件",
+      "status": "unknown",
+      "provided_by": "app",
+      "namespaces": ["com.vendor.report"],
+      "jar_patterns": ["vendor-report"],
+      "file_markers": ["*.rpx", "report-config.xml"],
+      "code_patterns": ["ReportEngine", "exportToPdf"],
+      "requires": [],
+      "migration": {
+        "target": "待定：优先降级为『适配器 + 契约测试』，替换前先固化输出基线",
+        "breaking": "high",
+        "phase": "S5"
+      },
+      "notes": "报表类组件改造的回归基线是『输出文件』本身，务必先做字节级/结构级快照"
+    }
+  ]
+}

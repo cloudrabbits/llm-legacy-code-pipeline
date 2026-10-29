@@ -1,0 +1,40 @@
+{
+  "_schema": {
+    "_doc": "闭源 / 自研框架的分派机制。脚本默认只认 Servlet 里 `action.equals(\"x\")` 一种写法；闭源平台常见的『自研前端控制器 + 配置文件路由』必须在这里登记，否则路由还原、模块归属、页面归属全是空的。",
+    "id": "唯一标识",
+    "framework": "框架/平台名（用于报告展示）",
+    "kind": "action_param=按请求参数分派 | xml_config=按配置文件分派 | annotation=按注解分派 | url_suffix=按 URL 尾段分派",
+    "action_param": "kind=action_param 时的参数名（如 action / method / op）",
+    "branch_pattern": "切分分支的正则；用捕获组取动作名",
+    "action_group": "捕获组序号，默认 1",
+    "front_controller_pattern": "命中则该 Servlet 被视为前端控制器（分派中枢，不作为业务模块）",
+    "config_files": "kind=xml_config 时的配置文件名（暂供人工核对，脚本尚未自动解析）",
+    "notes": "补充说明",
+    "enabled": false
+  },
+  "rules": [
+    {
+      "id": "closed-param-dispatch",
+      "enabled": false,
+      "framework": "【示例】闭源平台（请求参数分派）",
+      "kind": "action_param",
+      "action_param": "method",
+      "branch_pattern": "\"(\\w+)\"\\.equals\\(\\s*method\\s*\\)",
+      "action_group": 1,
+      "front_controller_pattern": "extends\\s+com\\.vendor\\.framework\\.DispatchServlet",
+      "notes": "参数名不是 action 而是 method 时，默认解析会漏掉全部分支"
+    },
+    {
+      "id": "closed-xml-dispatch",
+      "enabled": false,
+      "framework": "【示例】闭源平台（配置文件路由）",
+      "kind": "xml_config",
+      "action_param": "",
+      "branch_pattern": "action\\s*=\\s*\"([\\w.]+)\"",
+      "action_group": 1,
+      "front_controller_pattern": "com\\.vendor\\.framework\\.ActionServlet",
+      "config_files": ["WEB-INF/action-config.xml"],
+      "notes": "路由写在 XML 里时，脚本只能看到分发类，看不到分支；需人工补 config_files 并核对"
+    }
+  ]
+}

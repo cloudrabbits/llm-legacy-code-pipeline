@@ -35,6 +35,7 @@ python tools/jlp/jlp.py --src X --llm-url http://127.0.0.1:11434/api/generate --
 | `--max-file-bytes` | 超过该大小的文本跳过内容解析（默认 4 MB） |
 | `--llm-url` / `--llm-model` | 开启可选 LLM 叙述增强，需同时提供 |
 | `--facts-only` | 只落 `facts.json` |
+| `--rules` | 扩展配置目录（组件台账/闭源分派/模块边界/风险规则），默认 `<仓库>/config/legacy` |
 | `--quiet` | 减少过程输出 |
 | `--self-test` | 合成语料离线自检（不联网、不需要 LLM） |
 
@@ -44,6 +45,7 @@ python tools/jlp/jlp.py --src X --llm-url http://127.0.0.1:11434/api/generate --
 lib_scan.py   事实抽取层  遍历、编码降级读取、Java/JSP/web.xml/SQL 解析、依赖边
 lib_model.py  派生模型层  路由还原、模块切分、能力矩阵、风险规则
 lib_tech.py   技术栈指纹  框架/前端控制器/JDBC/JNDI/容器/数据库判定
+lib_registry.py 扩展注册表 组件台账/闭源分派/模块边界/风险规则的加载与合并
 lib_md.py     渲染层      Markdown 表格/代码块/原子写
 stage_*.py    五个阶段    各产出一份文档
 jlp.py        CLI 入口    参数解析 + 阶段编排 + Windows 控制台 UTF-8
@@ -107,6 +109,34 @@ utf-8-sig → utf-8 → gb18030 → big5 → latin-1
 三个附录（产物清单、复现命令、Java 类全清单）。
 
 同时产出 `99-summary.md` 一页纸速览。
+
+### S2 的两张改造台账
+
+`02-dependencies.md` 除了第三方依赖，还产出改造直接要用的两张表：
+
+- **平台 / 容器 / JDK 提供的依赖**：`javax.*` / `sun.*` 在 `PLATFORM_NS` 里被过滤，
+  不会出现在第三方表里，但升级容器/JDK 时最先炸（Servlet API、JCE Provider 就属此类），
+  这里单独成表并附 `web.xml` 版本线索。
+- **组件改造台账（迁移登记）**：组件 / 类别 / 状态 / 引用次数 / war 内 jar /
+  缺失配套 / 迁移目标 / 破坏性 / 建议阶段，配 `docs/legacy-modernization-plan.md` 使用。
+
+### 扩展口子（`config/legacy/*.json`）
+
+组件知识与项目专属规则一律外置，代码里只放通用基线：
+
+| 文件 | 作用 | 默认 |
+|---|---|---|
+| `components.json` | 组件识别与迁移台账（尤其**闭源组件**） | 内置开源基线；闭源留模板 |
+| `dispatch.json` | **闭源框架的分派机制**（非 `action.equals` 写法） | 空 = 走内置解析 |
+| `modules.json` | **模块边界划分**纠正 | 全空 = 沿用脚本切分 |
+| `risk_rules.json` | **风险规则定义**（声明式，命中带证据） | 内置 4 条 + 组件状态派生 |
+
+合并语义：列表按 `id` 归并，**同 id 覆盖、新 id 追加、`enabled:false` 忽略**；
+配置缺失 = 口子未启用，配置非法 = 抛错快速失败。
+目录可用 `--rules <dir>` 或环境变量 `JLP_RULES_DIR` 覆盖（一个项目一套规则）。
+
+> 闭源组件的分派方式、模块边界、风险规则**无法靠 import 推断**，必须人工登记；
+> 不登记的后果是路由还原与模块切分整片为空。
 
 ### S5 可选 LLM `stage_llm.py` → `05-llm-narrative.md`
 

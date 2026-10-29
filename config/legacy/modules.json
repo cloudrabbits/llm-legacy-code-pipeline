@@ -1,0 +1,17 @@
+{
+  "_schema": {
+    "_doc": "模块边界划分覆盖。脚本默认按类名后缀（Biz/Service/Dao/Servlet/Action/Manager）取领域词做种子，再用真实调用边挂页面；当项目命名不规范、或闭源框架接管了分派导致切分错位时，在这里显式指定。所有字段为空 = 完全沿用脚本默认行为。",
+    "seed_suffixes": "类名后缀列表，覆盖默认种子后缀（非空才生效）",
+    "domain_aliases": "领域名归一：{\"User\": \"Users\"} 表示把 User 域并到 Users",
+    "package_modules": "包名前缀 -> 模块名，优先级高于类名后缀（闭源平台按包分层时最有用）",
+    "exclude_types": "类简单名黑名单：基础设施/框架基类，不作为模块种子",
+    "force_merge": "[[A, B]] 把 B 强制并入 A（按 domain 名，字符串或数组均可）"
+  },
+  "modules": {
+    "seed_suffixes": [],
+    "domain_aliases": {},
+    "package_modules": {},
+    "exclude_types": [],
+    "force_merge": []
+  }
+}

@@ -236,6 +236,9 @@ def run(args: argparse.Namespace) -> int:
             result = run_stage(ctx, task)
             holder["artifact"] = result.artifact
             holder["module"] = result.module
+            # 后端分项速度（prefill/decode）来自 StageResult.result；
+            # 纯脚本阶段（P0/P5）无后端调用，此为 None。
+            holder["backend_result"] = result.result
             return result
 
         outcome = run_with_retry(
@@ -264,11 +267,12 @@ def run(args: argparse.Namespace) -> int:
         monitor.on_task_finished()
         monitor.beat()
 
-        # verbose：打印 prefill/decode 分项速度，并据已完成任务平均延迟估算剩余时间
-        if args.verbose and outcome.result is not None:
-            r = outcome.result
-            _timed_results.append(r)
-            _print_task_speed(task.task_id, r, _timed_results, len(queue) - executed)
+        # 每个任务完成后，打印 prefill/decode 分项速度，并据已完成任务平均延迟估算剩余时间。
+        # 始终输出（不再依赖 --verbose），便于夜间值守时直接从 stdout 日志盯进度/判断是否卡死。
+        backend_result = holder.get("backend_result")
+        if backend_result is not None:
+            _timed_results.append(backend_result)
+            _print_task_speed(task.task_id, backend_result, _timed_results, len(queue) - executed)
 
         if outcome.status.value == "failed":
             logger.error("任务 %s 失败：%s %s", task.task_id, outcome.error_class, outcome.error)

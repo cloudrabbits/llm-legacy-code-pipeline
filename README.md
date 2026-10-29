@@ -244,7 +244,7 @@ python orchestrator.py --project <内网项目> --profile ollama_qwen38 --max-ta
 | SUSPECT 可比性 | 用量偏差同比例时：Ollama 标 `SUSPECT`，DeepSeek 不标（自有 tokenizer，标记即误报） |
 
 ```powershell
-python -m pytest contract_tests tests -q     # 当前 116 passed
+python -m pytest contract_tests tests -q     # 当前 134 passed
 ```
 
 ### 外网仿真实跑结果（`supermarketmanager`，7 个任务全绿）
@@ -323,3 +323,31 @@ Java/JSP/web.xml/SQL 解析、URL 路由还原、模块纵向切片、确定性�
 案例（`supermarketmanager`，MyEclipse 时代 JSP + Servlet + Oracle 工程）已被 `tools/jlp`
 完整分析过，产出 4 个功能模块（Users / Suppliers / Goods / Orders），
 本流水线的 P2/P4 结果与之一致——这也是选择"脚本算事实、模型做叙述"的直接原因。
+
+---
+
+## 10. 老项目改造：组件台账与扩展口子
+
+改造方案见 [`docs/legacy-modernization-plan.md`](docs/legacy-modernization-plan.md)
+（目标/约束/交付物、组件识别与依赖梳理、范围影响分析、S0–S5 分阶段迁移路径、
+兼容性与回归要求）。
+
+静态事实层为此补了两件事：
+
+1. **组件改造台账**：`02-dependencies.md` 新增「平台/容器/JDK 提供的依赖」与
+   「组件改造台账」两段——`javax.*` / `sun.*`（Servlet API、JCE Provider）原先被
+   `PLATFORM_NS` 过滤，在报告里是隐形的，而升级容器/JDK 时恰恰是它们最先炸。
+2. **四个扩展口子**（`config/legacy/`，JSON，纯标准库可读）：
+
+| 文件 | 作用 | 默认行为 |
+|---|---|---|
+| `components.json` | 组件识别与迁移台账（尤其闭源组件） | 内置开源基线；闭源留模板 |
+| `dispatch.json` | 闭源框架的分派机制 | 空 = 走内置 `action.equals` 解析 |
+| `modules.json` | 模块边界划分纠正 | 全空 = 沿用脚本切分 |
+| `risk_rules.json` | 风险规则定义（声明式，命中带证据） | 内置 4 条 + 组件状态派生 |
+
+合并语义：按 `id` 归并，**同 id 覆盖、新 id 追加、`enabled:false` 忽略**；
+配置缺失 = 口子未启用，配置非法 = 快速失败。
+目录可用 `--rules <dir>` 或环境变量 `JLP_RULES_DIR` 覆盖（一个项目一套规则）。
+
+> 闭源组件的分派方式、模块边界、风险规则**无法靠 import 推断**，必须人工登记。

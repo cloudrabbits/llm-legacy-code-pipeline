@@ -15,7 +15,8 @@ from typing import Any, Iterable, Sequence
 from .context import Block
 from .errors import ConfigError
 
-__all__ = ["ROOT", "JLP_DIR", "load_jlp", "load_project_facts", "strip_bodies", "source_blocks", "read_source"]
+__all__ = ["ROOT", "JLP_DIR", "load_jlp", "load_registry", "load_project_facts",
+           "component_ledger", "platform_deps", "strip_bodies", "source_blocks", "read_source"]
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 JLP_DIR = os.path.join(ROOT, "tools", "jlp")
@@ -56,6 +57,19 @@ def load_jlp() -> tuple[Any, Any]:
     return lib_scan, lib_model
 
 
+def load_registry() -> Any:
+    """加载 `lib_registry`（组件台账 / 闭源分派 / 模块边界 / 风险规则）。
+
+    配置目录默认 `<仓库>/config/legacy`，可用环境变量 `JLP_RULES_DIR` 覆盖。
+    这份配置是**外置输入**，与画像配置同理：加载失败必须快速失败，不能静默降级。
+    """
+    if "registry" in _JLP_CACHE:
+        return _JLP_CACHE["registry"]
+    lib_registry = _load_module("jlp_lib_registry", os.path.join(JLP_DIR, "lib_registry.py"))
+    _JLP_CACHE["registry"] = lib_registry
+    return lib_registry
+
+
 def strip_bodies(project: dict) -> dict:
     """剥离 `_body`（源码正文只用于构造 prompt，不进产物 JSON）。"""
     for unit in project.get("java") or []:
@@ -81,9 +95,21 @@ def load_project_facts(project_root: str, *, exclude_dirs: Sequence[str] = ()) -
         raise ConfigError(f"目标项目路径不存在或不是目录: {project_root}")
     lib_scan, lib_model = load_jlp()
     project = lib_scan.scan(project_root, exclude_dirs=tuple(exclude_dirs))
+    # 组件台账与平台依赖是「事实」，必须在剥 _body 之前算完（正文正则需要源码）
+    load_registry().enrich(project)
     routes = lib_model.build_routes(project)
     modules, unassigned, _owner = lib_model.derive_modules(project, routes)
     return {"project": project, "routes": routes, "modules": modules, "unassigned": unassigned}
+
+
+def component_ledger(facts: dict) -> list[dict]:
+    """第三方 / 闭源组件改造台账（`project["components"]`）。"""
+    return list((facts.get("project") or {}).get("components") or [])
+
+
+def platform_deps(facts: dict) -> list[dict]:
+    """容器 / JDK / 未知外部提供的依赖（`project["platform_deps"]`）。"""
+    return list((facts.get("project") or {}).get("platform_deps") or [])
 
 
 def module_names(facts: dict) -> list[str]:

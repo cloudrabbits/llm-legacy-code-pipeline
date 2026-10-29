@@ -19,17 +19,69 @@ from lib_scan import RE_ACTION_EQ, RE_FORWARD, RE_REDIRECT, RE_PARAM, RE_BIZ_CAL
 
 # ---------------------------------------------------------------- 控制器分派
 
-def parse_dispatch_branches(text: str):
+#: 类名后缀 -> 模块中的层键（`XxxBizImpl` 这类实现类归位用）
+IMPL_KEY = {"Biz": "biz", "Service": "biz", "Manager": "biz", "Dao": "dao",
+            "Mapper": "dao", "Repository": "dao", "Servlet": "servlet",
+            "Action": "servlet"}
+
+DEFAULT_SEED_SUFFIXES = ("Biz", "Service", "Dao", "Servlet", "Action", "Manager")
+
+
+def _dispatch_rules(rules=None):
+    """分派规则（闭源框架登记在 `config/legacy/dispatch.json`）。"""
+    if rules is not None:
+        return rules
+    import lib_registry
+    return lib_registry.dispatch_rules()
+
+
+def _any_match(body: str, rules, field: str) -> bool:
+    for rule in rules or ():
+        pat = rule.get(field)
+        if not pat:
+            continue
+        try:
+            if re.search(pat, body):
+                return True
+        except re.error:
+            continue
+    return False
+
+
+def parse_dispatch_branches(text: str, rules=None):
     """按 `if (action.equals("x"))` / `if (action == null)` 切分出每个分支的行为。
 
     老项目的 Servlet 基本都长这样：一个 process() 里用 if/else if 判断 action，
     每个分支里转发或重定向。把分支切开，才能知道"哪个动作 -> 跳哪个页面"。
+
+    闭源框架往往不用 `action` 这个名字，甚至把路由写在 XML 里。
+    这类分派方式在 `config/legacy/dispatch.json` 里登记 `branch_pattern` 后，
+    这里会一并按捕获组切分支。
     """
+    rules = _dispatch_rules(rules)
     marks = []
     for m in re.finditer(r'action\s*==\s*null', text):
         marks.append((m.start(), "(无 action 参数/默认)"))
     for m in RE_ACTION_EQ.finditer(text):
         marks.append((m.start(), m.group(1)))
+
+    for rule in rules:
+        pat = rule.get("branch_pattern")
+        if not pat:
+            continue
+        try:
+            rx = re.compile(pat)
+        except re.error:
+            continue
+        group = int(rule.get("action_group", 1) or 1)
+        for m in rx.finditer(text):
+            try:
+                label = m.group(group)
+            except (IndexError, re.error):
+                continue
+            if label:
+                marks.append((m.start(), str(label)))
+
     marks.sort(key=lambda x: x[0])
 
     branches = []
@@ -69,11 +121,15 @@ def _match_route(pattern: str, target: str) -> bool:
     return pattern == target
 
 
-def build_routes(project: dict) -> dict:
+def build_routes(project: dict, rules=None) -> dict:
     """构建路由模型：web.xml 映射 + 前端控制器内部分派。
 
     返回 {routes, by_class, front_controllers, controllers}
+
+    `rules` 是 `config/legacy/dispatch.json` 里登记的闭源分派规则；
+    传 None 时自动加载（默认目录为空 = 只走内置的 `action.equals` 解析）。
     """
+    rules = _dispatch_rules(rules)
     webxml = project.get("webxml") or {}
     java = {u["primary_type"]: u for u in project["java"]}
 
@@ -103,8 +159,11 @@ def build_routes(project: dict) -> dict:
         u = java.get(r["servlet_class"].split(".")[-1])
         if not u:
             continue
-        if u["actions"] or u["uses_action_param"]:
-            branches = parse_dispatch_branches(u["_body"])
+        body = u.get("_body", "")
+        # 闭源框架登记了 branch_pattern 时，即便没有 `action.equals` 也要切分支
+        custom = _any_match(body, rules, "branch_pattern")
+        if u["actions"] or u["uses_action_param"] or custom:
+            branches = parse_dispatch_branches(body, rules)
             controllers[r["servlet_class"]] = branches
             if u.get("jdbc_url") is None and not u["actions"]:
                 pass
@@ -113,6 +172,10 @@ def build_routes(project: dict) -> dict:
                    or re.search(r'action\.equals\("[\w.]+\.(do|action)"\)', u["_body"])
                    for a in u["actions"]):
                 front.append(r["servlet_class"])
+        # 闭源框架的分派中枢：显式登记 front_controller_pattern（如自研基类）。
+        # 这类类本身没有 `action.equals` 分支，只能靠登记识别，因此放在上面分支之外。
+        if _any_match(body, rules, "front_controller_pattern"):
+            front.append(r["servlet_class"])
 
     return {
         "routes": routes,
@@ -217,12 +280,24 @@ def page_group_label(stems) -> str:
 
 # ---------------------------------------------------------------- 模块切分
 
-def derive_modules(project: dict, routes: dict) -> list:
+def derive_modules(project: dict, routes: dict, rules: dict | None = None) -> list:
     """按"业务纵向切片"聚类出功能模块。
 
     以 XxxBiz（业务接口）作为领域种子，向下找 Dao / 实体 / 表，向上找 Servlet，
     再用真实的调用边把页面挂到对应 Servlet 上。
+
+    命名不规范或分派被闭源框架接管时，可在 `config/legacy/modules.json` 里
+    显式指定 `seed_suffixes` / `package_modules` / `domain_aliases` /
+    `exclude_types` / `force_merge` 来纠正边界；传 None 表示自动加载该配置。
     """
+    import lib_registry
+    rules = lib_registry.module_rules() if rules is None else rules
+
+    seed_suffixes = tuple(rules.get("seed_suffixes") or ()) or DEFAULT_SEED_SUFFIXES
+    package_modules = rules.get("package_modules") or {}
+    domain_aliases = rules.get("domain_aliases") or {}
+    exclude_types = {str(t) for t in (rules.get("exclude_types") or ())}
+
     java_units = project["java"]
     by_name = {u["primary_type"]: u for u in java_units}
     java_to_file = {u["primary_type"]: u["file"] for u in java_units}
@@ -234,12 +309,28 @@ def derive_modules(project: dict, routes: dict) -> list:
     modules = []
 
     # 领域种子：优先 XxxBiz / XxxService，退化到 XxxServlet
+    # `package_modules` 是人工兜底：命名不规范时按包前缀直接指定模块名
+    def _domain_of(u):
+        pkg = u.get("package") or ""
+        for prefix, name in sorted(package_modules.items(), key=lambda kv: -len(kv[0])):
+            if pkg == prefix or pkg.startswith(prefix + "."):
+                return str(name)
+        return None
+
     seeds = {}
     for u in java_units:
         t = u["primary_type"]
-        for suf in ("Biz", "Service", "Dao", "Servlet", "Action", "Manager"):
+        if t in exclude_types:
+            continue
+        forced = _domain_of(u)
+        if forced:
+            seeds.setdefault(domain_aliases.get(forced, forced), []).append(u)
+            continue
+        for suf in seed_suffixes:
             if t.endswith(suf) and len(t) > len(suf):
-                seeds.setdefault(t[:-len(suf)], []).append(u)
+                domain = t[:-len(suf)]
+                seeds.setdefault(domain_aliases.get(domain, domain), []).append(u)
+                break
 
     # 前端控制器属于基础设施，不作为业务模块种子（否则会多出一个空壳模块）
     front_short = {c.split(".")[-1] for c in routes.get("front_controllers", [])}
@@ -263,15 +354,15 @@ def derive_modules(project: dict, routes: dict) -> list:
                 mod["dao"].append(full(t))
 
         # 各层的实现类（XxxBizImpl）
+        impl_suffixes = [s for s in seed_suffixes if s in IMPL_KEY] or list(IMPL_KEY)
+        impl_rx = re.compile(rf'^{re.escape(domain)}(?:{"|".join(impl_suffixes)})Impl$')
         impls = []
         for u in java_units:
             t = u["primary_type"]
-            m = re.match(rf'^{re.escape(domain)}(Biz|Service|Dao|Servlet|Action)Impl$', t)
+            m = impl_rx.match(t)
             if m:
                 impls.append(full(t))
-                key = {"Biz": "biz", "Service": "biz", "Dao": "dao",
-                       "Servlet": "servlet", "Action": "servlet"}[m.group(1)]
-                mod[key].append(full(t))
+                mod[IMPL_KEY[m.group(0)[len(domain):-4]]].append(full(t))
         mod["_impls"] = impls
 
         # 实体 + 表：通过该领域的 Dao 实现所 import / 引用的本工程实体得到
@@ -305,6 +396,22 @@ def derive_modules(project: dict, routes: dict) -> list:
         mod["tables"] = sorted(tables)
 
         modules.append(mod)
+
+    # ---- 人工兜底：force_merge 把后者并入前者（脚本切分过细 / 闭源框架打散了层）
+    for pair in rules.get("force_merge") or []:
+        if len(pair) != 2:
+            continue
+        keep, drop = str(pair[0]), str(pair[1])
+        if keep == drop:
+            continue
+        target = next((m for m in modules if m["domain"] == keep), None)
+        victim = next((m for m in modules if m["domain"] == drop), None)
+        if target is None or victim is None:
+            continue
+        for key in ("servlet", "biz", "dao", "entity", "tables"):
+            merged = set(target[key]) | set(victim[key])
+            target[key] = sorted(merged)
+        modules.remove(victim)
 
     # ---- 页面归属：三级信号，优先级从强到弱
     #   1. 页面主动发起（表单提交 / 异步请求）——最可靠
@@ -433,7 +540,11 @@ STATIC_EXT = {".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".ico",
 
 
 def derive_risks(project: dict, modules, unassigned):
-    """确定性风险清单。每条都带证据，便于人工复核。"""
+    """确定性风险清单。每条都带证据，便于人工复核。
+
+    前 8 条是通用的工程性风险；末尾追加 `lib_registry` 跑出来的规则型风险
+    （内置 4 条 + `config/legacy/risk_rules.json` 里登记的项目专属规则）。
+    """
     risks = []
     root = project["root"]
     java = project["java"]
@@ -563,6 +674,18 @@ def derive_risks(project: dict, modules, unassigned):
             "title": "未参与任何业务切片的类",
             "detail": "通常是工具类/过滤器/基础设施，也可能是已废弃代码，需人工确认。",
             "evidence": sorted(orphan),
+        })
+
+    # 9+) 声明式规则：`config/legacy/risk_rules.json` + 内置组件状态规则
+    try:
+        import lib_registry
+        risks.extend(lib_registry.apply_risk_rules(project))
+    except Exception:  # 规则配置是外置输入，出错只降级为「提示」，不让整轮分析失败
+        risks.append({
+            "level": "提示",
+            "title": "扩展风险规则未执行",
+            "detail": "组件/风险规则配置不可用，已跳过规则型风险检测，需人工复核配置目录。",
+            "evidence": [],
         })
 
     return risks

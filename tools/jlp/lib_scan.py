@@ -587,23 +587,39 @@ def internal_edges(java_units):
 
 
 def _resolve(ns: str):
-    """第三方命名空间 -> (可读库名, 依赖 jar 关键字列表)。"""
+    """第三方命名空间 -> (可读库名, 依赖 jar 关键字列表)。
+
+    先查内置 `KNOWN_LIBS`，未命中再查 `config/legacy/components.json` 登记的
+    第三方组件（`provided_by=app`）——闭源 SDK、自研平台包都从那里补进来。
+    """
     for prefix, name, needs in KNOWN_LIBS:
         if ns == prefix or ns.startswith(prefix + "."):
             return name, needs
+    import lib_registry
+    comp = lib_registry.component_for_namespace(lib_registry.load(), ns)
+    if comp:
+        return comp.get("name"), list(comp.get("requires") or [])
     return None, []
+
+
+def _component_for(ns: str):
+    import lib_registry
+    return lib_registry.component_for_namespace(lib_registry.load(), ns)
 
 
 def detect_missing_deps(project, ext_groups):
     """对照 WEB-INF/lib 里的 jar，找出"用了但 war 里没打包"的第三方库。"""
+    import lib_registry
+
+    reg = lib_registry.load()
     jar_blob = " ".join(j["name"].lower() for j in project["jars"])
     findings = []
     for ns, hits in sorted(ext_groups.items()):
         libname, needs = _resolve(ns)
         if not libname:
             continue
-        token = libname.split("(")[0].strip().lower().replace(" ", "-")
-        present = token in jar_blob or token.split("-")[0] in jar_blob
+        # 优先按组件登记的 jar_patterns 判定，避免 "Apache Ant" 这类名字被名称启发式误判
+        present = lib_registry.jar_present(_component_for(ns) or {}, jar_blob, libname)
         missing_needs = [n for n in needs if n not in jar_blob]
         findings.append({
             "namespace": ns, "lib": libname, "usage": hits,

@@ -51,6 +51,8 @@ def parse_args(argv=None):
     ap.add_argument("--llm-url", help="开启 LLM 叙述增强，如 http://127.0.0.1:11434/api/generate")
     ap.add_argument("--llm-model", help="LLM 模型名，配合 --llm-url")
     ap.add_argument("--facts-only", action="store_true", help="只落机读事实库，不生成文档")
+    ap.add_argument("--rules", help="扩展配置目录（组件台账/闭源分派/模块边界/风险规则），"
+                                    "默认 <仓库>/config/legacy")
     ap.add_argument("--quiet", action="store_true", help="减少过程输出")
     ap.add_argument("--self-test", action="store_true",
                     help="用内置合成语料跑一遍全链路自检（不联网、不需要 LLM）")
@@ -99,6 +101,16 @@ def main(argv=None) -> int:
                             exclude_dirs=tuple(args.exclude_dir))
     log(f"[jlp] 扫描完成：{len(project['java'])} 个 Java / {len(project['jsp'])} 个 JSP / "
         f"{len(project['files'])} 个文本文件")
+
+    # 扩展注册表：组件台账 / 闭源分派 / 模块边界 / 风险规则
+    import lib_registry
+    if args.rules:
+        lib_registry.set_default_dir(args.rules)
+    reg = lib_registry.load()
+    log(f"[jlp] 扩展配置：{reg['dir']}"
+        f"（组件 {len(reg['components'])} / 分派规则 {len(reg['dispatch'])} / "
+        f"风险规则 {len(reg['risk_rules'])}）")
+    lib_registry.enrich(project, reg)
 
     ctx = {
         "src": src,

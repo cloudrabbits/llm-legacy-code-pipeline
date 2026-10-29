@@ -1,0 +1,50 @@
+{
+  "_schema": {
+    "_doc": "项目专属风险规则。与内置规则（JDK 内部 API / 硬编码 Provider / 弱算法 / javax->jakarta）按 id 归并：同 id 覆盖，新 id 追加。规则命中即产出一条带证据的风险，证据不足（少于 min_hits）不产出。",
+    "id": "唯一标识",
+    "level": "高|中|低|提示",
+    "title": "风险标题",
+    "detail": "风险说明（会原样进报告）",
+    "scope": {
+      "namespaces": "源码 import 前缀",
+      "code_patterns": "源码正文正则",
+      "file_exts": "code_patterns 扫描范围，默认 [\".java\"]",
+      "jar_patterns": "war 内 jar 文件名关键字",
+      "file_markers": "文件名（支持通配符）"
+    },
+    "min_hits": 1,
+    "evidence_limit": 15,
+    "tags": ["用于后续筛选的标签"],
+    "enabled": false
+  },
+  "rules": [
+    {
+      "id": "oracle-rownum-paging",
+      "enabled": false,
+      "level": "中",
+      "title": "【示例】Oracle ROWNUM 手写分页",
+      "detail": "分页 SQL 依赖 Oracle 方言的 ROWNUM 嵌套，迁移到 MyBatis 或换库时需改写为方言插件/Dialect，且要逐条核对排序稳定性与边界页。",
+      "scope": {
+        "code_patterns": ["rownum\\s*<=", "rownum\\s*<", "ROWNUM"],
+        "file_exts": [".java", ".sql", ".xml"]
+      },
+      "min_hits": 1,
+      "evidence_limit": 15,
+      "tags": ["数据库方言", "迁移"]
+    },
+    {
+      "id": "closed-platform-lockin",
+      "enabled": false,
+      "level": "高",
+      "title": "【示例】闭源平台强耦合（无替代路径）",
+      "detail": "业务代码直接继承/调用闭源平台基类，未留适配层；厂商停支持或授权变更时无退路。",
+      "scope": {
+        "namespaces": ["com.vendor.framework"],
+        "code_patterns": ["extends\\s+com\\.vendor\\.framework"]
+      },
+      "min_hits": 1,
+      "evidence_limit": 15,
+      "tags": ["闭源", "架构"]
+    }
+  ]
+}

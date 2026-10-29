@@ -188,6 +188,49 @@ def run(ctx) -> str:
         out.append(md.h(3, "平台 / 容器提供的命名空间（无需打包）"))
         out.append(md.table(["命名空间", "引用次数"], [[f"`{k}`", v] for k, v in plat.items()]))
 
+    # ---------------- 平台 / 容器 / JDK 提供的依赖
+    # 这些命名空间在上面的第三方表里被过滤掉了，但升级容器 / JDK 时恰恰是它们最先炸。
+    platform_deps = proj.get("platform_deps")
+    if platform_deps is None:
+        import lib_registry
+        platform_deps = lib_registry.detect_platform_deps(proj)
+    if platform_deps:
+        provider_label = {"container": "容器", "jdk": "JDK", "app": "war", "unknown": "待确认"}
+        out.append(md.h(3, "平台 / 容器 / JDK 提供的依赖（不打进 war，升级时最易漏）"))
+        out.append(md.table(
+            ["组件", "由谁提供", "状态", "版本线索", "引用次数", "迁移目标", "阶段"],
+            [[d["name"], provider_label.get(d["provided_by"], d["provided_by"]), d["status"],
+              d["version_hint"] or "-", d["usage"], d["migration_target"] or "-",
+              d["phase"] or "-"] for d in platform_deps]))
+        for d in platform_deps:
+            out.append(f"\n- **{d['name']}**：" + "；".join(d["evidence"][:5]))
+            if d["notes"]:
+                out.append(f"  - 提示：{d['notes']}")
+        out.append("")
+
+    # ---------------- 组件改造台账（迁移登记）
+    ledger = proj.get("components")
+    if ledger is None:
+        import lib_registry
+        ledger = lib_registry.detect_components(proj)
+    out.append(md.h(2, "组件改造台账（迁移登记）"))
+    out.append("> 由 `config/legacy/components.json` 与内置基线共同判定；"
+               "闭源组件请在该文件里补充包名前缀 / jar 名 / 配置文件 / 基类签名。\n")
+    if ledger:
+        out.append(md.table(
+            ["组件", "类别", "状态", "引用次数", "war 内 jar", "缺失配套", "迁移目标",
+             "破坏性", "阶段"],
+            [[c["name"], c["category"], c["status"], c["usage"],
+              "、".join(c["jars"]) or "**未打包**",
+              "、".join(c["missing_companions"]) or "-",
+              c["migration_target"] or "-", c["breaking"] or "-", c["phase"] or "-"]
+             for c in ledger]))
+        for c in ledger:
+            if c["notes"]:
+                out.append(f"- **{c['name']}**：{c['notes']}")
+    else:
+        out.append("（未检出需登记的第三方/闭源组件）\n")
+
     # ---------------- 数据依赖
     out.append(md.h(2, "数据库依赖"))
     if dialects:

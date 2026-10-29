@@ -22,7 +22,7 @@ from .artifacts import ArtifactStore, SummaryStore
 from .context import Block, build_task_context
 from .errors import ValidationError
 from .models import Budget, EffortLevel, Result, TaskDef
-from .scan import load_project_facts, source_blocks
+from .scan import load_project_facts, source_blocks, component_ledger, platform_deps
 
 __all__ = ["StageContext", "StageResult", "HANDLERS", "run_stage", "digest", "LAYER_VALUES"]
 
@@ -113,6 +113,9 @@ class StageResult:
     artifact: str | None = None
     module: str | None = None
     extra: dict[str, Any] = field(default_factory=dict)
+    #: 本阶段最后一次后端调用结果（携带 prefill/decode 速度等）。
+    #: 纯脚本阶段（P0/P5）为 None；编排器据此输出分项速度与剩余时间预测。
+    result: "Result | None" = None
 
 
 # --------------------------------------------------------------------------- 通用调用
@@ -200,6 +203,8 @@ def stage_baseline(ctx: StageContext, task: TaskDef) -> StageResult:
     project = facts["project"]
     webxml = project.get("webxml") or {}
 
+    ledger = component_ledger(facts)
+    plat = platform_deps(facts)
     inventory = {
         "project": project.get("name"),
         "root": project.get("root"),
@@ -217,6 +222,19 @@ def stage_baseline(ctx: StageContext, task: TaskDef) -> StageResult:
         "servlet_count": len(webxml.get("servlets") or []),
         "mapping_count": len(webxml.get("servlet_mappings") or []),
         "sql_tables": sorted({t for s in (project.get("sql") or []) for t in (s.get("tables") or [])}),
+        # 组件改造台账：第三方 / 闭源组件 + 容器 / JDK 提供的平台依赖
+        "components": [
+            {"id": c.get("id"), "name": c.get("name"), "category": c.get("category"),
+             "status": c.get("status"), "usage": c.get("usage"),
+             "migration_target": c.get("migration_target"), "phase": c.get("phase")}
+            for c in ledger
+        ],
+        "platform_deps": [
+            {"id": d.get("id"), "name": d.get("name"), "provided_by": d.get("provided_by"),
+             "status": d.get("status"), "version_hint": d.get("version_hint"),
+             "migration_target": d.get("migration_target"), "phase": d.get("phase")}
+            for d in plat
+        ],
     }
     artifact = ctx.artifacts.write_json("p0/inventory.json", inventory)
 
@@ -232,6 +250,27 @@ def stage_baseline(ctx: StageContext, task: TaskDef) -> StageResult:
         f"- 数据库驱动：{inventory['drivers'] or '未检出'}",
         f"- 建表语句中的表：{inventory['sql_tables'] or '无'}",
     ]
+
+    eol = [c["name"] for c in inventory["components"] if c["status"] in ("EOL", "unknown")]
+    lines += [
+        "",
+        "## 组件改造台账",
+        "",
+        f"- 第三方 / 闭源组件：{len(inventory['components'])} 个"
+        + (f"（其中停更或状态未知：{'、'.join(eol)}）" if eol else ""),
+    ]
+    for c in inventory["components"]:
+        lines.append(f"  - `{c['name']}` [{c['status']}] 引用 {c['usage']} 处"
+                     f" → {c['migration_target'] or '待定'}（阶段 {c['phase'] or '-'}）")
+    if inventory["platform_deps"]:
+        lines.append(f"- 平台 / 容器 / JDK 提供的依赖：{len(inventory['platform_deps'])} 个")
+        for d in inventory["platform_deps"]:
+            lines.append(f"  - `{d['name']}`（{d['provided_by']}"
+                         + (f"，版本线索 {d['version_hint']}" if d["version_hint"] else "")
+                         + f"）→ {d['migration_target'] or '待定'}")
+    else:
+        lines.append("- 平台 / 容器 / JDK 提供的依赖：未检出")
+
     md = "\n".join(lines) + "\n"
     ctx.artifacts.write_md("p0/baseline", md)
     return StageResult(text=md, artifact=artifact)
@@ -265,7 +304,7 @@ def stage_classify(ctx: StageContext, task: TaskDef) -> StageResult:
             rows.append({"file": block.name, "layer": "other", "module": "unknown", "risk": "模型未覆盖"})
 
     artifact = ctx.artifacts.write_jsonl(f"p1/{task.task_id}.jsonl", rows)
-    return StageResult(text=result.text, artifact=artifact, extra={"rows": len(rows)})
+    return StageResult(text=result.text, artifact=artifact, extra={"rows": len(rows)}, result=result)
 
 
 def _p1_rows(ctx: StageContext) -> list[dict]:
@@ -345,7 +384,7 @@ def stage_modules(ctx: StageContext, task: TaskDef) -> StageResult:
     result = _call(ctx, task, kind="modules", blocks=blocks)
     parsed = require(result.text, task.acceptance, task_id=task.task_id)
     artifact = ctx.artifacts.write_json("p2/modules.json", parsed)
-    return StageResult(text=result.text, artifact=artifact, extra={"p1_rows": len(rows)})
+    return StageResult(text=result.text, artifact=artifact, extra={"p1_rows": len(rows)}, result=result)
 
 
 # --------------------------------------------------------------------------- P3
@@ -450,7 +489,8 @@ def stage_deps(ctx: StageContext, task: TaskDef) -> StageResult:
         matrix += [f"- {v.get('from')} -> {v.get('to')}：{v.get('reason', '')}" for v in violations[:40]]
     ctx.artifacts.write_md("p3/layer_matrix", "\n".join(matrix) + "\n")
 
-    return StageResult(text=result.text, artifact=artifact, extra={"edges": len(edges), "violations": len(violations or [])})
+    return StageResult(text=result.text, artifact=artifact,
+                        extra={"edges": len(edges), "violations": len(violations or [])}, result=result)
 
 
 # --------------------------------------------------------------------------- P4
@@ -508,6 +548,7 @@ def stage_architecture(ctx: StageContext, task: TaskDef) -> StageResult:
     all_risks: list[dict] = []
     done: list[str] = []
     failed: list[str] = []
+    last_result: "Result | None" = None
 
     for module in targets:
         smod = _script_module(facts, module)
@@ -519,6 +560,7 @@ def stage_architecture(ctx: StageContext, task: TaskDef) -> StageResult:
         ]
         try:
             result = _call(ctx, task, kind="architecture", blocks=blocks, module=module)
+            last_result = result
             parsed = require(result.text, task.acceptance, task_id=task.task_id)
         except ValidationError as exc:
             failed.append(module)
@@ -549,6 +591,7 @@ def stage_architecture(ctx: StageContext, task: TaskDef) -> StageResult:
         text=aggregate["summary"],
         artifact=artifact,
         extra={"modules": len(done), "risks": len(all_risks), "failed": failed},
+        result=last_result,
     )
 
 
