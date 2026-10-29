@@ -1,0 +1,463 @@
+schema_version: "1.0"
+document:
+  id: "ctp-code-analysis-design-draft"
+  title: "CTP代码分析支持方案草稿"
+  status: "draft_pending_real_samples"
+  language: "zh-CN"
+  created_at: "2026-10-30"
+  updated_at: "2026-10-30"
+  purpose: >-
+    记录无实际代码阶段形成的目标、假设、分析范围和后续校准方法。
+    获取真实代码、配置、二进制或运行轨迹后，应基于证据重新设计方案，
+    不得将本文件中的待确认内容直接视为CTP实现事实。
+
+ai_usage:
+  intended_users:
+    - "后续方案设计人员"
+    - "代码分析AI"
+    - "CTP领域专家"
+  mandatory_behavior:
+    - "先读取real_sample_intake、assumptions和open_questions，再提出实施方案。"
+    - "将verification_status为unverified的内容视为假设。"
+    - "真实样本与草稿冲突时，以真实样本和领域专家确认为准。"
+    - "每次校准后更新evidence、decisions、assumptions和change_log。"
+    - "未经样本验证，不提前固化flowc、opg、Operation或OpStep的解析方式。"
+    - "设计输出必须区分事实、推断、待确认项和无法静态解析项。"
+  evidence_priority:
+    - priority: 1
+      source: "可复现的实际运行轨迹"
+    - priority: 2
+      source: "实际源码、配置加载代码和部署配置"
+    - priority: 3
+      source: "JAR/class、数据库定义和构建产物"
+    - priority: 4
+      source: "CTP正式文档及领域专家确认"
+    - priority: 5
+      source: "本设计草稿中的未验证假设"
+
+context:
+  framework: "CTP"
+  availability:
+    actual_code_available: false
+    actual_config_available: false
+    runtime_evidence_available: false
+  known_architecture:
+    layers:
+      - id: "presentation"
+        name: "展示层"
+        primary_objects: ["JSP"]
+      - id: "business_logic"
+        name: "业务逻辑层"
+        primary_objects: ["Operation"]
+      - id: "functional_implementation"
+        name: "功能实现层"
+        primary_objects: ["组件", "OpStep"]
+    engine_component_structure:
+      engines_or_components: ["CTE", "GBC", "AUTH4CTP"]
+    cte_core_elements:
+      - "Operation"
+      - "Context"
+      - "Format"
+      - "Service"
+      - "OpStep"
+    configuration_driven:
+      primary_format: "XML"
+    expected_primary_chain:
+      - "JSP"
+      - "flowc"
+      - "opg"
+      - "Operation"
+      - "OpStep"
+
+strategy:
+  recommendation: "先获取代表性实际样本，再完成详细设计"
+  current_document_role: "能力地图、样本获取清单和后续校准基线"
+  do_now:
+    - "保留分析目标和核心对象范围"
+    - "定义最小样本包和证据记录方式"
+    - "定义样本到位后的验证流程和决策门槛"
+  defer_until_samples:
+    - "完整图模型"
+    - "全量解析器体系"
+    - "图数据库和可视化平台选型"
+    - "动态探针方案"
+    - "完整规则目录"
+    - "全版本兼容策略"
+    - "正式准确率与性能阈值"
+
+objectives:
+  primary:
+    - id: "OBJ-01"
+      description: "还原JSP到OpStep及下游服务或数据对象的交易调用链"
+    - id: "OBJ-02"
+      description: "识别OpStep复用、条件跳转和修改影响范围"
+    - id: "OBJ-03"
+      description: "识别Context数据流、Format映射和Service调用关系"
+    - id: "OBJ-04"
+      description: "评估分层边界、组件边界、存储过程和版本差异风险"
+    - id: "OBJ-05"
+      description: "为后续影响分析、迁移评估和技术治理提供可追溯数据"
+  non_goals_for_initial_pilot:
+    - "建设通用代码分析平台"
+    - "完整推断所有Context字段类型"
+    - "实现自动修复"
+    - "覆盖所有CTP版本"
+    - "替代领域专家对业务语义的确认"
+
+scope_draft:
+  file_types:
+    - category: "presentation"
+      candidates: ["*.jsp", "*.jspf", "*.tld", "前端脚本和页面配置"]
+      analysis_focus: ["入口参数", "交易码", "提交目标", "权限标识"]
+    - category: "flow_configuration"
+      candidates: ["*.flowc", "*.opg", "*.xml", "*.xsd"]
+      analysis_focus: ["流程入口", "编排", "条件分支", "跳转", "异常出口"]
+    - category: "java_source"
+      candidates: ["*.java"]
+      analysis_focus: ["Operation", "OpStep", "工厂", "注册", "调度", "服务调用"]
+    - category: "java_binary"
+      candidates: ["*.class", "*.jar"]
+      analysis_focus: ["无源码类关系", "方法调用", "框架版本"]
+    - category: "runtime_configuration"
+      candidates: ["*.properties", "*.yml", "*.yaml", "部署描述文件"]
+      analysis_focus: ["环境差异", "覆盖顺序", "服务地址", "功能开关"]
+    - category: "database"
+      candidates: ["*.sql", "存储过程定义", "DAO映射"]
+      analysis_focus: ["表和过程依赖", "事务", "数据库厂商耦合"]
+    - category: "build_and_dependency"
+      candidates: ["pom.xml", "build.gradle", "build.xml", "依赖清单"]
+      analysis_focus: ["模块", "依赖", "版本", "构建期生成行为"]
+  dependency_chains:
+    primary: "JSP -> flowc -> opg -> Operation -> OpStep"
+    extended: "入口 -> JSP -> flowc -> opg -> Operation -> OpStep -> Service/SQL/存储过程/外部系统"
+    supplemental:
+      - "Operation -> Context"
+      - "OpStep -> Context"
+      - "Operation/OpStep -> Format"
+      - "Operation/OpStep -> Service"
+      - "JSP/Operation -> AUTH4CTP"
+      - "CTE -> GBC/业务组件"
+      - "配置文件 -> 引用/继承/包含/覆盖 -> 配置文件"
+
+concept_model_draft:
+  status: "conceptual_only"
+  nodes:
+    - "Application"
+    - "Engine"
+    - "Component"
+    - "JspPage"
+    - "Flow"
+    - "OpGroup"
+    - "Operation"
+    - "OpStepDefinition"
+    - "OpStepInstance"
+    - "ContextItem"
+    - "Format"
+    - "Service"
+    - "DataObject"
+    - "ConfigFile"
+    - "VersionProfile"
+  relationships:
+    - "ROUTES_TO"
+    - "CONTAINS"
+    - "EXECUTES_NEXT"
+    - "JUMPS_TO"
+    - "REUSES"
+    - "CALLS"
+    - "READS_CONTEXT"
+    - "WRITES_CONTEXT"
+    - "USES_FORMAT"
+    - "CALLS_SERVICE"
+    - "ACCESSES_DATA"
+    - "AUTHENTICATED_BY"
+    - "DEFINED_IN"
+    - "OVERRIDES"
+    - "VARIANT_OF"
+    - "UNRESOLVED_REFERENCE"
+  evidence_fields_required:
+    - "source_file"
+    - "source_location"
+    - "version"
+    - "environment"
+    - "extraction_method"
+    - "evidence_type"
+    - "confidence"
+    - "verification_status"
+  modeling_notes:
+    - "区分OpStep定义与其在具体流程中的实例。"
+    - "保留原始配置层，不只保存覆盖合并后的最终结果。"
+    - "动态调用和反射依赖使用候选关系表达，不伪装为确定关系。"
+
+analysis_capabilities_draft:
+  transaction_orchestration:
+    - "从JSP或交易码定位完整流程"
+    - "识别正常、异常、回退和中断路径"
+    - "识别条件分支、循环和跨流程跳转"
+    - "检测不可达步骤、无出口路径、断链和循环跳转"
+    - "比较不同版本的流程差异"
+  opstep_reuse_and_jump:
+    - "统计公共OpStep被哪些交易复用"
+    - "比较复用参数和Context前置条件"
+    - "识别状态、副作用和隐式依赖"
+    - "识别绕过鉴权、校验、事务或异常处理的跳转"
+    - "计算OpStep变更影响范围"
+  context_dataflow:
+    - "识别Context键的生产者、消费者和作用域"
+    - "识别先读后写、多处覆盖、未使用写入和类型冲突"
+    - "跟踪页面参数、Operation、OpStep和Service之间的数据流"
+  format_and_service:
+    - "抽取Format字段、继承、包含和覆盖"
+    - "校验页面、Context与Service请求响应之间的字段映射"
+    - "识别Service调用方、协议、超时、重试和事务边界"
+  architecture_and_legacy:
+    - "检测跨层直接依赖和引擎组件边界绕行"
+    - "识别存储过程中的业务规则、事务和数据库耦合"
+    - "识别版本覆盖、实现漂移、废弃配置和双轨实现"
+
+architecture_constraints_to_verify:
+  layering:
+    - "JSP不得直接访问数据库或底层服务"
+    - "展示层不应承载核心业务逻辑"
+    - "功能组件不应反向依赖展示层"
+  engine_component_boundaries:
+    - "AUTH4CTP鉴权入口不应被绕过"
+    - "组件间调用应经过规定接口"
+    - "不应存在未批准的循环组件依赖"
+  transaction_and_flow:
+    - "跳转不应绕过必要校验、提交或补偿步骤"
+    - "公共OpStep的隐式Context前提应可识别"
+  verification_status: "unverified"
+  note: "以上均为候选约束，必须依据框架规范和实际代码确认。"
+
+legacy_risk_dimensions:
+  stored_procedures:
+    inspect:
+      - "调用交易和OpStep"
+      - "输入输出参数"
+      - "涉及的表和数据对象"
+      - "业务规则复杂度"
+      - "事务提交和动态SQL"
+      - "数据库方言与版本依赖"
+      - "是否存在替代实现"
+    black_box_rule: "无法获得过程定义时标记为黑盒数据依赖"
+  version_evolution:
+    tentative_precedence: "基础框架版本 < 项目定制 < 补丁版本 < 环境覆盖"
+    verification_status: "unverified"
+    inspect:
+      - "同名Operation、OpStep、Format和Service的差异"
+      - "被覆盖但仍被旧流程引用的对象"
+      - "XML语义和默认值变化"
+      - "包名、类名和交易码迁移"
+      - "兼容代码、废弃配置和双轨实现"
+
+real_sample_intake:
+  minimum_sample_set:
+    transaction_count: "3-5"
+    required_scenarios:
+      - "简单直线流程"
+      - "多分支与异常跳转"
+      - "公共OpStep复用"
+      - "AUTH4CTP鉴权"
+      - "外部Service调用"
+      - "SQL或存储过程调用"
+      - "至少一个版本或环境覆盖案例"
+    required_artifacts:
+      - "对应JSP、标签及页面提交配置"
+      - "对应flowc、opg和关联XML/XSD"
+      - "Operation、OpStep、工厂、注册及调度源码"
+      - "Context、Format和Service代表性定义"
+      - "CTE、GBC、AUTH4CTP交互样本"
+      - "构建文件和依赖清单"
+      - "部署配置及配置加载顺序"
+      - "SQL、DAO映射及存储过程定义"
+      - "如可获得，至少一次交易运行日志或链路轨迹"
+  alternatives_if_source_unavailable:
+    - "脱敏配置文件"
+    - "JAR/class"
+    - "目录和类清单"
+    - "数据库对象定义"
+    - "运行日志"
+    - "领域专家确认的人工调用链"
+  security_requirements:
+    - "优先在本地或内网处理"
+    - "样本脱敏规则需单独确认"
+    - "输出中不得泄露密钥、账号或真实业务敏感数据"
+
+sample_review_workflow:
+  - step: 1
+    name: "资产盘点"
+    outputs:
+      - "文件类型、数量、编码和目录分布"
+      - "源码、字节码、配置、数据库和运行证据可用性"
+  - step: 2
+    name: "人工还原基准链"
+    outputs:
+      - "至少一条经领域专家确认的端到端调用链"
+      - "每个链路节点的证据位置"
+  - step: 3
+    name: "机制验证"
+    outputs:
+      - "flowc/opg语法和生命周期"
+      - "Operation/OpStep注册与调度方式"
+      - "配置覆盖顺序"
+      - "Context、Format和Service实际语义"
+  - step: 4
+    name: "最小技术验证"
+    outputs:
+      - "自动还原一条主链"
+      - "静态可解析与动态不可解析部分清单"
+      - "准确性、复杂度和主要风险判断"
+  - step: 5
+    name: "正式方案重构"
+    outputs:
+      - "按证据裁剪后的范围"
+      - "解析器、模型、规则和存储选型"
+      - "阶段计划、工作量和验收标准"
+
+implementation_options_after_sampling:
+  - condition: "配置格式统一且调用入口集中"
+    recommendation: "轻量定制扫描工具"
+  - condition: "Java继承和接口规范明显"
+    recommendation: "源码或字节码规则分析"
+  - condition: "配置与代码共同决定行为"
+    recommendation: "配置模型与代码索引联合分析"
+  - condition: "动态调用占比较高"
+    recommendation: "静态分析加运行日志或探针校准"
+  - condition: "版本语义差异较大"
+    recommendation: "优先建设版本画像和适配层"
+  - condition: "需求为一次性评估"
+    recommendation: "脚本加结构化报告，不建设平台"
+  - condition: "需求为长期持续治理"
+    recommendation: "再评估图谱、增量分析和CI集成"
+
+initial_pilot_scope:
+  include:
+    - "文件资产盘点"
+    - "主调用链还原"
+    - "OpStep复用影响分析"
+    - "存储过程和版本覆盖风险识别"
+  exclude:
+    - "完整Context类型推导"
+    - "字段级Format全链路分析"
+    - "通用规则DSL"
+    - "自动修复"
+    - "复杂可视化平台"
+    - "全部CTP版本适配"
+
+provisional_deliverables:
+  - id: "DEL-01"
+    name: "文件与组件资产清单"
+  - id: "DEL-02"
+    name: "经验证的端到端交易调用链"
+  - id: "DEL-03"
+    name: "OpStep复用和影响范围清单"
+  - id: "DEL-04"
+    name: "Context、Format、Service关系样本"
+  - id: "DEL-05"
+    name: "存储过程和数据库依赖清单"
+  - id: "DEL-06"
+    name: "版本覆盖与实现差异清单"
+  - id: "DEL-07"
+    name: "动态及未解析引用清单"
+  - id: "DEL-08"
+    name: "架构约束和历史包袱风险清单"
+  - id: "DEL-09"
+    name: "正式实施方案与工作量评估"
+
+provisional_evaluation:
+  note: "以下指标仅为候选项，样本验证后设置阈值。"
+  dimensions:
+    - "文件发现覆盖率"
+    - "支持文件解析成功率"
+    - "样本主链还原率"
+    - "引用解析准确率"
+    - "高严重度规则误报率"
+    - "节点、关系和问题的证据可追溯率"
+    - "动态及未解析依赖的显式标记率"
+    - "版本来源及覆盖顺序解释能力"
+    - "新文件格式和新版本的扩展成本"
+    - "闭源代码本地处理与敏感信息保护"
+
+design_gate:
+  ready_for_detailed_design_when:
+    - "已人工确认至少一条端到端调用链"
+    - "flowc和opg的语法与生命周期已明确"
+    - "Operation和OpStep的注册及调度机制已明确"
+    - "配置加载和覆盖顺序已明确"
+    - "至少找到一种稳定的跨文件对象关联键"
+    - "已估算动态依赖比例及可观测性"
+    - "已确认需求属于一次性评估还是长期治理"
+  stop_or_rescope_when:
+    - "关键配置或二进制均无法获取"
+    - "无法形成可验证的人工基准链"
+    - "运行行为主要由不可观测的动态数据决定"
+    - "不同版本不存在可复用的核心语义"
+
+open_questions:
+  - id: "Q-01"
+    question: "flowc和opg是XML、自定义文本、生成产物还是部署产物？"
+    status: "open"
+  - id: "Q-02"
+    question: "JSP通过何种标识绑定交易或流程？"
+    status: "open"
+  - id: "Q-03"
+    question: "Operation是类、接口、配置实例还是混合模型？"
+    status: "open"
+  - id: "Q-04"
+    question: "OpStep跳转由配置、代码还是运行时数据决定？"
+    status: "open"
+  - id: "Q-05"
+    question: "Context有哪些作用域、生命周期和类型规则？"
+    status: "open"
+  - id: "Q-06"
+    question: "Format是否支持继承、覆盖、动态字段或版本？"
+    status: "open"
+  - id: "Q-07"
+    question: "Service是否统一经过注册、代理或门面层？"
+    status: "open"
+  - id: "Q-08"
+    question: "AUTH4CTP鉴权发生在哪些入口，是否存在绕行路径？"
+    status: "open"
+  - id: "Q-09"
+    question: "存储过程定义和数据库对象元数据是否可获得？"
+    status: "open"
+  - id: "Q-10"
+    question: "框架、项目、补丁和环境配置的实际覆盖顺序是什么？"
+    status: "open"
+  - id: "Q-11"
+    question: "最终目标是一次性架构评估还是长期持续分析？"
+    status: "open"
+
+evidence: []
+
+decisions:
+  - id: "DEC-001"
+    date: "2026-10-30"
+    decision: "暂不实施完整分析平台，先获取真实代表性样本。"
+    rationale: "当前缺少文件语法、调度机制、配置覆盖和版本差异的实际证据。"
+    status: "accepted"
+
+assumptions:
+  - id: "ASM-001"
+    statement: "CTP具有展示层JSP、业务逻辑层Operation和功能实现层组件的分层结构。"
+    verification_status: "provided_but_not_code_verified"
+  - id: "ASM-002"
+    statement: "CTE、GBC、AUTH4CTP构成主要引擎或组件边界。"
+    verification_status: "provided_but_not_code_verified"
+  - id: "ASM-003"
+    statement: "CTE核心要素包括Operation、Context、Format、Service和OpStep。"
+    verification_status: "provided_but_not_code_verified"
+  - id: "ASM-004"
+    statement: "主要调用链为JSP到flowc、opg、Operation、OpStep。"
+    verification_status: "provided_but_not_code_verified"
+  - id: "ASM-005"
+    statement: "框架以XML配置驱动为主。"
+    verification_status: "provided_but_not_code_verified"
+
+change_log:
+  - version: "1.0"
+    date: "2026-10-30"
+    changes:
+      - "建立无代码阶段的AI可读设计草稿。"
+      - "将完整实施方案调整为样本优先的校准方案。"
+      - "加入证据优先级、开放问题、设计门槛和后续更新位置。"
