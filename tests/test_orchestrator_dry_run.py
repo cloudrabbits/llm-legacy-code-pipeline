@@ -135,3 +135,41 @@ def test_heartbeat_and_logs_written(sample_project, tasks_dir, tmp_path):
     assert run_once(sample_project, tasks_dir, runtime) == 0
     assert (runtime / "state" / "heartbeat.json").exists()
     assert (runtime / "logs" / "orchestrator.log").exists()
+
+
+def test_guard_refuses_different_project_same_runtime(sample_project, tasks_dir, tmp_path):
+    """身份守卫：同一 runtime 被另一个项目复用时，必须拒绝而非静默跳过。"""
+    runtime = tmp_path / "runtime"
+    assert run_once(sample_project, tasks_dir, runtime) == 0
+
+    other = tmp_path / "other_demo"
+    other.mkdir()
+    with pytest.raises(orchestrator.PipelineError):
+        run_once(other, tasks_dir, runtime)
+
+
+def test_default_runtime_is_project_scoped(sample_project, tasks_dir, tmp_path, monkeypatch):
+    """未显式给 --runtime 时，产物应按项目派生 runtime/<slug>/ 隔离。"""
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    monkeypatch.chdir(tmp_path)
+    argv = [
+        "--project", str(sample_project),
+        "--dry-run",
+        "--tasks", str(tasks_dir),
+        "--config", os.path.join(repo_root, "config", "pipeline.yaml"),
+        "--budget", os.path.join(repo_root, "config", "budget.yaml"),
+    ]
+    args = orchestrator.parse_args(argv)
+    assert orchestrator.run(args) == 0
+    slug = orchestrator._project_runtime_slug(str(sample_project))
+    assert (tmp_path / "runtime" / slug / "state" / "checkpoint.jsonl").exists()
+    assert (tmp_path / "runtime" / slug / "artifacts" / "p0" / "baseline.md").exists()
+
+
+def test_project_runtime_slug_is_stable_and_safe():
+    assert orchestrator._project_runtime_slug("D:\\IdeaProjects\\supermarketmanager") == "supermarketmanager"
+    assert orchestrator._project_runtime_slug("/data/my project v2/") == "my_project_v2"
+    # 不同路径、同名目录应产生相同 slug（靠身份守卫而非 slug 区分）
+    a = orchestrator._project_runtime_slug("/data/foo")
+    b = orchestrator._project_runtime_slug("/backup/foo")
+    assert a == b == "foo"

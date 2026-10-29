@@ -26,7 +26,18 @@ if [[ -f "$HERE/nightly.env" ]]; then
     source "$HERE/nightly.env"
 fi
 
-HEARTBEAT_PATH="${HEARTBEAT_PATH:-$REPO_ROOT/runtime/state/heartbeat.json}"
+# 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
+_project_slug() {
+    local name safe
+    name="$(basename "${1%/}")"
+    name="${name:-project}"
+    safe="$(printf '%s' "$name" | sed -E 's/[^[:alnum:]._-]+/_/g')"
+    printf '%s' "${safe:-project}"
+}
+RUNTIME_SLUG="$(_project_slug "${PROJECT:-}")"
+
+# 心跳按项目隔离，避免不同项目共用同一 runtime 时看门狗误判
+HEARTBEAT_PATH="${HEARTBEAT_PATH:-$REPO_ROOT/runtime/$RUNTIME_SLUG/state/heartbeat.json}"
 THRESHOLD="${WATCHDOG_THRESHOLD_SEC:-600}"
 SERVICE="${WATCHDOG_SERVICE:-legacy-nightly.service}"
 PYTHON="${PYTHON:-python3}"

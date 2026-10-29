@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 import time
 from datetime import datetime, timedelta
@@ -47,7 +48,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--config", default=os.path.join("config", "pipeline.yaml"))
     ap.add_argument("--budget", default=DEFAULT_BUDGET_PATH)
     ap.add_argument("--tasks", default=None, help="任务目录，默认取配置里的 paths.tasks")
-    ap.add_argument("--runtime", default=None, help="运行时根目录前缀（state/artifacts/summaries 会挂在其下）")
+    ap.add_argument("--runtime", default=None, help="运行时根目录前缀（state/artifacts/summaries 会挂在其下）。"
+                        " 默认按 --project 目录名派生 runtime/<slug>/ 实现项目间隔离。")
     ap.add_argument("--duration-hours", type=float, default=None, help="覆盖配置里的最大时长")
     ap.add_argument("--max-tasks", type=int, default=None, help="最多执行多少个任务（冒烟用）")
     ap.add_argument("--dry-run", action="store_true", help="只执行纯脚本阶段，跳过一切 LLM 调用")
@@ -67,7 +69,29 @@ def _under(root: str | None, path: str) -> str:
     return os.path.join(root, os.path.basename(os.path.normpath(path)))
 
 
+def _project_runtime_slug(project: str) -> str:
+    """从被分析项目路径派生运行根目录名。
+
+    默认 `--runtime` 未显式指定时，产物与断点全部落在 `runtime/<slug>/` 下，
+    使每个项目天然隔离（不会跨项目误续跑、不会互相覆盖）。
+
+    取项目目录名并清洗为安全字符；同名目录靠身份守卫（`checkpoint` 里的
+    project 字段）兜底，避免不同路径的同名目录串台。
+    """
+    name = os.path.basename(os.path.normpath(project)).strip()
+    if not name:
+        name = "project"
+    # 仅保留 ASCII 字母数字、点、下划线、连字符；其余替换为下划线。
+    # 该规则与 watchdog.ps1 / linux 部署脚本保持一致（跨语言一致）。
+    safe = re.sub(r"[^A-Za-z0-9._-]+", "_", name)
+    return safe or "project"
+
+
 def run(args: argparse.Namespace) -> int:
+    # 默认按项目隔离运行时：runtime/<slug>/，避免不同项目共用同一断点/产物
+    if args.runtime is None:
+        args.runtime = os.path.join("runtime", _project_runtime_slug(args.project))
+
     cfg: PipelineConfig = load_pipeline_config(args.config)
     logger = setup_logging(
         _under(args.runtime, cfg.logging.dir),
@@ -83,6 +107,16 @@ def run(args: argparse.Namespace) -> int:
         path=os.path.join(state_dir, "checkpoint.jsonl"),
         index_path=os.path.join(state_dir, "index.json"),
     )
+
+    # 身份守卫：若本 runtime 已归属另一个项目，拒绝误续跑（防止跨项目静默跳过）
+    canonical_project = os.path.abspath(os.path.normpath(args.project))
+    recorded_project = checkpoint.state.project
+    if recorded_project and recorded_project != canonical_project:
+        raise PipelineError(
+            f"runtime 目录 {state_dir} 已归属项目 {recorded_project!r}，"
+            f"与当前 --project {canonical_project!r} 不符。\n"
+            f"请先清理该 runtime，或为当前项目指定独立的 --runtime 覆盖。"
+        )
     artifacts = ArtifactStore(root=_under(args.runtime, cfg.paths.artifacts))
     tokenizer = Tokenizer()
     summaries = SummaryStore(
@@ -138,9 +172,10 @@ def run(args: argparse.Namespace) -> int:
 
     queue = [t for t in tasks if not checkpoint.state.is_done(t.task_id)]
     logger.info(
-        "启动：项目=%s 画像=%s 任务总数=%d 待执行=%d 断点续跑=%s",
+        "启动：项目=%s 画像=%s runtime=%s 任务总数=%d 待执行=%d 断点续跑=%s",
         args.project,
         args.profile,
+        args.runtime,
         len(tasks),
         len(queue),
         "是" if checkpoint.state.seq else "否",
@@ -148,7 +183,7 @@ def run(args: argparse.Namespace) -> int:
 
     # 分项速度（prefill/decode）的滚动采集，用于 verbose 下估算剩余时间
     _timed_results: list = []
-    checkpoint.append(CheckpointEvent(event="RUN_START", status=args.profile))
+    checkpoint.append(CheckpointEvent(event="RUN_START", status=args.profile, project=canonical_project))
 
     deadline = _deadline(cfg, args)
     policy = RetryPolicy.from_config(cfg)

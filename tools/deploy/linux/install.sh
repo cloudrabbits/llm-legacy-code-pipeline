@@ -38,6 +38,15 @@ OLLAMA_USER="ollama"
 UNINSTALL=0
 
 die() { printf '[install] 错误：%s\n' "$*" >&2; exit 1; }
+
+# 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
+_project_slug() {
+    local name safe
+    name="$(basename "${1%/}")"
+    name="${name:-project}"
+    safe="$(printf '%s' "$name" | sed -E 's/[^[:alnum:]._-]+/_/g')"
+    printf '%s' "${safe:-project}"
+}
 info() { printf '[install] %s\n' "$*"; }
 
 usage() {
@@ -136,8 +145,8 @@ REPO_ROOT=$REPO_ROOT
 PROJECT=$PROJECT
 PROFILE=$PROFILE
 PYTHON=$PYTHON_BIN
-LOCK_FILE=$REPO_ROOT/runtime/state/nightly.lock
-HEARTBEAT_PATH=$REPO_ROOT/runtime/state/heartbeat.json
+LOCK_FILE=$REPO_ROOT/runtime/$(_project_slug "$PROJECT")/state/nightly.lock
+HEARTBEAT_PATH=$REPO_ROOT/runtime/$(_project_slug "$PROJECT")/state/heartbeat.json
 WATCHDOG_THRESHOLD_SEC=600
 WATCHDOG_SERVICE=legacy-nightly.service
 SYSTEMD_MODE=$SYSTEMD_MODE
@@ -236,5 +245,5 @@ cat <<TXT
 
 顺带确认：
   tail -f $REPO_ROOT/logs/orchestrator.stdout.log
-  cat $REPO_ROOT/runtime/state/heartbeat.json
+  cat $REPO_ROOT/runtime/$(_project_slug "$PROJECT")/state/heartbeat.json
 TXT

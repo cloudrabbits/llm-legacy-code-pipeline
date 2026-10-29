@@ -113,7 +113,8 @@ sudo loginctl enable-linger "$USER"
 
 ## 2. 看门狗
 
-心跳文件 `runtime/state/heartbeat.json` 由编排器每 30s 原子写一次。
+心跳文件 `runtime/<项目slug>/state/heartbeat.json` 由编排器每 30s 原子写一次
+（`slug` 由 `--project` 目录名派生，与编排器运行时隔离一致；看门狗按同一 `slug` 读取）。
 `legacy-watchdog.timer` 每 5 分钟调起一次 `watchdog.sh` 做**单次**检查
 （与 Windows 版一致：不做常驻进程）。
 
@@ -189,7 +190,7 @@ PYTHONUTF8=1
 - [ ] `models/qwen2_bpe/tokenizer.json` 已就位（否则 token 估算退化为启发式 ×1.18）
 - [ ] `systemctl status legacy-nightly` 一次手动跑完整，退出码 0 或 2
 - [ ] `logs/orchestrator.stdout.log` 与 `logs/orchestrator.log` 中文正常（无 `?`/乱码）
-- [ ] `runtime/state/heartbeat.json` 每 30s 更新
+- [ ] `runtime/<项目slug>/state/heartbeat.json` 每 30s 更新
 - [ ] 杀掉编排器后等 10 分钟，看门狗能把它拉起来
 - [ ] `nvidia-smi` 可用（不可用也不影响运行，显存采样会优雅跳过）
 

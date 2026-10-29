@@ -33,7 +33,18 @@ NIGHTLY_EXTRA_ARGS="${_ext_args:-${NIGHTLY_EXTRA_ARGS:-}}"
 
 : "${PROJECT:?PROJECT 未配置，请先运行 tools/deploy/linux/install.sh}"
 
-LOCK_FILE="${LOCK_FILE:-$REPO_ROOT/runtime/state/nightly.lock}"
+# 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
+_project_slug() {
+    local name safe
+    name="$(basename "${1%/}")"
+    name="${name:-project}"
+    safe="$(printf '%s' "$name" | sed -E 's/[^[:alnum:]._-]+/_/g')"
+    printf '%s' "${safe:-project}"
+}
+RUNTIME_SLUG="$(_project_slug "$PROJECT")"
+
+# 单实例锁按项目隔离，避免不同项目共用同一 runtime 时互相阻塞
+LOCK_FILE="${LOCK_FILE:-$REPO_ROOT/runtime/$RUNTIME_SLUG/state/nightly.lock}"
 LOCK_DIR="$(dirname "$LOCK_FILE")"
 
 mkdir -p "$LOCK_DIR" "$REPO_ROOT/logs"

@@ -3,7 +3,7 @@
     编排器看门狗：心跳超过阈值即杀掉僵死进程并重启。
 
 .DESCRIPTION
-    * 心跳文件由 orchestrator.py 每 30s 原子写一次（runtime\state\heartbeat.json）。
+    * 心跳文件由 orchestrator.py 每 30s 原子写一次（runtime\<项目slug>\state\heartbeat.json）。
     * 本脚本默认只检查一次（由每 5 分钟的计划任务调起，避免自己变成常驻进程）。
     * 心跳文件不存在 = 从未启动过，不做处理，避免无限重启。
 
@@ -24,6 +24,31 @@ param(
     [string]$HeartbeatPath = ""
 )
 
+<#
+.SYNOPSIS
+    编排器看门狗：心跳超过阈值即杀掉僵死进程并重启。
+
+    心跳文件由 orchestrator.py 每 30s 原子写一次，位于
+    runtime/<项目slug>/state/heartbeat.json（与 orchestrator 的运行时隔离一致）。
+    本脚本按 -Project 派生同一 slug，从而读到正确的心跳；
+    -HeartbeatPath 可强制覆盖（兼容旧布局或自定义 --runtime）。
+#>
+
+function Get-ProjectSlug([string]$Project) {
+    # 与 orchestrator._project_runtime_slug 保持一致的 slug 派生（仅 ASCII 安全字符）
+    $raw = $Project.TrimEnd('\', '/')
+    $name = Split-Path -Leaf $raw
+    if (-not $name) { $name = 'project' }
+    $safe = $name -replace '[^A-Za-z0-9._-]+', '_'
+    if (-not $safe) { $safe = 'project' }
+    return $safe
+}
+
+if (-not $HeartbeatPath) {
+    $slug = Get-ProjectSlug $Project
+    $HeartbeatPath = Join-Path $RepoRoot ("runtime\" + $slug + "\state\heartbeat.json")
+}
+
 $ErrorActionPreference = "Stop"
 $logDir = Join-Path $RepoRoot "logs"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
@@ -34,8 +59,6 @@ function Write-Log([string]$Message) {
     Add-Content -Path $logFile -Value $line -Encoding UTF8
     Write-Host $line
 }
-
-if (-not $HeartbeatPath) { $HeartbeatPath = Join-Path $RepoRoot "runtime\state\heartbeat.json" }
 
 if (-not (Test-Path $HeartbeatPath)) {
     Write-Log "心跳文件不存在（$HeartbeatPath），视为从未启动，跳过。"

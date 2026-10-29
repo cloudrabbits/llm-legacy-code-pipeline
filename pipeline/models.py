@@ -299,6 +299,8 @@ class CheckpointEvent(BaseModel):
     attempt: int = 0
     route: str = "local"
     status: str | None = None
+    #: 该次运行归属的项目规范绝对路径；用于跨项目 runtime 复用时拒绝误续跑
+    project: str | None = None
     error_class: str | None = None
     error: str | None = None
     tokens: dict[str, int] = Field(default_factory=dict)

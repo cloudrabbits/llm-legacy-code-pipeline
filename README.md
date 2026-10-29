@@ -50,19 +50,30 @@ python orchestrator.py --project D:\IdeaProjects\supermarketmanager --dry-run --
 python orchestrator.py --project D:\IdeaProjects\supermarketmanager --profile deepseek_sim_qwen38 --verbose
 ```
 
-产物落在 `runtime/`：
+产物按**被分析项目**隔离，落在 `runtime/<项目slug>/`（`slug` 取 `--project` 目录名并清洗为安全字符）：
 
 ```
-runtime/artifacts/p0/{inventory.json, baseline.md}
-runtime/artifacts/p1/P1-batch-00N.jsonl        # 文件分层打标
-runtime/artifacts/p2/modules.json              # 模块边界
-runtime/artifacts/p3/{deps.jsonl, violations.json, layer_matrix.md}
-runtime/artifacts/p4/{<模块>.md, risks-<模块>.json}
-runtime/artifacts/p5/{nightly_report.md, nightly_report.json}   # 晨报
-runtime/state/{checkpoint.jsonl, index.json, heartbeat.json}
-runtime/summaries/session-*.md                 # 跨会话摘要
-logs/{orchestrator,backend,gpu}.log            # 按天轮转，保留 14 天
+runtime/<项目slug>/artifacts/p0/{inventory.json, baseline.md}
+runtime/<项目slug>/artifacts/p1/P1-batch-00N.jsonl        # 文件分层打标
+runtime/<项目slug>/artifacts/p2/modules.json              # 模块边界
+runtime/<项目slug>/artifacts/p3/{deps.jsonl, violations.json, layer_matrix.md}
+runtime/<项目slug>/artifacts/p4/{<模块>.md, risks-<模块>.json}
+runtime/<项目slug>/artifacts/p5/{nightly_report.md, nightly_report.json}   # 晨报
+runtime/<项目slug>/state/{checkpoint.jsonl, index.json, heartbeat.json}
+runtime/<项目slug>/summaries/session-*.md                 # 跨会话摘要
+runtime/<项目slug>/logs/{orchestrator,backend,gpu}.log    # 按天轮转，保留 14 天
 ```
+
+> **为什么按项目隔离**：断点续跑只看 `checkpoint.jsonl` 里的 task_id 是否终态，而 task_id
+> 与具体项目无关。若不隔离，分析完示例项目后若遗留 `runtime/`，再分析新项目会被整批
+> 判定为「已完成」而静默跳过。按项目隔离后，每个项目拥有独立的断点与产物，天然不存在该问题。
+>
+> **身份守卫**：checkpoint 会记录归属项目的规范绝对路径。若显式用 `--runtime` 指向一个
+> 已归属其他项目的目录，编排器会拒绝启动并提示清理或用独立的 `--runtime` 覆盖
+> （同名目录但路径不同也会触发，避免串台）。
+>
+> **迁移旧数据**：本仓库历史版本产物在共享的 `runtime/` 下，升级后旧目录成为孤儿，
+> 不影响新逻辑，可直接删除 `runtime/`。
 
 ---
 

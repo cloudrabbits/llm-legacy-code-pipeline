@@ -80,6 +80,8 @@ class RunState:
     phases: dict[str, str] = field(default_factory=dict)
     counters: dict[str, int] = field(default_factory=dict)
     malformed_lines: int = 0
+    #: 本 runtime 归属的项目规范绝对路径；空串表示旧格式或尚未记录
+    project: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -91,6 +93,7 @@ class RunState:
             "phases": dict(self.phases),
             "counters": dict(self.counters),
             "malformed_lines": self.malformed_lines,
+            "project": self.project,
         }
 
     @classmethod
@@ -103,6 +106,7 @@ class RunState:
         state.phases = dict(data.get("phases") or {})
         state.counters = dict(data.get("counters") or {})
         state.malformed_lines = int(data.get("malformed_lines", 0))
+        state.project = data.get("project", "")
         for task_id, raw in (data.get("tasks") or {}).items():
             state.tasks[task_id] = TaskState.from_dict(raw)
         return state
@@ -216,6 +220,8 @@ class Checkpoint:
 
         if event.event == "RUN_START":
             state.started_ts = event.ts
+            if event.project:
+                state.project = event.project
         elif event.event == "RUN_END":
             state.ended_ts = event.ts
         elif event.event in ("PHASE_ENTER", "PHASE_EXIT"):
