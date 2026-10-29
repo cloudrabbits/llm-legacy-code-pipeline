@@ -1,13 +1,13 @@
-# 内网生产画像：单卡 L20 + Ollama + qwen3.8:28b（family qwen35 / 27.3B / Q4_K_M / 支持 thinking）。
+# 内网生产画像：单卡 L20 + Ollama + qwen3.8:27b（family qwen35 / 27.3B / Q4_K_M / 支持 thinking）。
 # 与外网画像的唯一区别是这里的几行配置——切换后端 = 改 --profile。
 
 name: ollama_qwen38
 transport: ollama_native
 endpoint: http://127.0.0.1:11434/api/chat
-# 确认#1（2026-10-29 实测 /api/tags）：模型 tag = qwen3.8:28b，
+# 确认#1（2026-10-29 实测 /api/tags）：模型 tag = qwen3.8:27b，
 #   family=qwen35、参数量 27.3B、量化 Q4_K_M、capabilities 含 thinking。
 #   非初版 Qwen3-27B，故 effort.mode 维持 enum + 顶层 think 开关即可，无需改 bool。
-model: qwen3.8:28b
+model: qwen3.8:27b
 
 auth:
   type: none

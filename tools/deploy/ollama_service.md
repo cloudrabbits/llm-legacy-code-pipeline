@@ -60,7 +60,7 @@ nssm start Ollama
 # 1) 服务在跑
 Get-Service Ollama | Select-Object Status, StartType
 
-# 2) 模型可用（应看到 qwen3.8:28b / family qwen35）
+# 2) 模型可用（应看到 qwen3.8:27b / family qwen35）
 curl http://127.0.0.1:11434/api/tags
 
 # 3) 逐请求 num_ctx 生效（观察返回的 prompt_eval_count 是否与估算接近）

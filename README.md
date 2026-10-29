@@ -7,12 +7,12 @@
 
 | | 阶段一（外网仿真验证） | 阶段二（内网生产） |
 |---|---|---|
-| 后端 | DeepSeek V4.1-Flash 官方 API | Ollama（L20 单卡，qwen3.8:28b / family qwen35 / 27.3B / Q4_K_M） |
+| 后端 | DeepSeek V4.1-Flash 官方 API | Ollama（L20 单卡，qwen3.8:27b / family qwen35 / 27.3B / Q4_K_M） |
 | 画像 | `deepseek_sim_qwen38` | `ollama_qwen38` |
 | 窗口/预算 | 92160 / 80000 / 8192（**强制钳制**） | 同左 |
 | 目的 | 验证切分可执行性、输出格式、断点续跑 | 验收 8 小时吞吐 |
 
-**核心原则**：外网阶段主动放弃 DeepSeek 超出 qwen3.8:28b 的能力包络，否则验证无效。
+**核心原则**：外网阶段主动放弃 DeepSeek 超出 qwen3.8:27b 的能力包络，否则验证无效。
 窗口钳制、token 估算、推理档位全部按 Qwen 那侧算，DeepSeek 只是被当作一个"能力受限的远程后端"。
 
 切换后端 = 改一个参数：
@@ -259,7 +259,7 @@ P5-report      succeeded   nightly_report.md
   先 `chcp 65001`，读文件用 `Get-Content -Encoding UTF8`。计划任务里 stdout
   重定向到 `logs\orchestrator.stdout.log`，与 `.log` 文件一致，均为 UTF-8。
 
-- **仿真不等于等价**：DeepSeek 与 qwen3.8:28b 的词表、指令遵循、长上下文衰减都不同。
+- **仿真不等于等价**：DeepSeek 与 qwen3.8:27b 的词表、指令遵循、长上下文衰减都不同。
   外网阶段能证明的是"切分可行、格式稳定、续跑可靠"，不是"输出质量相同"。
 - `prompt_comparable=false` 的画像不做 SUSPECT 判定（DeepSeek 计数与 Qwen 估算不可比），
   这是**唯一**被允许的画像间行为差异，已由契约测试显式固定。
@@ -273,7 +273,7 @@ P5-report      succeeded   nightly_report.md
 
 | 编号 | 事项 | 结论 |
 |---|---|---|
-| #1 | 内网模型确切版本 | `qwen3.8:28b`（family=qwen35，27.3B 参数，Q4_K_M，capabilities 含 thinking）；非初版 Qwen3-27B，`effort.mode` 维持 enum + 顶层 `think`，无需改 bool |
+| #1 | 内网模型确切版本 | `qwen3.8:27b`（family=qwen35，27.3B 参数，Q4_K_M，capabilities 含 thinking）；非初版 Qwen3-27B，`effort.mode` 维持 enum + 顶层 `think`，无需改 bool |
 | #2 | Ollama 原生 `/api/chat` + 顶层 `think` | 实测可用：`think:false`→无 thinking，`think:true`→有 thinking；纯文本单轮对话正常 |
 | #5 | 自定义 Modelfile / Jinja | 未使用，prompt 无需手拼 `<|im_start|>`，暂不需要 `raw:true` |
 
