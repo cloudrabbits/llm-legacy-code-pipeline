@@ -7,14 +7,13 @@
 行为约定（规格书第五节第 4 条）：
     * 到点后**停止取新任务**，但已在途的任务跑完；
     * 每完成一个任务写一次检查点（append-only JSONL），崩溃后按 task_id 续跑；
-    * 心跳每 30s 一次，10 分钟无心跳由 `tools/watchdog.ps1` 重启本进程。
+    * 心跳每 30s 一次，10 分钟无心跳由 `ops/watchdog.ps1` 重启本进程。
 """
 
 from __future__ import annotations
 
 import argparse
 import os
-import re
 import sys
 import time
 from datetime import datetime, timedelta
@@ -24,17 +23,18 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from pipeline.artifacts import ArtifactStore, SummaryStore  # noqa: E402
 from pipeline.backend import Backend, DEFAULT_BUDGET_PATH  # noqa: E402
-from pipeline.checkpoint import Checkpoint  # noqa: E402
+from pipeline.checkpoint import Checkpoint, event_from_outcome  # noqa: E402
 from pipeline.config_loader import load_budget  # noqa: E402
 from pipeline.errors import ContextOverflowError, PipelineError  # noqa: E402
 from pipeline.executor import FailureTracker, RetryPolicy, run_with_retry  # noqa: E402
 from pipeline.logging_setup import prune_old_logs, setup_logging  # noqa: E402
 from pipeline.models import CheckpointEvent  # noqa: E402
 from pipeline.monitor import Monitor  # noqa: E402
-from pipeline.planner import PipelineConfig, check_gate, load_pipeline_config, load_tasks, order_tasks  # noqa: E402
+from pipeline.planner import PipelineConfig, check_gate, load_pipeline_config, load_tasks, order_tasks, pending_tasks  # noqa: E402
 from pipeline.session import SessionManager, SessionPolicy  # noqa: E402
 from pipeline.stages import StageContext, run_stage  # noqa: E402
 from pipeline.tokenizer import Tokenizer  # noqa: E402
+from pipeline.util import project_slug  # noqa: E402
 
 EXIT_OK = 0
 EXIT_PARTIAL = 2   # 时间窗耗尽，属于正常收尾
@@ -69,28 +69,11 @@ def _under(root: str | None, path: str) -> str:
     return os.path.join(root, os.path.basename(os.path.normpath(path)))
 
 
-def _project_runtime_slug(project: str) -> str:
-    """从被分析项目路径派生运行根目录名。
-
-    默认 `--runtime` 未显式指定时，产物与断点全部落在 `runtime/<slug>/` 下，
-    使每个项目天然隔离（不会跨项目误续跑、不会互相覆盖）。
-
-    取项目目录名并清洗为安全字符；同名目录靠身份守卫（`checkpoint` 里的
-    project 字段）兜底，避免不同路径的同名目录串台。
-    """
-    name = os.path.basename(os.path.normpath(project)).strip()
-    if not name:
-        name = "project"
-    # 仅保留 ASCII 字母数字、点、下划线、连字符；其余替换为下划线。
-    # 该规则与 watchdog.ps1 / linux 部署脚本保持一致（跨语言一致）。
-    safe = re.sub(r"[^A-Za-z0-9._-]+", "_", name)
-    return safe or "project"
-
-
 def run(args: argparse.Namespace) -> int:
     # 默认按项目隔离运行时：runtime/<slug>/，避免不同项目共用同一断点/产物
+    # slug 规则见 pipeline/util.py 的 project_slug（唯一真源）
     if args.runtime is None:
-        args.runtime = os.path.join("runtime", _project_runtime_slug(args.project))
+        args.runtime = os.path.join("runtime", project_slug(args.project))
 
     cfg: PipelineConfig = load_pipeline_config(args.config)
     logger = setup_logging(
@@ -166,11 +149,11 @@ def run(args: argparse.Namespace) -> int:
     tasks_dir = args.tasks or cfg.paths.tasks
     tasks = order_tasks(load_tasks(tasks_dir))
     if not tasks:
-        logger.error("没有加载到任何任务：%s（先用 tools/plan_tasks.py 生成）", tasks_dir)
+        logger.error("没有加载到任何任务：%s（先用 ops/plan_tasks.py 生成）", tasks_dir)
         checkpoint.close(status="no_tasks")
         return EXIT_FAILED
 
-    queue = [t for t in tasks if not checkpoint.state.is_done(t.task_id)]
+    queue = pending_tasks(tasks, checkpoint.state)
     logger.info(
         "启动：项目=%s 画像=%s runtime=%s 任务总数=%d 待执行=%d 断点续跑=%s",
         args.project,
@@ -251,17 +234,14 @@ def run(args: argparse.Namespace) -> int:
         )
         outcome.flags = list(outcome.flags)
         checkpoint.append(
-            CheckpointEvent(
-                event=_event_name(outcome),
-                task_id=task.task_id,
-                phase=task.phase,
-                attempt=outcome.attempts,
+            event_from_outcome(
+                task.task_id,
+                task.phase,
+                outcome.attempts,
+                outcome,
+                holder["artifact"],
                 route=task.route,
-                status=outcome.status.value,
-                error_class=outcome.error_class,
-                error=(outcome.error or "")[:500] or None,
-                flags=outcome.flags,
-                artifact=holder["artifact"],
+                error_max_len=500,
             )
         )
         monitor.on_task_finished()
@@ -307,14 +287,6 @@ def run(args: argparse.Namespace) -> int:
         checkpoint.state.seq,
     )
     return EXIT_PARTIAL if stopped_by_deadline else EXIT_OK
-
-
-def _event_name(outcome) -> str:
-    return {
-        "succeeded": "TASK_SUCCEEDED",
-        "rejected": "TASK_REJECTED",
-        "skipped": "TASK_SKIPPED",
-    }.get(outcome.status.value, "TASK_FAILED")
 
 
 def _print_task_speed(task_id: str, result: "Result", timed_results: list, remaining: int) -> None:

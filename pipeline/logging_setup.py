@@ -1,6 +1,9 @@
 """分类日志与按天轮转。
 
-四类：`orchestrator` / `backend` / `gpu` / `watchdog`，各自独立文件，
+当前只有一类：`orchestrator`。显存采样另走 `runtime/<slug>/logs/gpu.jsonl`
+（由 `pipeline/monitor.py` 自行 append），看门狗日志由
+`ops/watchdog.ps1` / `ops/deploy/linux/watchdog.sh` 自行写 `logs/watchdog.log`——
+两者都不经过本文件的 logger，因此这里不预留它们的分类。
 `TimedRotatingFileHandler(backupCount=14)` 保证只保留 14 天。
 """
 
@@ -16,7 +19,11 @@ from .util import ensure_dir
 
 __all__ = ["CATEGORIES", "setup_logging", "get_logger", "prune_old_logs"]
 
-CATEGORIES = ("orchestrator", "backend", "gpu", "watchdog")
+#: 只声明**真正有人在写**的分类。
+#: 历史上一度声明了 backend / gpu / watchdog，但 Python 侧从未有人取用这三个
+#: logger（`monitor.py` 的显存采样是自行 append `gpu.jsonl`），结果每天旋转出
+#: 三个恒为 0 字节的空文件。删掉它们不影响任何输出，只去掉噪音。
+CATEGORIES = ("orchestrator",)
 _PREFIX = "nightly"
 
 #: 已配置的日志目录（进程内重复初始化或换目录时用于重建 handler）

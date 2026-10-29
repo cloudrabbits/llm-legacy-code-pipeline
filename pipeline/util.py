@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import tempfile
 from typing import Any, Mapping
 
-__all__ = ["get_path", "set_path", "unset_path", "atomic_write_text", "ensure_dir", "utc_now_iso"]
+__all__ = ["get_path", "set_path", "unset_path", "atomic_write_text", "ensure_dir", "utc_now_iso", "project_slug"]
 
 
 def _split(path: str) -> list[str]:
@@ -114,3 +115,24 @@ def utc_now_iso() -> str:
     from datetime import datetime
 
     return datetime.now().astimezone().isoformat(timespec="milliseconds")
+
+
+def project_slug(project: str) -> str:
+    """从被分析项目路径派生运行根目录名 `runtime/<slug>/`。
+
+    ★ **唯一真源**：取项目目录名并清洗为安全字符（仅 ASCII 字母数字、点、
+    下划线、连字符）。跨语言脚本无法直接调用本函数，因此各自保有一份等价实现：
+
+        PowerShell  ops/watchdog.ps1          Get-ProjectSlug
+        bash        ops/deploy/linux/ common.sh _project_slug
+
+    由 `tests/test_slug_consistency.py` 用同一组样例比对三方结果，防止漂移——
+    一旦漂移，看门狗会读错心跳路径，进而误杀并重启一个**正在正常运行**的编排器。
+
+    同名目录靠身份守卫（`Checkpoint` 里的 `project` 字段）兜底，
+    避免不同路径的同名目录串台。
+    """
+    name = os.path.basename(os.path.normpath(project)).strip()
+    if not name:
+        name = "project"
+    return re.sub(r"[^A-Za-z0-9._-]+", "_", name) or "project"

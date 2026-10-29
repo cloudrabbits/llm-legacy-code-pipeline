@@ -12,6 +12,7 @@ import pytest
 
 import orchestrator
 from pipeline.checkpoint import Checkpoint
+from pipeline.util import project_slug
 
 
 @pytest.fixture
@@ -161,15 +162,20 @@ def test_default_runtime_is_project_scoped(sample_project, tasks_dir, tmp_path, 
     ]
     args = orchestrator.parse_args(argv)
     assert orchestrator.run(args) == 0
-    slug = orchestrator._project_runtime_slug(str(sample_project))
+    slug = project_slug(str(sample_project))
     assert (tmp_path / "runtime" / slug / "state" / "checkpoint.jsonl").exists()
     assert (tmp_path / "runtime" / slug / "artifacts" / "p0" / "baseline.md").exists()
 
 
 def test_project_runtime_slug_is_stable_and_safe():
-    assert orchestrator._project_runtime_slug("D:\\IdeaProjects\\supermarketmanager") == "supermarketmanager"
-    assert orchestrator._project_runtime_slug("/data/my project v2/") == "my_project_v2"
+    """slug 规则由 pipeline/util.py 的 project_slug 提供（跨语言唯一真源）。
+
+    规则一致性本身由 tests/test_slug_consistency.py 三方比对，这里只锚定
+    编排器拿到的值符合直觉。
+    """
+    assert project_slug("D:\\IdeaProjects\\supermarketmanager") == "supermarketmanager"
+    assert project_slug("/data/my project v2/") == "my_project_v2"
     # 不同路径、同名目录应产生相同 slug（靠身份守卫而非 slug 区分）
-    a = orchestrator._project_runtime_slug("/data/foo")
-    b = orchestrator._project_runtime_slug("/backup/foo")
+    a = project_slug("/data/foo")
+    b = project_slug("/backup/foo")
     assert a == b == "foo"

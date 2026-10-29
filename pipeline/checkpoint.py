@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Any, Iterable
+from typing import Any
 
 from .errors import PipelineError
 from .models import CheckpointEvent, TaskStatus
@@ -201,10 +201,6 @@ class Checkpoint:
             self.snapshot()
         return event
 
-    def append_many(self, events: Iterable[CheckpointEvent]) -> None:
-        for event in events:
-            self.append(event)
-
     def snapshot(self) -> None:
         """原子落盘快照（tmp + os.replace）。"""
         if not self.index_path:
@@ -289,8 +285,25 @@ class Checkpoint:
         return [t.task_id for t in self.state.tasks.values() if t.status == TaskStatus.RUNNING.value]
 
 
-def event_from_outcome(task_id: str, phase: str, attempt: int, outcome: Any, artifact: str | None = None) -> CheckpointEvent:
-    """把 `executor.TaskOutcome` 转成检查点事件。"""
+def event_from_outcome(
+    task_id: str,
+    phase: str,
+    attempt: int,
+    outcome: Any,
+    artifact: str | None = None,
+    *,
+    route: str | None = None,
+    error_max_len: int | None = None,
+) -> CheckpointEvent:
+    """把 `executor.TaskOutcome` 转成检查点事件。
+
+    Args:
+        route: 显式指定路由。编排器包的是「整个阶段」，其 `outcome.result` 是
+               `StageResult` 而非 `Result`，取不到 route，必须由调用方显式传入；
+               契约测试路径（包的是单次后端调用）可以用 `outcome.result` to自动取值。
+        error_max_len: 错误信息的最大字符数。编排器写入事件流时会截断，
+               避免后端把整段报错回显撑爆单行事件（JSONL 一行一个事件）。
+    """
     if outcome.status is TaskStatus.SUCCEEDED:
         name = "TASK_SUCCEEDED"
     elif outcome.status is TaskStatus.REJECTED:
@@ -303,15 +316,19 @@ def event_from_outcome(task_id: str, phase: str, attempt: int, outcome: Any, art
     usage = getattr(outcome.result, "usage", None)
     if usage is not None:
         tokens = {"prompt": usage.prompt_tokens, "completion": usage.completion_tokens}
+    error = outcome.error or ""
+    if error_max_len is not None:
+        error = error[:error_max_len]
+    error = error or None
     return CheckpointEvent(
         event=name,
         task_id=task_id,
         phase=phase,
         attempt=attempt,
-        route=getattr(outcome.result, "route", "local"),
+        route=route or getattr(outcome.result, "route", "local"),
         status=outcome.status.value,
         error_class=outcome.error_class,
-        error=outcome.error,
+        error=error,
         tokens=tokens,
         flags=list(outcome.flags),
         artifact=artifact,
