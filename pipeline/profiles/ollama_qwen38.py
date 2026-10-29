@@ -1,6 +1,6 @@
 """内网生产画像（阶段二）。
 
-目标：局域网单卡 L20 + Ollama + Qwen3.8-27B Q4_K_M。
+目标：局域网单卡 L20 + Ollama + qwen3.8:28b（family qwen35 / 27.3B / Q4_K_M）。
 
 与外网画像的差异**只存在于 config/profiles/ollama_qwen38.yaml**：
     * endpoint  -> http://127.0.0.1:11434/api/chat

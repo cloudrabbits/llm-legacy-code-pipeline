@@ -24,7 +24,7 @@ from .models import TokenEstimate
 __all__ = ["Tokenizer", "CJK_RANGES", "DEFAULT_CACHE_PATH"]
 
 
-#: Qwen2/Qwen3 共用同一套 BPE 词表（151k），与内网 Qwen3.8-27B 一致。
+#: Qwen2/Qwen3 共用同一套 BPE 词表（151k），与内网 qwen3.8:28b 一致。
 DEFAULT_CACHE_PATH = os.path.join("models", "qwen2_bpe", "tokenizer.json")
 
 #: 常见 CJK / 全角标点区间，用于启发式兜底的字符分类

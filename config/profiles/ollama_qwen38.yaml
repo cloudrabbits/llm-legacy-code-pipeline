@@ -1,19 +1,13 @@
-# 内网生产画像：单卡 L20 + Ollama + Qwen3.8-27B Q4_K_M。
+# 内网生产画像：单卡 L20 + Ollama + qwen3.8:28b（family qwen35 / 27.3B / Q4_K_M / 支持 thinking）。
 # 与外网画像的唯一区别是这里的几行配置——切换后端 = 改 --profile。
 
 name: ollama_qwen38
 transport: ollama_native
 endpoint: http://127.0.0.1:11434/api/chat
-# TODO(确认#1): 内网模型确切版本。当前按 qwen3.8-27b。
-#   若实为初版 Qwen3-27B（只支持 think 布尔双态），把 effort.mode 改成 bool
-#   并用 level_to_bool 映射即可，无需改代码：
-#     effort:
-#       mode: bool
-#       level_to_bool: {off: false, low: true, medium: true, xhigh: true}
-#       payload:
-#         "false": {think: false}
-#         "true":  {think: true}
-model: qwen3.8-27b
+# 确认#1（2026-10-29 实测 /api/tags）：模型 tag = qwen3.8:28b，
+#   family=qwen35、参数量 27.3B、量化 Q4_K_M、capabilities 含 thinking。
+#   非初版 Qwen3-27B，故 effort.mode 维持 enum + 顶层 think 开关即可，无需改 bool。
+model: qwen3.8:28b
 
 auth:
   type: none
@@ -38,6 +32,8 @@ effort:
     "xhigh":
       think: true
       reasoning_effort: xhigh
+  # 实测：Ollama 忽略顶层 reasoning_effort（不报错），仅 `think` 控制是否思考；
+  # 保留该字段以维持档位语义（effort_applied 归一化依赖档位名），不影响运行行为。
 
 response:
   text: message.content
@@ -65,10 +61,10 @@ options:
   # 逐请求显式传入，不依赖 Ollama 全局默认。
   keep_alive: 30m
 
-# TODO(确认#2): Ollama 版本号与是否走原生 /api/chat。若为老版本不支持
-#   `think` 顶层字段，请改为 options.mirostat 之类的等效手段或升级 Ollama。
-# TODO(确认#5): 内网若使用自定义 Modelfile / Jinja 模板，prompt 需自行拼
-#   <|im_start|> 标记，届时把 request_defaults 加上 raw: true。
+# 确认#2（2026-10-29 实测）：Ollama 原生 /api/chat 可用，顶层 `think` 字段生效
+#   —— think:false 无 thinking，think:true 有 thinking；纯文本单轮对话正常。
+# 确认#5（2026-10-29 实测）：未用自定义 Modelfile / Jinja，prompt 无需手拼 <|im_start|>，
+#   暂不需要 raw:true，request_defaults 维持 stream:false 即可。
 notes: |
   内网生产。宿主环境变量（由 tools/deploy/env_ollama.ps1 设置）：
     OLLAMA_NUM_PARALLEL=1  OLLAMA_MAX_LOADED_MODELS=1

@@ -1,6 +1,6 @@
-# 外网仿真画像：用 DeepSeek V4.1-Flash 官方 API 仿真内网 Qwen3.8-27B 的能力包络。
+# 外网仿真画像：用 DeepSeek V4.1-Flash 官方 API 仿真内网 qwen3.8:28b 的能力包络。
 #
-# 核心原则：主动放弃 DeepSeek 超出 Qwen3.8-27B 的能力（超长窗口、超强推理）。
+# 核心原则：主动放弃 DeepSeek 超出 qwen3.8:28b 的能力（超长窗口、超强推理）。
 # 窗口钳制由 config/budget.yaml 统一提供，本画像不得放宽。
 
 name: deepseek_sim_qwen38
