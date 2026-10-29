@@ -1,10 +1,10 @@
 # 流水线运行时配置（M2+）。路径、时间窗、门禁阈值一律外置。
 
 run:
-  # 夜间窗口：到点后停止取新任务，但允许在途任务跑完
+  # 夜间窗口：到点后停止取新任务，但允许在途任务跑完。
+  # 启动时刻由计划任务 / systemd timer 控制（register_task.ps1 / legacy-nightly.timer），
+  # 这里只声明「单次运行最长多久」——由编排器真正消费（见 orchestrator._deadline）。
   window:
-    start: "01:00"
-    end: "09:00"
     max_duration_hours: 8
   # 本地连续失败达到阈值后的动作：
   #   mark_failed —— 仿真阶段默认（规格书第三节第 4 条）
@@ -26,8 +26,9 @@ resources:
   # 每 10 个任务查一次显存水位
   gpu_sample_every_tasks: 10
   heartbeat_interval_sec: 30
-  # 守护脚本判定：无心跳超过该秒数即重启编排器
-  watchdog_no_heartbeat_sec: 600
+  # 守护脚本的判定阈值见 ops/watchdog.ps1 (-ThresholdSeconds) 与
+  # ops/deploy/linux/watchdog.sh (WATCHDOG_THRESHOLD_SEC)：跨语言读数无法与
+  # Python 配置共享，因此不在本文件声明，避免「改了这里却不生效」。
 
 logging:
   dir: logs

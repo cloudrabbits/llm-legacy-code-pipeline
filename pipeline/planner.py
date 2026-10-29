@@ -39,10 +39,14 @@ PHASE_ORDER = ["P0", "P1", "P2", "P3", "P4", "P5"]
 
 
 class WindowConfig(BaseModel):
+    """单次运行的时间上限。
+
+    启动时刻与周期由计划任务（Windows）或 systemd timer（Linux）控制；
+    编排器只消费 `max_duration_hours`（见 `orchestrator._deadline`）。
+    """
+
     model_config = ConfigDict(extra="forbid")
 
-    start: str = "01:00"
-    end: str = "09:00"
     max_duration_hours: float = 8.0
 
 
@@ -70,7 +74,9 @@ class ResourceConfig(BaseModel):
 
     gpu_sample_every_tasks: int = 10
     heartbeat_interval_sec: float = 30.0
-    watchdog_no_heartbeat_sec: float = 600.0
+    # 守护脚本的判定阈值见 ops/watchdog.ps1 (-ThresholdSeconds) 与
+    # ops/deploy/linux/watchdog.sh (WATCHDOG_THRESHOLD_SEC)：跨语言读数无法与
+    # Python 配置共享，因此不在本文件声明，避免「改了这里却不生效」。
 
 
 class LoggingConfig(BaseModel):

@@ -75,11 +75,6 @@ class Budget(BaseModel):
     #: 为 system prompt + 摘要 + 消息封装预留的开销（估算时叠加到 prompt 上）
     envelope_overhead: int = 512
 
-    @field_validator("input_budget")
-    @classmethod
-    def _budget_lt_window(cls, v: int, info: Any) -> int:
-        return v
-
 
 @dataclass(frozen=True)
 class TokenEstimate:

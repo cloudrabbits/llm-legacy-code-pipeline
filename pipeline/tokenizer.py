@@ -17,7 +17,6 @@ from __future__ import annotations
 import math
 import os
 from functools import lru_cache
-from typing import Iterable
 
 from .models import TokenEstimate
 
@@ -117,10 +116,6 @@ class Tokenizer:
             safety_factor=float(self.safety_factor),
             chars=len(text),
         )
-
-    def estimate_chunks(self, chunks: Iterable[str]) -> TokenEstimate:
-        """多段文本合并估算：先合并再算一次，避免逐段取整累加放大误差。"""
-        return self.estimate("\n".join(chunks))
 
     # ------------------------------------------------------------------ 测试辅助
 

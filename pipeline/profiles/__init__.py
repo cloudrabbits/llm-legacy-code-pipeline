@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from typing import Callable, Mapping
 
-from ..config_loader import ProfileConfig, build_headers
 from .base import BackendProfile, JsonChatProfile, Normalized, RequestSpec
 
 __all__ = ["BackendProfile", "JsonChatProfile", "RequestSpec", "Normalized", "build_profile", "PROFILE_MODULES"]
@@ -38,11 +37,3 @@ def build_profile(
         raise ConfigError(f"未注册的画像: {name}；可用: {sorted(PROFILE_MODULES)}")
     factory: Callable[..., BackendProfile] = import_module(module_path).build
     return factory(secrets_path=secrets_path, env=env, with_auth=with_auth)
-
-
-def build_from_config(cfg: ProfileConfig, headers: Mapping[str, str] | None = None) -> BackendProfile:
-    """从已加载的配置直接构造（测试 / 内嵌场景）。
-
-    报文形状由 `cfg.transport` 决定，与画像名无关，因此这里没有任何厂商分支。
-    """
-    return JsonChatProfile(cfg, headers if headers is not None else build_headers(cfg))
