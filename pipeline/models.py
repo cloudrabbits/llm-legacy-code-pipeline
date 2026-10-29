@@ -146,6 +146,10 @@ class Result:
     #: 估算值 vs 后端上报值的相对偏差；不可比时为 None
     prompt_deviation: float | None = None
     latency_ms: int = 0
+    #: prefill（prompt 评估）耗时，毫秒；后端未返回分项耗时为 None
+    prefill_ms: float | None = None
+    #: decode（生成）耗时，毫秒；后端未返回分项耗时为 None
+    decode_ms: float | None = None
     attempt: int = 1
     route: str = "local"
     raw: dict[str, Any] = field(default_factory=dict)
@@ -157,6 +161,29 @@ class Result:
     @property
     def completion_tokens(self) -> int:
         return self.usage.completion_tokens
+
+    @property
+    def prefill_tps(self) -> float | None:
+        """prefill 速度（tokens/s）；缺耗时或 0 耗时返回 None。"""
+        if self.prefill_ms and self.prefill_ms > 0 and self.usage.prompt_tokens:
+            return self.usage.prompt_tokens / (self.prefill_ms / 1000.0)
+        return None
+
+    @property
+    def decode_tps(self) -> float | None:
+        """decode 速度（tokens/s）；缺耗时或 0 耗时返回 None。"""
+        if self.decode_ms and self.decode_ms > 0 and self.usage.completion_tokens:
+            return self.usage.completion_tokens / (self.decode_ms / 1000.0)
+        return None
+
+    @property
+    def total_tps(self) -> float | None:
+        """端到端平均速度（tokens/s），用总延迟兜底。"""
+        if self.latency_ms and self.latency_ms > 0:
+            total = self.usage.prompt_tokens + self.usage.completion_tokens
+            if total:
+                return total / (self.latency_ms / 1000.0)
+        return None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -172,6 +199,10 @@ class Result:
             "flags": list(self.flags),
             "prompt_deviation": self.prompt_deviation,
             "latency_ms": self.latency_ms,
+            "prefill_ms": self.prefill_ms,
+            "decode_ms": self.decode_ms,
+            "prefill_tps": self.prefill_tps,
+            "decode_tps": self.decode_tps,
             "attempt": self.attempt,
             "route": self.route,
         }

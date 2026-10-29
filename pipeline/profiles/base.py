@@ -40,6 +40,27 @@ class Normalized:
     reasoning: str | None
     finish_reason: FinishReason
     usage: Usage
+    #: prefill（prompt 评估）耗时，毫秒；后端未返回分项耗时为 None
+    prefill_ms: float | None = None
+    #: decode（生成）耗时，毫秒；后端未返回分项耗时为 None
+    decode_ms: float | None = None
+
+
+def _duration_to_ms(value: Any, unit: str) -> float | None:
+    """把后端返回的原始耗时字段换算成毫秒；缺失或非数字返回 None。"""
+    if value is None:
+        return None
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return None
+    if unit == "ns":
+        return v / 1_000_000.0
+    if unit == "ms":
+        return v
+    if unit == "s":
+        return v * 1000.0
+    return None
 
 
 class BackendProfile(abc.ABC):
@@ -172,9 +193,16 @@ class JsonChatProfile(BackendProfile):
         prompt_tokens = int(get_path(raw, r.prompt_tokens) or 0)
         completion_tokens = int(get_path(raw, r.completion_tokens) or 0)
 
+        raw_prefill = get_path(raw, r.prefill_duration) if r.prefill_duration else None
+        raw_decode = get_path(raw, r.decode_duration) if r.decode_duration else None
+        prefill_ms = _duration_to_ms(raw_prefill, r.duration_unit)
+        decode_ms = _duration_to_ms(raw_decode, r.duration_unit)
+
         return Normalized(
             text=str(text),
             reasoning=reasoning,
             finish_reason=finish,
             usage=Usage(prompt_tokens=prompt_tokens, completion_tokens=completion_tokens),
+            prefill_ms=prefill_ms,
+            decode_ms=decode_ms,
         )

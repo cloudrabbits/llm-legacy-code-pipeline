@@ -160,6 +160,8 @@ class Backend:
             flags=flags,
             prompt_deviation=deviation,
             latency_ms=response.latency_ms,
+            prefill_ms=normalized.prefill_ms,
+            decode_ms=normalized.decode_ms,
             attempt=1,
             route=task.route,
             raw=response.raw,

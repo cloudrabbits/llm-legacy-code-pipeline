@@ -108,6 +108,13 @@ class ResponseMap(BaseModel):
     finish_reason: str
     prompt_tokens: str
     completion_tokens: str
+    #: prefill（prompt 评估）耗时路径；Ollama 提供 `prompt_eval_duration`。
+    #: 缺省（DeepSeek 等不返回分项耗时）则留空，速度显示回退到总延迟。
+    prefill_duration: str | None = None
+    #: decode（生成）耗时路径；Ollama 提供 `eval_duration`。
+    decode_duration: str | None = None
+    #: duration 字段的单位：ns / ms / s（默认 ns，Ollama 原生单位）。
+    duration_unit: Literal["ns", "ms", "s"] = "ns"
     #: 响应完整性标志位路径（Ollama 的 `done`）；为 null 表示不校验
     done_flag: str | None = None
     #: 后端上报的 prompt token 是否与 Qwen 估算可比。

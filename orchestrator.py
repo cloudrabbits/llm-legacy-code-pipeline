@@ -145,6 +145,9 @@ def run(args: argparse.Namespace) -> int:
         len(queue),
         "是" if checkpoint.state.seq else "否",
     )
+
+    # 分项速度（prefill/decode）的滚动采集，用于 verbose 下估算剩余时间
+    _timed_results: list = []
     checkpoint.append(CheckpointEvent(event="RUN_START", status=args.profile))
 
     deadline = _deadline(cfg, args)
@@ -226,6 +229,12 @@ def run(args: argparse.Namespace) -> int:
         monitor.on_task_finished()
         monitor.beat()
 
+        # verbose：打印 prefill/decode 分项速度，并据已完成任务平均延迟估算剩余时间
+        if args.verbose and outcome.result is not None:
+            r = outcome.result
+            _timed_results.append(r)
+            _print_task_speed(task.task_id, r, _timed_results, len(queue) - executed)
+
         if outcome.status.value == "failed":
             logger.error("任务 %s 失败：%s %s", task.task_id, outcome.error_class, outcome.error)
         if outcome.error_class == ContextOverflowError.code:
@@ -267,6 +276,25 @@ def _event_name(outcome) -> str:
         "rejected": "TASK_REJECTED",
         "skipped": "TASK_SKIPPED",
     }.get(outcome.status.value, "TASK_FAILED")
+
+
+def _print_task_speed(task_id: str, result: "Result", timed_results: list, remaining: int) -> None:
+    """verbose 下打印分项速度并估算剩余时间；立即 flush 以便人工盯进度/判断是否卡死。"""
+    parts: list[str] = []
+    if result.prefill_tps is not None:
+        parts.append(f"prefill={result.prefill_tps:.1f} t/s")
+    if result.decode_tps is not None:
+        parts.append(f"decode={result.decode_tps:.1f} t/s")
+    if result.total_tps is not None:
+        parts.append(f"total={result.total_tps:.1f} t/s")
+    if not parts:
+        parts.append(f"latency={result.latency_ms / 1000:.1f}s（后端未返回分项耗时，仅总延迟）")
+
+    eta = ""
+    if remaining > 0 and timed_results:
+        avg_ms = sum(r.latency_ms for r in timed_results) / len(timed_results)
+        eta = f" · 预计剩余 ~{avg_ms * remaining / 1000 / 60:.1f}min（按已完成平均延迟 × {remaining} 个待执行）"
+    print(f"[speed] {task_id} {' | '.join(parts)}{eta}", flush=True)
 
 
 def _deadline(cfg: PipelineConfig, args: argparse.Namespace) -> datetime | None:

@@ -38,6 +38,9 @@ response:
   finish_reason: done_reason
   prompt_tokens: prompt_eval_count      # Ollama 用 Qwen 自己的计数，与估算可比
   completion_tokens: eval_count
+  prefill_duration: prompt_eval_duration   # 单位 ns（Ollama 原生）
+  decode_duration: eval_duration           # 单位 ns
+  duration_unit: ns
   done_flag: done
   prompt_comparable: true
   finish_reason_aliases:

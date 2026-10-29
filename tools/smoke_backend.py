@@ -50,6 +50,17 @@ def run(profile_name: str, effort: str, max_tokens: int, timeout: float) -> int:
         return 1
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
     print(f"[smoke] reasoning={'有' if result.reasoning else '无'}  flags={result.flags}")
+    speed = []
+    if result.prefill_tps is not None:
+        speed.append(f"prefill={result.prefill_tps:.1f} t/s")
+    if result.decode_tps is not None:
+        speed.append(f"decode={result.decode_tps:.1f} t/s")
+    if result.total_tps is not None:
+        speed.append(f"total={result.total_tps:.1f} t/s")
+    if speed:
+        print(f"[smoke] speed: {' | '.join(speed)}")
+    else:
+        print(f"[smoke] speed: 后端未返回分项耗时（latency={result.latency_ms}ms），无法拆分 prefill/decode")
     return 0
 
 
