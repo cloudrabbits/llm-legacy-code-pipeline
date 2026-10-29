@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-legacy-code-pipeline"
+version = "0.1.0"
+description = "JSP/Java 老项目的夜间无人值守分析流水线（P0-P5）+ 只读静态事实层"
+requires-python = ">=3.11"
+# 依赖清单与 requirements.txt 保持一致；requirements.txt 仍是可直接
+# `pip install -r` 的离线安装入口（内网部署用），此处供工具链读取。
+dependencies = [
+    "pydantic>=2.7,<3",
+    "PyYAML>=6.0",
+    "httpx>=0.27",
+    "tokenizers>=0.19",
+    "pytest>=8.0",
+    "jsonschema>=4.21",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.setuptools]
+packages = ["pipeline", "pipeline.profiles", "pipeline.stages"]
+
+# 注意：本仓库故意**不**提供 console_scripts 入口点。
+#   * orchestrator.py / ops/*.py 都用 `sys.path.insert(0, <repo root>)`
+#     自举，可以直接 `python orchestrator.py` 运行，不要求先 pip install；
+#   * jlp 用裸 import（`from lib_scan import ...`）加 sys.path 注入，
+#     不是可 import 的包，做入口点会失败。
+# 等这两处改为正式包结构后再加 [project.scripts]。
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "contract_tests"]
